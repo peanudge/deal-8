@@ -1,4 +1,7 @@
 export default class MainService  {
+
+    dataList = ""
+
     constructor({targetEl}) {
         this.targetEl = targetEl;
         this.dataList = "";
