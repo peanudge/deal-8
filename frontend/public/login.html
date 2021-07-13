@@ -4,9 +4,30 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <link rel="stylesheet" href="/css/normalize.css" />
+    <link rel="stylesheet" href="/css/login.css" />
+
+    <title>로그인</title>
   </head>
   <body>
-    <h1>HELLO</h1>
+    <header class="login-header">
+      <a class="login-header--left" href="./main.html">
+        <img src="./icon/chevron-left.svg" />
+      </a>
+      <h1 class="login-header--center">
+        <span class="login-header--center--title"> 로그인 </span>
+      </h1>
+    </header>
+    <main class="login-main">
+      <input
+        class="login-main--text-input"
+        type="text"
+        placeholder="아이디를 입력하세요"
+      />
+
+      <a class="login-main--submit-btn" href="profile.html">로그인</a>
+
+      <a class="login-main--link" href="signup.html">회원가입</a>
+    </main>
   </body>
 </html>
