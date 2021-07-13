@@ -6,6 +6,10 @@
   --black-text-color: #222222;
 }
 
+body {
+  background-color: #fff;
+}
+
 .main-header {
   display: flex;
   flex-direction: row;
@@ -16,6 +20,8 @@
   background-color: #2ac1bc;
   height: 56px;
   padding: 0 20px;
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
 }
 
 .main-header--left {
@@ -37,8 +43,11 @@
   justify-content: center;
 }
 
-.main-header .location > {
-  margin: 3px 0;
+.main-header .location > * {
+  margin: 0 3px;
+  width: fit-content;
+  height: 14px;
+  font-size: 16px;
 }
 
 .main-header .location > :first-child {
@@ -46,6 +55,24 @@
 }
 
 .main-header .location > :last-child {
+  margin-right: 0;
+}
+
+.main-header--right {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.main-header--right > * {
+  margin: 0 9.5px;
+}
+
+.main-header--right > :first-child {
+  margin-left: 0;
+}
+
+.main-header--right > :last-child {
   margin-right: 0;
 }
 
