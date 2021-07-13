@@ -113,19 +113,19 @@ html {
 }
 
 body {
-	display: flex;
-    flex-direction: column;
-	position: absolute;
-	left: 50%;
-	top: 50%;
-	transform: translate(-50%, -50%);
-	line-height: 1;
-	font-size: 14px;
-    font-family: sans-serif;
-	height: 568px;
-	width: 320px;
-    background-color: #C0C0C0;
-    overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  line-height: 1;
+  font-size: 14px;
+  font-family: sans-serif;
+  height: 568px;
+  width: 320px;
+  background-color: #c0c0c0;
+  overflow-y: scroll;
 }
 ol,
 ul {
@@ -139,7 +139,7 @@ blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-  content: "";
+  content: '';
   content: none;
 }
 table {
