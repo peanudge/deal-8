@@ -1,0 +1,48 @@
+@import url('./common/basic_header.css');
+@import url('./common/global_color.css');
+
+:root {
+  --gray-text-color: #888;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.header {
+  border: 0;
+}
+
+.menu-tab {
+  background-color: var(--header-bg-color);
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  position: relative;
+}
+
+.menu-tab > section {
+  width: 86px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: var(--gray-text-color);
+  cursor: pointer;
+  position: relative;
+  z-index: 100;
+  height: 100%;
+}
+
+.menu-tab > section > a {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
