@@ -108,13 +108,13 @@ body {
 
 .content--product--info--top > div {
   display: flex;
-  justify-content: space-between;
   margin: 2px 0;
   align-items: center;
 }
 
 .content--product--info--top > div:first-child {
   margin-top: 0;
+  justify-content: space-between;
 }
 
 .content--product--info--top > div:last-child {
@@ -159,9 +159,6 @@ body {
   margin-top: 2px;
 }
 
-.content--product--info--top strong {
-}
-
 .content--product--info--bottom {
   display: flex;
   justify-content: flex-end;
@@ -180,11 +177,6 @@ body {
 .content--product--info--bottom > div:last-child {
   margin-right: 0;
 }
-
-/* .content--product--info--bottom > div > img {
-  width: 12px;
-  height: 12px;
-} */
 
 .new-product-button {
   position: fixed;
