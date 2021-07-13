@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/normalize.css" />
+    <link rel="stylesheet" href="/css/createPost.css" />
+    <title>글쓰기</title>
+  </head>
+  <body>
+    <header class="header">
+      <a class="header--left" href="./main.html">
+        <img src="./icon/chevron-left.svg" />
+      </a>
+      <h1 class="header--center">
+        <span class="header--center--title"> 글쓰기 </span>
+      </h1>
+      <div class="header-right">
+        <img src="./icon/check.svg" />
+      </div>
+    </header>
+    <main class="posting-main">
+      <div class="posting-main--img-register">
+        <img
+          class="posting-main--img-register--img"
+          src="./icon/image.svg"
+          height="24"
+          width="24"
+        />
+        <p class="posting-main--img-register--msg">
+          <span>0</span>/<span>10</span>
+        </p>
+      </div>
+      <span class="split-line"></span>
+
+      <input
+        class="posting-main--text-input"
+        type="text"
+        placeholder="글 제목"
+      />
+      <span class="split-line"></span>
+
+      <input
+        class="posting-main--text-input"
+        type="text"
+        placeholder="가격 (선택사항)"
+      />
+      <span class="split-line"></span>
+
+      <span
+        class="posting-main--textarea expand-textarea"
+        role="textbox"
+        contenteditable
+      ></span>
+    </main>
+    <footer>
+      <img src="icon/map-pin.svg" />
+      <p class="footer-text">상암동</p>
+    </footer>
+  </body>
+</html>
