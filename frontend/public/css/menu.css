@@ -1,8 +1,13 @@
 @import url('./common/basic_header.css');
 @import url('./common/global_color.css');
+@import url('./common/product_list_item.css');
 
 :root {
   --gray-text-color: #888;
+}
+
+body {
+  background-color: #fff;
 }
 
 a {
@@ -14,7 +19,7 @@ a {
   border: 0;
 }
 
-.menu-tab {
+.tab-bar {
   background-color: var(--header-bg-color);
   height: 50px;
   display: flex;
@@ -23,7 +28,7 @@ a {
   position: relative;
 }
 
-.menu-tab > section {
+.tab-bar > section {
   width: 86px;
   display: flex;
   flex-direction: column;
@@ -36,7 +41,7 @@ a {
   height: 100%;
 }
 
-.menu-tab > section > a {
+.tab-bar > section > a {
   text-decoration: none;
   color: inherit;
   display: block;

@@ -14,6 +14,7 @@ const tabList = {
 
 const menuSectionClickHandler = (event) => {
   // TODO change parameter without redirect
+  // 리다이렉트가 없어진다면 서로 슬라이드 해서 넘길 수 있음
   // event.preventDefault();
 };
 
@@ -31,7 +32,6 @@ const setBottomBorder = (tabNumber) => {
     `.menu-tab > :nth-child(${tabNumber})`,
   );
   $targetElement.style.borderBottom = '2px solid #2ac1bc';
-  console.log($targetElement);
 };
 
 window.onload = () => {
@@ -45,9 +45,7 @@ window.onload = () => {
 
   setBottomBorder(tabNumber);
 
-  const menuSections = document.querySelectorAll('.menu-tab > section');
-
-  elements.$slider = document.querySelector('.menu-tab--slider');
+  const menuSections = document.querySelectorAll('.tab-bar > section');
 
   menuSections.forEach(($menuSection) => {
     $menuSection.addEventListener('click', menuSectionClickHandler);
