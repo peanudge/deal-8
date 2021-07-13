@@ -13,6 +13,7 @@ body {
   flex-grow: 1;
   padding-left: 15px;
   padding-right: 15px;
+  overflow: scroll;
 }
 
 .posting-main--img-register {
@@ -38,7 +39,57 @@ body {
 }
 
 .posting-main--text-input {
+  font-size: 16px;
+  font-weight: 400;
   border: none;
+}
+
+.posting-main--text-input:focus {
+  outline: none;
+}
+
+.posting-main--text-input.subtext {
+  margin-top: 16px;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+.posting-main-tag-container {
+  display: flex;
+  overflow-y: visible;
+}
+
+.posting-main-tag-container .tag {
+  font-size: 16px;
+  font-weight: 400;
+  margin-right: 2px;
+  color: #888888;
+  padding: 5px 8px;
+  border: 1px solid #c0c0c0;
+  border-radius: 16px;
+  vertical-align: middle;
+  position: relative;
+  overflow: visible;
+}
+
+.close-btn {
+  display: none;
+}
+
+.close-btn img {
+  width: 15px;
+  height: 15px;
+}
+
+.tag:hover .close-btn {
+  display: block;
+  position: absolute;
+  right: -5px;
+  top: -5px;
+  background-color: var(--primary1-color);
+  color: white;
+  height: 15px;
+  border-radius: 8px;
 }
 
 .posting-main--textarea {
@@ -49,6 +100,8 @@ body {
   min-height: 40px;
   max-height: 160px;
   line-height: 20px;
+  font-size: 16px;
+  font-weight: 400;
 }
 
 .expand-textarea[contenteditable]:empty::before {
