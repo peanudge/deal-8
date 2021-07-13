@@ -1,11 +1,66 @@
-import MainService from './mainService.js';
+import HomeView from "./views/HomeView";
+import LoginView from "./views/LoginView";
+import ProductView from "./views/ProductView";
 
-window.addEventListener("DOMContentLoaded", ()=> {
-    const targetEl = document.querySelector("#log");
+const pathToRegex = (path) =>
+  new RegExp("^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(.+)") + "$");
 
-    const service = new MainService({targetEl})
-    const datalist = [1,2,3,4,[5,6,[7]]];
-    const subHtml = service.init(datalist);
+const getParams = (match) => {
+  const values = match.result.slice(1);
+  const keys = Array.from(match.route.path.matchAll(/:(\w+)/g)).map(
+    (result) => result[1]
+  );
 
-    targetEl.innerHTML += `datalist is ${subHtml}`;
-})
+  return Object.fromEntries(
+    keys.map((key, i) => {
+      return [key, values[i]];
+    })
+  );
+};
+
+const navigateTo = (url) => {
+  history.pushState(null, null, url);
+  router();
+};
+
+const router = async () => {
+  const routes = [
+    { path: "/", view: HomeView },
+    { path: "/login", view: LoginView },
+    { path: "/product/:id/", view: ProductView },
+  ];
+
+  const potentialMatches = routes.map((route) => {
+    return {
+      route: route,
+      result: location.pathname.match(pathToRegex(route.path)),
+    };
+  });
+
+  let match = potentialMatches.find(
+    (potentialMatch) => potentialMatch.result !== null
+  );
+
+  if (!match) {
+    match = {
+      route: routes[0],
+      result: [location.pathname],
+    };
+  }
+
+  const view = new match.route.view(getParams(match));
+
+  document.querySelector("#app").innerHTML = await view.render();
+  await view.after_render();
+};
+
+window.addEventListener("DOMContentLoaded", () => {
+  document.body.addEventListener("click", (e) => {
+    if (e.target.matches("[data-link]")) {
+      e.preventDefault();
+      navigateTo(e.target.href);
+    }
+  });
+
+  router();
+});
