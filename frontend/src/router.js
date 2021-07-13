@@ -1,12 +1,11 @@
 import HomeView from "./views/HomeView";
 import LoginView from "./views/LoginView";
-import ProductView from "./views/ProductView";
 
 const pathToRegex = (path) =>
   new RegExp("^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(.+)") + "$");
 
 const getParams = (match) => {
-  const values = match.result.slice(1);
+  const values = match.result.slice(1); // exclude path matching
   const keys = Array.from(match.route.path.matchAll(/:(\w+)/g)).map(
     (result) => result[1]
   );
@@ -18,16 +17,15 @@ const getParams = (match) => {
   );
 };
 
-const navigateTo = (url) => {
+export const navigateTo = (url) => {
   history.pushState(null, null, url);
   router();
 };
 
-const router = async () => {
+export const router = async () => {
   const routes = [
     { path: "/", view: HomeView },
     { path: "/login", view: LoginView },
-    { path: "/product/:id/", view: ProductView },
   ];
 
   const potentialMatches = routes.map((route) => {
@@ -53,14 +51,3 @@ const router = async () => {
   document.querySelector("#app").innerHTML = await view.render();
   await view.after_render();
 };
-
-window.addEventListener("DOMContentLoaded", () => {
-  document.body.addEventListener("click", (e) => {
-    if (e.target.matches("[data-link]")) {
-      e.preventDefault();
-      navigateTo(e.target.href);
-    }
-  });
-
-  router();
-});

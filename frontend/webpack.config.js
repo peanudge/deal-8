@@ -10,9 +10,13 @@ module.exports = {
     stats: "errors-only",
     historyApiFallback: true,
   },
-
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "src/"),
+    },
+  },
   mode: "development",
-  entry: "./src/app.js",
+  entry: "./src/index.js",
   output: {
     path: path.resolve(__dirname, "dist"),
     filename: "bundle.js",
@@ -20,6 +24,14 @@ module.exports = {
   devtool: "inline-source-map",
   module: {
     rules: [
+      {
+        test: /\.svg$/,
+        loader: "svg-inline-loader",
+      },
+      {
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"],
+      },
       {
         test: /\.js$/,
         exclude: /node_modules/,
@@ -31,7 +43,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "src/app.html",
+      template: "src/index.html",
     }),
   ],
 };

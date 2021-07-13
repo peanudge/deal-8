@@ -24,6 +24,10 @@ body {
   border-bottom-right-radius: 16px;
 }
 
+.main-header i {
+  font-size: 1rem;
+}
+
 .main-header--left {
   display: flex;
   align-items: center;
@@ -37,12 +41,23 @@ body {
   justify-content: center;
 }
 
+.svg-container {
+  width: 20px;
+  height: 20px;
+}
+
 .main-header .location {
   display: flex;
   align-items: center;
+  color: white;
   justify-content: center;
 }
 
+.location--icon {
+  width: 15px;
+  margin-right: 10px;
+}
+/* 
 .main-header .location > * {
   margin: 0 3px;
   width: fit-content;
@@ -56,7 +71,7 @@ body {
 
 .main-header .location > :last-child {
   margin-right: 0;
-}
+} */
 
 .main-header--right {
   display: flex;
