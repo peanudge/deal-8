@@ -59,12 +59,18 @@ a {
   flex-direction: column;
   flex: 1;
   overflow-y: scroll;
+  height: 100%;
 }
 
 .slide-wrapper {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  flex: 1;
 }
 
 .section-wrapper {
@@ -73,6 +79,7 @@ a {
   height: 100%;
   flex: 1;
   overflow: hidden;
+  position: relative;
 }
 
 .section-wrapper > section {
