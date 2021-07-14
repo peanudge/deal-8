@@ -1,5 +1,5 @@
-import HomeView from "./views/HomeView";
-import LoginView from "./views/LoginView";
+import HomePage from "./page/HomePage";
+import LoginPage from "./page/LoginPage";
 
 const pathToRegex = (path) =>
   new RegExp("^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(.+)") + "$");
@@ -24,8 +24,8 @@ export const navigateTo = (url) => {
 
 export const router = async () => {
   const routes = [
-    { path: "/", view: HomeView },
-    { path: "/login", view: LoginView },
+    { path: "/", view: HomePage },
+    { path: "/login", view: LoginPage },
   ];
 
   const potentialMatches = routes.map((route) => {
@@ -47,7 +47,7 @@ export const router = async () => {
   }
 
   const view = new match.route.view(getParams(match));
-
   document.querySelector("#app").innerHTML = await view.render();
+
   await view.after_render();
 };

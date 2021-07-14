@@ -1,20 +1,38 @@
-import AbstractView from "@/views/AbstractView";
+import View from "@/page/View";
+
+import { qs } from "@/helper/selectHelpers";
+
 import categorySVG from "@/public/svg/category-white.svg";
 import gpsSVG from "@/public/svg/gps-white.svg";
 import profileSVG from "@/public/svg/profile-white.svg";
 import menuSVG from "@/public/svg/menu-white.svg";
 
-export default class MainHeader extends AbstractView {
-  constructor(params) {
-    super(params);
+const tag = "[MainHeader]";
+
+export default class MainHeaderView extends View {
+  constructor(element = qs("#main-header"), template = new Template()) {
+    console.log(tag, "constructor");
+    super(element);
+    this.template = template;
+    this.bindEvents();
   }
 
-  async render() {
+  bindEvents() {
+    // TODO: click event
+  }
+
+  show(data = []) {
+    this.element.innerHTML = this.template.getHeader();
+    super.show();
+  }
+}
+
+class Template {
+  getHeader() {
     return `
-    <div class="main-header">
-      <div class="main-header--left" href="/category.html">
-        <div class="svg-container">${categorySVG}</div>  
-      </div>
+    <div class="main-header--left" href="/category.html">
+      <div class="svg-container">${categorySVG}</div>  
+    </div>
     <div class="main-header--center">
       <div class="location">
         <div class="svg-container location--icon">${gpsSVG}</div>
@@ -29,9 +47,6 @@ export default class MainHeader extends AbstractView {
       ${menuSVG}
       </a>
     </div>
-  </div>
         `;
   }
-
-  async after_render() {}
 }
