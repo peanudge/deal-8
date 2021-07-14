@@ -1,0 +1,106 @@
+@import url("./common/basic_header.css");
+@import url("./common/global_color.css");
+
+body {
+  border: 1px solid #c0c0c0;
+}
+
+.header {
+  background-color: transparent;
+  border: none;
+  z-index: 99;
+}
+
+.post-main {
+  display: flex;
+  position: absolute;
+  flex-direction: column;
+  background-color: white;
+  overflow: scroll;
+  height: calc(100% - 68px);
+}
+
+.post-main--img-container {
+  width: 100%;
+  height: 320px;
+}
+
+.post-main--img-container img {
+  width: 100%;
+}
+
+section {
+  margin-left: 16px;
+  margin-right: 16px;
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.post-main--sale-status-select {
+  position: relative;
+}
+
+.post-main--title {
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 24px;
+}
+
+.post-main--sub-title {
+  display: flex;
+  margin-top: 9px;
+  font-size: 12px;
+  font-weight: 400;
+  color: #888888;
+}
+.post-main--sub-title p {
+  margin-right: 2px;
+}
+
+.post-main--content {
+  margin-top: 16px;
+  font-size: 16px;
+  font-weight: 400;
+}
+.post-main--info {
+  display: flex;
+  margin-top: 24px;
+  font-size: 12px;
+  font-weight: 400;
+  color: #888888;
+}
+
+.post-main--info p {
+  margin-right: 2px;
+}
+
+.post-main--seller-info {
+  margin-top: 24px;
+  margin-bottom: 32px;
+  display: flex;
+  padding: 16px;
+  background-color: #f6f6f6;
+}
+
+footer {
+  display: flex;
+  border-top: 1px solid #c0c0c0;
+  background-color: white;
+  position: absolute;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+  height: 68px;
+  bottom: 0px;
+}
+
+footer .move-btn {
+  width: 136px;
+  background-color: var(--primary1-color);
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 8px;
+}
