@@ -20,3 +20,11 @@ export const loginAsync = ({ id }, cb) =>
     //     console.log(e);
     //   });
   });
+
+export const signupAsync = ({ id, location }, cb) =>
+  new Promise((resolve, reject) => {
+    setTimeout(() => {
+      console.log(`Signup Request with id: ${id}, location:${location}`);
+      cb();
+    }, 500);
+  });
