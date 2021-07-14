@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/css/normalize.css" />
     <link rel="stylesheet" href="/css/chat.css" />
-
+    <script defer src="./js/chat.js"></script>
     <title>채팅</title>
   </head>
   <body>
@@ -17,9 +17,9 @@
       <h1 class="header--center">
         <span class="header--center--title"> UserE </span>
       </h1>
-      <a class="header--right" href="#">
+      <div id="out-btn" class="header--right" href="#">
         <img src="./icon/log-out.svg" />
-      </a>
+      </div>
     </header>
     <main class="chat-main">
       <div class="chat-main--header">
@@ -57,5 +57,17 @@
         />
       </div>
     </main>
+    <!-- Modal -->
+    <div id="alert-modal" class="alert-modal">
+      <p>정말로이 채팅방을 나가시겠습니까?</p>
+      <div class="alert-modal--btn-container">
+        <div id="cancel-btn" class="alert-modal--btn-container--cancel-btn">
+          취소
+        </div>
+        <div id="accept-btn" class="alert-modal--btn-container--accept-btn">
+          나가기
+        </div>
+      </div>
+    </div>
   </body>
 </html>
