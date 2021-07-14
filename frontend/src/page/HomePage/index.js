@@ -18,7 +18,6 @@ export default class HomePage extends AbstractPage {
   }
 
   async after_render() {
-    console.log(tag, "after_render");
     const views = {
       mainHeaderView: new MainHeaderView(),
     };
