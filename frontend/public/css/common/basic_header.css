@@ -16,3 +16,8 @@
   font-size: 16px;
   font-weight: 400;
 }
+
+.header--right {
+  position: absolute;
+  right: 20px;
+}

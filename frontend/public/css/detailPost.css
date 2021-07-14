@@ -1,0 +1,167 @@
+@import url("./common/basic_header.css");
+@import url("./common/global_color.css");
+
+body {
+  border: 1px solid #c0c0c0;
+}
+
+.header {
+  background-color: transparent;
+  border: none;
+  z-index: 99;
+}
+
+.post-main {
+  display: flex;
+  position: absolute;
+  flex-direction: column;
+  background-color: white;
+  overflow: scroll;
+  height: calc(100% - 68px);
+}
+
+.post-main--img-container {
+  width: 100%;
+  height: 320px;
+}
+
+.post-main--img-container img {
+  width: 100%;
+}
+
+section {
+  margin-left: 16px;
+  margin-right: 16px;
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.post-main--sale-status {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  width: 100px;
+  align-items: center;
+  padding: 10px 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+}
+
+.post-main--sale-status p {
+  font-size: 14px;
+}
+
+.post-main--sale-status img {
+  width: 16px;
+  height: 16px;
+}
+
+.post-main--sale-status--dropdown {
+  display: none;
+  position: absolute;
+  top: 150%;
+  border-radius: 8px;
+  background-color: #f6f6f6;
+  left: 0px;
+  min-width: 165px;
+  box-shadow: 0px 0px 4px rgba(204, 204, 204, 0.5),
+    0px 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+.post-main--sale-status:hover .post-main--sale-status--dropdown {
+  display: block;
+}
+
+.post-main--sale-status--dropdown .dropdown-item {
+  background-color: transparent;
+  padding: 16px;
+}
+
+.post-main--sale-status--dropdown .dropdown-item:not(:last-child) {
+  border-bottom: 1px solid rgba(204, 204, 204, 0.5);
+}
+
+.post-main--title {
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 24px;
+}
+
+.post-main--sub-title {
+  display: flex;
+  margin-top: 9px;
+  font-size: 12px;
+  font-weight: 400;
+  color: #888888;
+}
+.post-main--sub-title p {
+  margin-right: 2px;
+}
+
+.post-main--content {
+  margin-top: 16px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
+}
+.post-main--info {
+  display: flex;
+  margin-top: 24px;
+  font-size: 12px;
+  font-weight: 400;
+  color: #888888;
+}
+
+.post-main--info p {
+  margin-right: 2px;
+}
+
+.post-main--seller-info {
+  margin-top: 24px;
+  margin-bottom: 32px;
+  display: flex;
+  justify-content: space-between;
+  padding: 16px;
+  background-color: #f6f6f6;
+}
+
+.post-main--seller-info--label {
+  flex-grow: 2;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.post-main--seller-info--username {
+  font-size: 14px;
+  font-weight: 500;
+  margin-right: 8px;
+}
+
+.post-main--seller-info--address {
+  font-size: 12px;
+  font-weight: 400;
+  color: #828282;
+}
+
+footer {
+  display: flex;
+  border-top: 1px solid #c0c0c0;
+  background-color: white;
+  position: absolute;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+  height: 68px;
+  bottom: 0px;
+}
+
+footer .move-btn {
+  width: 136px;
+  background-color: var(--primary1-color);
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 8px;
+}

@@ -1,5 +1,7 @@
-class AbstractView {
+const tag = "[AbstractPage]";
+class AbstractPage {
   constructor(params) {
+    console.log(tag, "constructor");
     this.params = params;
   }
 
@@ -14,4 +16,4 @@ class AbstractView {
   async after_render() {}
 }
 
-export default AbstractView;
+export default AbstractPage;

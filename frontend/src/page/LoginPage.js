@@ -1,6 +1,6 @@
-import AbstractView from "./AbstractView";
+import AbstractPage from "./AbstractPage";
 
-export default class LoginView extends AbstractView {
+export default class LoginPage extends AbstractPage {
   constructor(params) {
     super(params);
     this.setTitle("Login");

@@ -1,6 +1,10 @@
-@import url('./common/basic_header.css');
-@import url('./common/global_color.css');
-@import url('./common/product_list_item.css');
+:root {
+  --primary-color: #2ac1bc;
+  --primary-color-light: #a0e1e0;
+  --primary-color-dark: #219a95;
+  --gray-text-color: #888;
+  --black-text-color: #222222;
+}
 
 body {
   background-color: #fff;
@@ -13,11 +17,15 @@ body {
   align-items: center;
   width: 100%;
   max-width: inherit;
-  background-color: var(--primary1-color);
+  background-color: #2ac1bc;
   height: 56px;
   padding: 0 20px;
   border-bottom-left-radius: 16px;
   border-bottom-right-radius: 16px;
+}
+
+.main-header i {
+  font-size: 1rem;
 }
 
 .main-header--left {
@@ -33,25 +41,21 @@ body {
   justify-content: center;
 }
 
+.svg-container {
+  width: 20px;
+  height: 20px;
+}
+
 .main-header .location {
   display: flex;
   align-items: center;
+  color: white;
   justify-content: center;
 }
 
-.main-header .location > * {
-  margin: 0 3px;
-  width: fit-content;
-  height: 14px;
-  font-size: 16px;
-}
-
-.main-header .location > :first-child {
-  margin-left: 0;
-}
-
-.main-header .location > :last-child {
-  margin-right: 0;
+.location--icon {
+  width: 15px;
+  margin-right: 10px;
 }
 
 .main-header--right {
@@ -73,8 +77,6 @@ body {
 }
 
 .content {
-<<<<<<< HEAD
-=======
   background-color: #fff;
   display: flex;
   flex-direction: column;
@@ -89,20 +91,12 @@ body {
   padding: 17px;
   width: 100%;
   height: 139px;
-  border-bottom: 1px solid #d7d7d7;
 }
 
 .content--product--info {
   width: 150px;
->>>>>>> develop
   display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
   flex-direction: column;
-<<<<<<< HEAD
-  flex: 1;
-  overflow-y: scroll;
-=======
   justify-content: space-between;
 }
 
@@ -182,14 +176,13 @@ body {
 }
 .content--product--info--bottom > div:last-child {
   margin-right: 0;
->>>>>>> develop
 }
 
 .new-product-button {
   position: fixed;
   width: 56px;
   height: 56px;
-  background-color: var(--primary1-color);
+  background-color: #2ac1bc;
   display: flex;
   border-radius: 100%;
   justify-content: center;

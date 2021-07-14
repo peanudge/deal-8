@@ -126,7 +126,6 @@ body {
   width: 320px;
   background-color: #c0c0c0;
   overflow-y: scroll;
-  border: 1px solid #c0c0c0;
 }
 ol,
 ul {
@@ -140,7 +139,7 @@ blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-  content: "";
+  content: '';
   content: none;
 }
 table {
