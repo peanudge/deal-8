@@ -1,5 +1,6 @@
 import AbstractPage from "../AbstractPage";
 import Controller from "./Controller";
+import BasicHeaderView from "./views/BasicHeaderView";
 import LoginFormView from "./views/LoginFormView";
 
 import chevronLeftSVG from "@/public/svg/chevron-left.svg";
@@ -39,6 +40,7 @@ export default class LoginPage extends AbstractPage {
 
   async after_render() {
     const views = {
+      headerView: new BasicHeaderView(),
       loginFormView: new LoginFormView(),
     };
     new Controller(views);

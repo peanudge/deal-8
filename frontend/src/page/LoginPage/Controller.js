@@ -3,9 +3,8 @@ import { navigateTo } from "@/router";
 
 const tag = "[Login Controller]";
 export default class Controller {
-  constructor({ headerView, loginFormView }) {
+  constructor({ loginFormView }) {
     console.log(tag);
-    this.headerView = headerView;
     this.loginFormView = loginFormView;
 
     this.subscribeViewEvents();
@@ -23,6 +22,6 @@ export default class Controller {
   }
 
   render() {
-    // render
+    this.loginFormView.show();
   }
 }
