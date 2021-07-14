@@ -1,0 +1,23 @@
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--header-bg-color);
+  border-bottom: 1px solid #c0c0c0;
+  height: 56px;
+}
+
+.header--left {
+  position: absolute;
+  left: 20px;
+}
+
+.header--center--title {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.header--right {
+  position: absolute;
+  right: 20px;
+}

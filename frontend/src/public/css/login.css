@@ -1,11 +1,8 @@
 @import url("./common/basic_header.css");
 @import url("./common/global_color.css");
 
-body {
-  padding: 0px;
-  border: 1px solid #c0c0c0;
-  display: flex;
-  flex-direction: column;
+.back-icon > svg {
+  height: 20px;
 }
 
 .login-main {
@@ -13,7 +10,7 @@ body {
   flex-direction: column;
   justify-content: flex-start;
   background-color: white;
-  flex-grow: 1;
+  height: 100%;
   padding-top: 24px;
   padding-left: 15px;
   padding-right: 15px;
@@ -52,4 +49,9 @@ body {
   color: black;
   font-size: 14px;
   font-weight: 500;
+}
+
+.svg-container {
+  width: 20px;
+  height: 20px;
 }
