@@ -29,7 +29,7 @@ const getTabNumber = (tab) => {
 
 const setBottomBorder = (tabNumber) => {
   const $targetElement = document.querySelector(
-    `.menu-tab > :nth-child(${tabNumber})`,
+    `.tab-bar > :nth-child(${tabNumber})`,
   );
   $targetElement.style.borderBottom = '2px solid #2ac1bc';
 };
