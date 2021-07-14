@@ -17,19 +17,42 @@ const tabList = {
 
 const primary1Color = '#2ac1bc';
 
-const slideContent = ($tab) => {};
+const SLIDETIME = 500;
+
+const initTabStatus = (tabInfo) => {
+  const left = getContentLeft({ number: tabInfo.number });
+
+  setContentPosition(left);
+  setBottomBorder(tabInfo);
+};
+
+const setContentPosition = (left) => {
+  const $sectionWrapper = document.querySelector('.section-wrapper');
+  $sectionWrapper.style.left = left;
+};
+
+const getContentLeft = ({ number }) => {
+  return `${-1 * ((number - 1) * 100)}%`;
+};
+
+const slideContent = (left) => {
+  const $sectionWrapper = document.querySelector('.section-wrapper');
+
+  const currentLeft = $sectionWrapper.style.left
+    ? $sectionWrapper.style.left
+    : '0%';
+
+  $sectionWrapper.animate([{ left: `${currentLeft}` }, { left }], SLIDETIME);
+  setContentPosition(left);
+};
 
 const showContent = ({ number, sectionId }) => {
-  const left = -1 * ((number - 1) * 100); // left 퍼센트 정하기
-  const $sectionWrapper = document.querySelector(`.section-wrapper`);
-  $sectionWrapper.style.left = `${left}%`;
-
+  const left = getContentLeft({ number }); // left 퍼센트 정하기
+  slideContent(left);
   setBottomBorder({ number, sectionId });
 };
 
 const menuSectionClickHandler = (event) => {
-  // TODO change parameter without redirect
-  // 리다이렉트가 없어진다면 서로 슬라이드 해서 넘길 수 있음
   const id = event.currentTarget.id;
   const tabNames = Object.keys(tabList);
 
@@ -71,12 +94,10 @@ window.onload = () => {
   const urlSearchParams = new URLSearchParams(window.location.search);
   const { tab } = Object.fromEntries(urlSearchParams.entries());
   const tabInfo = getTabInfo(tab);
-
   if (tabInfo === null) {
     return (location.href = './menu?tab=productList');
   }
-
-  showContent(tabInfo);
+  initTabStatus(tabInfo);
 
   const menuSections = document.querySelectorAll('.tab-bar > section');
 
