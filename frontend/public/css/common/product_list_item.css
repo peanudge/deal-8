@@ -70,9 +70,13 @@
   display: flex;
   height: fit-content;
   align-items: baseline;
-  color: var(--black-text-color);
   text-align: center;
-  margin-top: 2px;
+  margin-top: 4px;
+}
+
+.content--product--info--top h1 > a {
+  color: var(--black-text-color);
+  text-decoration: none;
 }
 
 .content--product--info--bottom {

@@ -55,13 +55,17 @@
 }
 
 .content--chat-item--right--left > * {
-  margin: 2px 0;
+  width: 100%;
+  display: flex;
+  flex-direction: row-reverse;
+  height: 20px;
 }
 
 .current-chat-time {
   margin-top: 0;
   color: var(--gray-text-color);
   display: flex;
+  font-size: 12px;
 }
 
 .un-read-count {
