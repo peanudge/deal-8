@@ -41,6 +41,11 @@ a {
   height: 100%;
 }
 
+.tab-bar > section.selected {
+  color: var(--primary1-color);
+  border-bottom: 2px solid var(--primary1-color);
+}
+
 .tab-bar > section > a {
   text-decoration: none;
   color: inherit;
@@ -63,8 +68,6 @@ a {
 }
 
 .slide-wrapper {
-  display: flex;
-  flex-direction: column;
   overflow: hidden;
   display: flex;
   justify-content: flex-start;
