@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/normalize.css" />
+    <link rel="stylesheet" href="/css/location.css" />
+    <title>내 동네 설정하기</title>
+  </head>
+  <body>
+    <header class="header">
+      <a class="header--left" href="./main.html">
+        <img src="./icon/chevron-left.svg" />
+      </a>
+      <h1 class="header--center">
+        <span class="header--center--title"> 내 동네 설정하기 </span>
+      </h1>
+    </header>
+    <main class="location-main">
+      <div class="location-main--comment">
+        <p>
+          지역은 최소 1개 이상<br />
+          최대 2개까지 설정 가능해요
+        </p>
+      </div>
+      <div class="location--container">
+        <div class="location--container--location-card">
+          <p>역삼동</p>
+          <img width="12" height="12" src="./icon/close-white.svg" />
+        </div>
+        <div class="location--container--location-card empty">
+          <img width="12" height="12" src="./icon/add.svg" />
+        </div>
+      </div>
+    </main>
+    <div id="edit-modal" class="edit-modal">
+      <p>우리 동네를 입력하세요</p>
+      <input
+        class="edit-modal--text-input"
+        type="text"
+        placeholder="시 구 제외, 동만 입력"
+      />
+      <div class="edit-modal--btn-container">
+        <div id="cancel-btn" class="edit-modal--btn-container--cancel-btn">
+          취소
+        </div>
+        <div id="accept-btn" class="edit-modal--btn-container--accept-btn">
+          확인
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
