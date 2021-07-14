@@ -1,6 +1,6 @@
-@import url('./common/global_color.css');
+@import url('./global_color.css');
 
-.chat-item {
+.content--chat-item {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -10,11 +10,11 @@
   height: 72px;
 }
 
-.chat-item.unread {
+.content--chat-item.unread {
   background-color: var(--header-bg-color);
 }
 
-.chat-item--left {
+.content--chat-item--left {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -38,14 +38,14 @@
   align-items: center;
 }
 
-.chat-item--right {
+.content--chat-item--right {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
 }
 
-.chat-item--right--left {
+.content--chat-item--right--left {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -54,7 +54,7 @@
   text-align: right;
 }
 
-.chat-item--right--left > * {
+.content--chat-item--right--left > * {
   margin: 2px 0;
 }
 
@@ -81,7 +81,7 @@
   color: #fff;
 }
 
-.chat-item--right--right {
+.content--chat-item--right--right {
   width: 40px;
   height: 40px;
   display: flex;
@@ -90,6 +90,6 @@
   margin-left: 8px;
 }
 
-.chat-item--right--right > img {
+.content--chat-item--right--right > img {
   width: 100%;
 }

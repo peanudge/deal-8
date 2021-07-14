@@ -73,11 +73,12 @@ body {
 }
 
 .content {
-  background-color: #fff;
   display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
   flex-direction: column;
-  height: 100%;
-  overflow: scroll;
+  flex: 1;
+  overflow-y: scroll;
 }
 
 .new-product-button {
