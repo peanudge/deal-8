@@ -28,3 +28,11 @@ export const signupAsync = ({ id, location }, cb) =>
       cb();
     }, 500);
   });
+
+export const logoutAsync = (cb) =>
+  new Promise((resolve, reject) => {
+    setTimeout(() => {
+      console.log(`Logout`);
+      cb();
+    }, 500);
+  });

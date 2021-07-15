@@ -20,10 +20,12 @@ export default class Controller {
         location,
       },
       () => {
-        navigateTo("/");
+        navigateTo("/profile");
       }
     );
   }
 
-  render() {}
+  render() {
+    this.signupFormView.show();
+  }
 }

@@ -1,6 +1,7 @@
 import HomePage from "./page/HomePage";
 import LoginPage from "./page/LoginPage";
 import SignupPage from "./page/SignupPage";
+import ProfilePage from "./page/ProfilePage";
 
 const pathToRegex = (path) =>
   new RegExp("^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(.+)") + "$");
@@ -28,6 +29,7 @@ export const router = async () => {
     { path: "/", view: HomePage },
     { path: "/login", view: LoginPage },
     { path: "/signup", view: SignupPage },
+    { path: "/profile", view: ProfilePage },
   ];
 
   const potentialMatches = routes.map((route) => {
