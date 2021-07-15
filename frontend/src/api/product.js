@@ -53,6 +53,42 @@ const mockProductData = [
     countOfInterest: 0,
     isInterested: true,
   },
+  {
+    id: 3,
+    catrgory: 3,
+    author: "TESTER",
+    title: "예시",
+    content: "팝니다. 싸게",
+    cost: 1000, // 원
+    location: "상암동",
+    thumbnail: "/static/image/1233422",
+    image: "/static/image/1233422",
+    createAt: new Date(), // db datetime type
+    updateAt: new Date(),
+    deleteAt: new Date(),
+    countOfView: 10,
+    countOfChat: 2,
+    countOfInterest: 0,
+    isInterested: true,
+  },
+  {
+    id: 3,
+    catrgory: 3,
+    author: "TESTER",
+    title: "예시",
+    content: "팝니다. 싸게",
+    cost: 1000, // 원
+    location: "상암동",
+    thumbnail: "/static/image/1233422",
+    image: "/static/image/1233422",
+    createAt: new Date(), // db datetime type
+    updateAt: new Date(),
+    deleteAt: new Date(),
+    countOfView: 10,
+    countOfChat: 2,
+    countOfInterest: 0,
+    isInterested: true,
+  },
 ];
 
 export const getProducts = (categoryId) => {

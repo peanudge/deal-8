@@ -1,43 +1,46 @@
-import AbstractPage from '../AbstractPage';
-import Controller from './Controller';
-import MainHeaderView from './views/MainHeaderView';
-import ProductListView from './views/ProductListView';
+import AbstractPage from "../AbstractPage";
+import Controller from "./Controller";
+import MainHeaderView from "./views/MainHeaderView";
+import ProductListView from "@/common/views/ProductListView";
 
-import '@/public/css/category.css';
-import '@/public/css/common/drop_down.css';
-import '@/public/css/main.css';
+import "@/public/css/category.css";
+import "@/public/css/common/drop_down.css";
+import "@/public/css/main.css";
 
-import plusIcon from '@/public/svg/plus.svg';
-import CategoryView from './views/CategoryView';
+import plusIcon from "@/public/svg/plus.svg";
+import CategoryView from "./views/CategoryView";
+import Store from "./Store";
 
-const tag = '[HomePage]';
+const tag = "[HomePage]";
 
 export default class HomePage extends AbstractPage {
   constructor(params) {
     super(params);
-    this.setTitle('Home');
+    this.setTitle("Home");
   }
 
   async render() {
     return `
     <div id="main-header" class="main-header"></div>
-    <div id="product-list-container" class="content"></div>
+    <div id="product-container" class="product-container"></div>
+
     <article class="new-product-button">
       <a href="/createPost">
        <div class="plus-icon">${plusIcon}</div>
       </a>
     </article>
-
     <div id="category" class="category-container"></div>
     `;
   }
 
   async after_render() {
+    const store = new Store();
     const views = {
       mainHeaderView: new MainHeaderView(),
       productListView: new ProductListView(),
       categoryView: new CategoryView(),
     };
-    new Controller(views);
+
+    new Controller(store, views);
   }
 }
