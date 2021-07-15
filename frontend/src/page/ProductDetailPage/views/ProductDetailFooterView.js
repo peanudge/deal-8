@@ -14,26 +14,50 @@ export default class ProductDetailFooterView extends View {
     this.bindingEvents();
   }
 
-  bindingEvents() {}
+  bindingEvents() {
+    delegate(this.element, 'click', '#interest-btn', (e) => {
+      this.handleClickInterestEvent(e);
+    });
+  }
 
-  show(productDetail) {
-    console.log(productDetail);
-    this.element.innerHTML = this.template.getFooter(productDetail);
+  handleClickInterestEvent(event) {
+    const target = event.target;
+    const id = target.dataset.id;
+    const currentInterestStatus = Array.from(target.classList).includes('on');
+    this.emit('@interest', {
+      value: { id, isInterested: !currentInterestStatus },
+    });
+  }
+
+  show(user, productDetail) {
+    console.log(user);
+    this.element.innerHTML = this.template.getFooter(user, productDetail);
     super.show();
   }
 }
 
 class Template {
-  getFooter({ id, cost }) {
+  getFooter(user, { id, cost, isInterested, author }) {
     return `
-        <div class="interest-toggle-btn">
-            ${interestSvg}
-        </div>
+        <button id="interest-btn" class="content--product--info--top--interest ${
+          isInterested ? 'on' : 'off'
+        }" data-id=${id}>
+        ${interestSvg}
+        </button>
         <div class="spliter">|</div>
         <p class="cost">${cost ? `${cost} 원` : '가격 미정'}</p>
-        <a href="/chatList/${id}">
-            <div class="move-btn">채팅 목록 보기 (2)</div>
-        </a>
+        ${
+          user?.username === author
+            ? `
+                <a href="/chatList/${id}" data-link>
+                    <div class="move-btn">채팅 목록 보기 (2)</div>
+                </a>`
+            : `
+                <a href="#" data-link>
+                    <div class="move-btn">문의하기</div>
+                </a>`
+        }
+            
       `;
   }
 }

@@ -20,8 +20,8 @@ export default class ProductDetailView extends View {
     });
   }
 
-  show(productDetail) {
-    this.element.innerHTML = this.template.getDetail(productDetail);
+  show(user, productDetail) {
+    this.element.innerHTML = this.template.getDetail(user, productDetail);
     super.show();
   }
 
@@ -37,7 +37,7 @@ export default class ProductDetailView extends View {
 }
 
 class Template {
-  getDetail(productDetail) {
+  getDetail(user, productDetail) {
     const {
       status,
       title,
@@ -50,7 +50,8 @@ class Template {
       location,
     } = productDetail;
     return `
-      ${this.getStatusSelector(status)}
+      ${user.username === author ? this.getStatusSelector(status) : ''}
+      
       <div class="post-main--title">${title}</div>
       <div class="post-main--sub-title">
           <p>${category.name}</p>

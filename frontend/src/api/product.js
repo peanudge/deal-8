@@ -137,6 +137,7 @@ export const getProductDetail = ({ id }) => {
       countOfInterest: 10,
       author: 'TESTER',
       location: '역삼동',
+      isInterested: true,
     };
 
     resolve(result);

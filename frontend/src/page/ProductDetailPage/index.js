@@ -3,7 +3,7 @@ import Controller from './Controller';
 
 import '@/public/css/detailPost.css';
 
-import chevronDownSvg from '@/public/svg/chevron-down.svg';
+import Store from './Store';
 
 import ProductDetailHeaderView from './views/ProductDetailHeaderView';
 import ProductImageListView from './views/ProductImageListView';
@@ -25,7 +25,7 @@ export default class ProductDetailPage extends AbstractPage {
       <div class="post-main--img-container">
       </div>
       <section id="sale-info">
-        <div class="post-main--sale-status" id="sale-status"></div>
+        
       </section>
     </main>
     <footer>
@@ -38,6 +38,7 @@ export default class ProductDetailPage extends AbstractPage {
   }
 
   async after_render() {
+    const store = new Store();
     const views = {
       productId: this.getId(),
       productDetailHeaderView: new ProductDetailHeaderView(),
@@ -45,6 +46,6 @@ export default class ProductDetailPage extends AbstractPage {
       productDetailView: new ProductDetailView(),
       productDetailFooterView: new ProductDetailFooterView(),
     };
-    new Controller(views);
+    new Controller(store, views);
   }
 }
