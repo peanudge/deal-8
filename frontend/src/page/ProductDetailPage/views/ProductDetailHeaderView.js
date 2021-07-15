@@ -26,7 +26,7 @@ export default class ProductDetailHeaderView extends View {
 class Template {
   getHeadaer() {
     return `
-      <a class="header--left" href="./createPost.html">
+      <a class="header--left" href="/">
         ${chevronLeftSvg}
       </a>
       <a class="header--right" href="#">

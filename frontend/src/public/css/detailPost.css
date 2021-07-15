@@ -137,7 +137,7 @@ main {
 
 .post-main--seller-info {
   margin-top: 24px;
-  margin-bottom: 32px;
+  margin-bottom: calc(68px + 32px);
   display: flex;
   justify-content: space-between;
   padding: 16px;
@@ -163,7 +163,7 @@ main {
 }
 
 footer {
-  display: flex;
+  display: flex !important;
   border-top: 1px solid #c0c0c0;
   background-color: white;
   position: absolute;
@@ -182,4 +182,9 @@ footer .move-btn {
   font-weight: 500;
   padding: 8px 16px;
   border-radius: 8px;
+}
+
+.interest-toggle-btn {
+  width: 20px;
+  height: 20px;
 }

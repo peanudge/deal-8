@@ -2,12 +2,12 @@ import View from '@/page/View';
 import { qs } from '@/helper/selectHelpers';
 import { delegate } from '@/helper/eventHelpers';
 
-import chevronDownSvg from '@/public/svg/chevron-down.svg';
+import interestSvg from '@/public/svg/interest.svg';
 
-const tag = '[ProductDetailView]';
+const tag = '[ProductDetailFooterView]';
 
 export default class ProductDetailFooterView extends View {
-  constructor(element = qs('#sale-info'), template = new Template()) {
+  constructor(element = qs('footer'), template = new Template()) {
     console.log(tag, 'constructor');
     super(element);
     this.template = template;
@@ -17,24 +17,23 @@ export default class ProductDetailFooterView extends View {
   bindingEvents() {}
 
   show(productDetail) {
+    console.log(productDetail);
     this.element.innerHTML = this.template.getFooter(productDetail);
     super.show();
   }
 }
 
 class Template {
-  getFooter() {
+  getFooter({ id, cost }) {
     return `
         <div class="interest-toggle-btn">
-            <img src="./icon/interest.svg" />
+            ${interestSvg}
         </div>
         <div class="spliter">|</div>
-        <p class="cost">169,000원</p>
-        <a href="/chatList.html">
+        <p class="cost">${cost ? `${cost} 원` : '가격 미정'}</p>
+        <a href="/chatList/${id}">
             <div class="move-btn">채팅 목록 보기 (2)</div>
         </a>
       `;
   }
 }
-
-<footer></footer>;

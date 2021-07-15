@@ -8,6 +8,7 @@ import chevronDownSvg from '@/public/svg/chevron-down.svg';
 import ProductDetailHeaderView from './views/ProductDetailHeaderView';
 import ProductImageListView from './views/ProductImageListView';
 import ProductDetailView from './views/ProductDetailView';
+import ProductDetailFooterView from './views/ProductDetailFooterView';
 
 const tag = '[ProductDetailPage]';
 
@@ -28,14 +29,6 @@ export default class ProductDetailPage extends AbstractPage {
       </section>
     </main>
     <footer>
-      <div class="interest-toggle-btn">
-        <img src="./icon/interest.svg" />
-      </div>
-      <div class="spliter">|</div>
-      <p class="cost">169,000원</p>
-      <a href="/chatList.html">
-        <div class="move-btn">채팅 목록 보기 (2)</div></a
-      >
     </footer>
     `;
   }
@@ -50,6 +43,7 @@ export default class ProductDetailPage extends AbstractPage {
       productDetailHeaderView: new ProductDetailHeaderView(),
       productImageListView: new ProductImageListView(),
       productDetailView: new ProductDetailView(),
+      productDetailFooterView: new ProductDetailFooterView(),
     };
     new Controller(views);
   }

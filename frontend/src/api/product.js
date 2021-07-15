@@ -117,6 +117,7 @@ export const getAllProducts = () => {
 export const getProductDetail = ({ id }) => {
   return new Promise((resolve, reject) => {
     const result = {
+      id: id,
       images: [
         'http://img.danawa.com/prod_img/500000/281/013/img/4013281_1.jpg?shrink=500:500&_v=20210129094708',
         'http://img.danawa.com/prod_img/500000/281/013/img/4013281_1.jpg?shrink=500:500&_v=20210129094708',

@@ -11,11 +11,13 @@ export default class Controller {
     productDetailHeaderView,
     productImageListView,
     productDetailView,
+    productDetailFooterView,
   }) {
     this.productId = productId;
     this.productDetailHeaderView = productDetailHeaderView;
     this.productImageListView = productImageListView;
     this.productDetailView = productDetailView;
+    this.productDetailFooterView = productDetailFooterView;
 
     this.subscribeViewEvents();
     this.init();
@@ -29,7 +31,7 @@ export default class Controller {
       // TODO alert and redirect to main
     }
 
-    getProductDetail(this.productId).then((productDetail) => {
+    getProductDetail({ id: this.productId }).then((productDetail) => {
       this.render(productDetail);
     });
   }
@@ -38,5 +40,6 @@ export default class Controller {
     this.productDetailHeaderView.show();
     this.productImageListView.show(productDetail.images);
     this.productDetailView.show(productDetail);
+    this.productDetailFooterView.show(productDetail);
   }
 }
