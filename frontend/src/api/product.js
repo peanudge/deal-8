@@ -2,13 +2,13 @@ const mockProductData = [
   {
     id: 1,
     catrgory: 1,
-    author: "TESTER",
-    title: "예시",
-    content: "팝니다. 싸게",
+    author: 'TESTER',
+    title: '예시',
+    content: '팝니다. 싸게',
     cost: 100000, // 원
-    location: "상암동",
-    thumbnail: "/static/image/1233422",
-    image: "/static/image/1233422",
+    location: '상암동',
+    thumbnail: '/static/image/1233422',
+    image: '/static/image/1233422',
     createAt: new Date(), // db datetime type
     updateAt: new Date(),
     deleteAt: new Date(),
@@ -20,13 +20,13 @@ const mockProductData = [
   {
     id: 2,
     catrgory: 2,
-    author: "TESTER",
-    title: "예시",
-    content: "팝니다. 싸게",
+    author: 'TESTER',
+    title: '예시',
+    content: '팝니다. 싸게',
     cost: 1000, // 원
-    location: "상암동",
-    thumbnail: "/static/image/1233422",
-    image: "/static/image/1233422",
+    location: '상암동',
+    thumbnail: '/static/image/1233422',
+    image: '/static/image/1233422',
     createAt: new Date(), // db datetime type
     updateAt: new Date(),
     deleteAt: new Date(),
@@ -38,13 +38,13 @@ const mockProductData = [
   {
     id: 3,
     catrgory: 3,
-    author: "TESTER",
-    title: "예시",
-    content: "팝니다. 싸게",
+    author: 'TESTER',
+    title: '예시',
+    content: '팝니다. 싸게',
     cost: 1000, // 원
-    location: "상암동",
-    thumbnail: "/static/image/1233422",
-    image: "/static/image/1233422",
+    location: '상암동',
+    thumbnail: '/static/image/1233422',
+    image: '/static/image/1233422',
     createAt: new Date(), // db datetime type
     updateAt: new Date(),
     deleteAt: new Date(),
@@ -76,4 +76,18 @@ export const getProducts = (categoryId) => {
 
 export const getAllProducts = () => {
   return getProducts();
+};
+
+export const getProductDetail = ({ id }) => {
+  return new Promise((resolve, reject) => {
+    const result = {
+      images: [
+        'http://img.danawa.com/prod_img/500000/281/013/img/4013281_1.jpg?shrink=500:500&_v=20210129094708',
+        'http://img.danawa.com/prod_img/500000/281/013/img/4013281_1.jpg?shrink=500:500&_v=20210129094708',
+        'http://img.danawa.com/prod_img/500000/281/013/img/4013281_1.jpg?shrink=500:500&_v=20210129094708',
+      ],
+    };
+
+    resolve(result);
+  });
 };

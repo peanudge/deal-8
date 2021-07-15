@@ -33,7 +33,7 @@ export const router = async () => {
     { path: '/signup', view: SignupPage },
     { path: '/profile', view: ProfilePage },
     { path: '/menu', view: MenuPage },
-    { path: '/productDetail', view: ProductDetailPage },
+    { path: '/product/:productId', view: ProductDetailPage },
   ];
 
   const potentialMatches = routes.map((route) => {
