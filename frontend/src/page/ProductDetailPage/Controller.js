@@ -6,10 +6,17 @@ import { getProductDetail } from '@/api/product';
 const tag = '[ProductDetail Controller]';
 
 export default class Controller {
-  constructor({ productId, productDetailHeaderView, productImageListView }) {
+  constructor({
+    productId,
+    productDetailHeaderView,
+    productImageListView,
+    productDetailView,
+  }) {
     this.productId = productId;
     this.productDetailHeaderView = productDetailHeaderView;
     this.productImageListView = productImageListView;
+    this.productDetailView = productDetailView;
+
     this.subscribeViewEvents();
     this.init();
   }
@@ -23,14 +30,13 @@ export default class Controller {
     }
 
     getProductDetail(this.productId).then((productDetail) => {
-      const { images } = productDetail;
-
-      this.render({ images });
+      this.render(productDetail);
     });
   }
 
-  render({ images }) {
+  render(productDetail) {
     this.productDetailHeaderView.show();
-    this.productImageListView.show(images);
+    this.productImageListView.show(productDetail.images);
+    this.productDetailView.show(productDetail);
   }
 }

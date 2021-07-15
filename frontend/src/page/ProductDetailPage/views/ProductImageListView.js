@@ -2,9 +2,6 @@ import View from '@/page/View';
 
 import { qs } from '@/helper/selectHelpers';
 
-import chevronLeftSvg from '@/public/svg/chevron-left.svg';
-import moreVertival from '@/public/svg/more-vertical.svg';
-
 const tag = '[ProductImageListView]';
 
 export default class ProductImageListView extends View {

@@ -18,6 +18,11 @@ body {
   height: 20px;
 }
 
+main {
+  height: calc(100% - 56px);
+  overflow: scroll;
+}
+
 .post-main {
   display: flex;
   position: absolute;
@@ -39,7 +44,7 @@ body {
   width: 100%;
 }
 
-#sale-status {
+#sale-info {
   margin-left: 16px;
   margin-right: 16px;
   margin-top: 24px;
@@ -56,15 +61,18 @@ body {
   padding: 10px 16px;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
+  cursor: pointer;
 }
 
 .post-main--sale-status p {
   font-size: 14px;
+  pointer-events: none;
 }
 
 .post-main--sale-status svg {
   width: 16px;
   height: 16px;
+  pointer-events: none;
 }
 
 .post-main--sale-status--dropdown {
