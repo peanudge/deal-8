@@ -58,7 +58,6 @@ export default class ProductListView extends View {
 
 class Template {
   getProductItems(products, option) {
-    console.log(option);
     return `
       <div class="content">
         ${products

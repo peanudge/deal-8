@@ -53,6 +53,10 @@ body {
   height: 100%;
 }
 
+.main-header .location > * {
+  pointer-events: none;
+}
+
 .main-header--right {
   display: flex;
   justify-content: space-between;

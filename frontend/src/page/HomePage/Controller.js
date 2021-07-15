@@ -1,10 +1,12 @@
 const tag = "[HomePage Controller]";
 
 import { getAllProducts, getProducts } from "@/api/product";
+import { getProfileAsync } from "@/api/user";
 
 export default class Controller {
-  constructor({ mainHeaderView, productListView, categoryView }) {
-    console.log(tag);
+  constructor(store, { mainHeaderView, productListView, categoryView }) {
+    this.store = store;
+
     this.mainHeaderView = mainHeaderView;
     this.productListView = productListView;
     this.categoryView = categoryView;
@@ -38,22 +40,18 @@ export default class Controller {
       const categoryId = e.detail.value;
       this.searchCategory(categoryId);
     });
-
-    this.mainHeaderView.on("@toggle-location-dropbar", (e) => {
-      const dropdown = e.detail;
-      const currentState = dropdown.style.display;
-      if (currentState === "none" || !currentState) {
-        dropdown.style.display = "block";
-      } else {
-        dropdown.style.display = "none";
-      }
-    });
   }
 
   fetchData() {
-    getAllProducts().then((data) => {
-      this.render(data);
-    });
+    const requestProducts = getAllProducts();
+    const requestUserProfile = getProfileAsync();
+    Promise.all([requestProducts, requestUserProfile]).then(
+      ([products, user]) => {
+        this.store.user = user;
+        this.store.products = products;
+        this.render();
+      }
+    );
   }
 
   searchCategory(categoryId) {
@@ -74,15 +72,16 @@ export default class Controller {
     }
   }
 
-  render(data) {
+  render() {
+    const { products, user } = this.store;
     if (this.isOnCategory) {
       this.categoryView.show();
       this.mainHeaderView.hide();
       this.productListView.hide();
     } else {
       this.categoryView.hide();
-      this.mainHeaderView.show();
-      this.productListView.show(data);
+      this.mainHeaderView.show(user);
+      this.productListView.show(products);
     }
   }
 }

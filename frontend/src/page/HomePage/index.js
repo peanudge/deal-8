@@ -9,6 +9,7 @@ import "@/public/css/main.css";
 
 import plusIcon from "@/public/svg/plus.svg";
 import CategoryView from "./views/CategoryView";
+import Store from "./Store";
 
 const tag = "[HomePage]";
 
@@ -33,11 +34,13 @@ export default class HomePage extends AbstractPage {
   }
 
   async after_render() {
+    const store = new Store();
     const views = {
       mainHeaderView: new MainHeaderView(),
       productListView: new ProductListView(),
       categoryView: new CategoryView(),
     };
-    new Controller(views);
+
+    new Controller(store, views);
   }
 }
