@@ -22,7 +22,7 @@ export default class ProductDetailPage extends AbstractPage {
     <main>
       <div class="post-main--img-container">
       </div>
-      <section>
+      <section id="sale-status">
         <div class="post-main--sale-status">
           <p>판매 중</p>
           ${chevronDownSvg}
