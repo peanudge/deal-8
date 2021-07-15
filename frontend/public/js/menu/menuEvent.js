@@ -3,19 +3,19 @@ const elements = {};
 const tabList = {
   productList: {
     number: 1,
-    sectionId: 'product-list-window',
+    sectionId: "product-list-window",
   },
   chatting: {
     number: 2,
-    sectionId: 'chat-list-window',
+    sectionId: "chat-list-window",
   },
   interestList: {
     number: 3,
-    sectionId: 'interest-list-window',
+    sectionId: "interest-list-window",
   },
 };
 
-const primary1Color = '#2ac1bc';
+const primary1Color = "#2ac1bc";
 
 const SLIDETIME = 500;
 
@@ -27,7 +27,7 @@ const initTabStatus = (tabInfo) => {
 };
 
 const setContentPosition = (left) => {
-  const $sectionWrapper = document.querySelector('.section-wrapper');
+  const $sectionWrapper = document.querySelector(".section-wrapper");
   $sectionWrapper.style.left = left;
 };
 
@@ -36,11 +36,11 @@ const getContentLeft = ({ number }) => {
 };
 
 const slideContent = (left) => {
-  const $sectionWrapper = document.querySelector('.section-wrapper');
+  const $sectionWrapper = document.querySelector(".section-wrapper");
 
   const currentLeft = $sectionWrapper.style.left
     ? $sectionWrapper.style.left
-    : '0%';
+    : "0%";
 
   $sectionWrapper.animate([{ left: `${currentLeft}` }, { left }], SLIDETIME);
   setContentPosition(left);
@@ -60,7 +60,7 @@ const menuSectionClickHandler = (event) => {
     event.preventDefault();
     return null;
   }
-  window.history.pushState('', '', `./menu?tab=${id}`);
+  window.history.pushState("", "", `./menu.html?tab=${id}`);
   showContent(tabList[id]);
   event.preventDefault();
 };
@@ -75,11 +75,11 @@ const getTabInfo = (tab) => {
 };
 
 const disableSelectedEffect = ($tab) => {
-  $tab.classList.remove('selected');
+  $tab.classList.remove("selected");
 };
 
 const enableSelectedEffect = ($tab) => {
-  $tab.classList.add('selected');
+  $tab.classList.add("selected");
 };
 
 const setBottomBorder = (tabInfo) => {
@@ -95,13 +95,13 @@ window.onload = () => {
   const { tab } = Object.fromEntries(urlSearchParams.entries());
   const tabInfo = getTabInfo(tab);
   if (tabInfo === null) {
-    return (location.href = './menu?tab=productList');
+    return (location.href = "./menu.html?tab=productList");
   }
   initTabStatus(tabInfo);
 
-  const menuSections = document.querySelectorAll('.tab-bar > section');
+  const menuSections = document.querySelectorAll(".tab-bar > section");
 
   menuSections.forEach(($menuSection) => {
-    $menuSection.addEventListener('click', menuSectionClickHandler);
+    $menuSection.addEventListener("click", menuSectionClickHandler);
   });
 };
