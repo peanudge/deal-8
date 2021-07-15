@@ -3,7 +3,7 @@ import TabView from "./views/TabView";
 import Controller from "./Controller";
 
 import ProductListView from "@/common/views/ProductListView";
-import ChatListView from "./views/ChatListView";
+import ChatRoomListView from "./views/ChatRoomListView";
 
 import chevronLeftSVG from "@/public/svg/chevron-left.svg";
 
@@ -66,7 +66,7 @@ export default class MenuPage extends AbstractPage {
           emptyMessage: "관심을 표시한 상품이 없습니다.",
         }
       ),
-      chatListView: new ChatListView(),
+      chatRoomListView: new ChatRoomListView(),
       //TODO: Chat View
     };
 

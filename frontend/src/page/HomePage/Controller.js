@@ -58,8 +58,6 @@ export default class Controller {
     this.isOnCategory = false;
 
     getProducts(categoryId).then((data) => {
-      console.log(this.isOnCategory);
-      console.log(data);
       this.render(data);
     });
   }

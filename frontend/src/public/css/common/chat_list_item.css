@@ -1,4 +1,13 @@
-@import url('./global_color.css');
+@import url("./global_color.css");
+
+.content {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  overflow-y: scroll;
+  height: 100%;
+}
 
 .content--chat-item {
   display: flex;
@@ -94,6 +103,18 @@
   margin-left: 8px;
 }
 
-.content--chat-item--right--right > img {
+.content--chat-item--right--right > .product-img {
   width: 100%;
+}
+
+.empty-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.empty-content--label {
+  text-align: center;
+  color: var(--gray-text-color);
 }

@@ -4,7 +4,12 @@ const tag = "[Controller]";
 export default class Controller {
   constructor(
     store,
-    { tabView, salingProductListView, interestProductListView, chatListView }
+    {
+      tabView,
+      salingProductListView,
+      interestProductListView,
+      chatRoomListView,
+    }
   ) {
     console.log(tag, "constructor");
     this.store = store;
@@ -12,7 +17,7 @@ export default class Controller {
     this.tabView = tabView;
     this.salingProductListView = salingProductListView;
     this.interestProductListView = interestProductListView;
-    this.chatListView = chatListView;
+    this.chatRoomListView = chatRoomListView;
 
     this.subscribeViewEvents();
     this.render();
@@ -45,14 +50,14 @@ export default class Controller {
     if (selectedTab === TabType.SAIL_PRODUCT) {
       this.salingProductListView.show();
       this.interestProductListView.hide();
-      this.chatListView.hide();
+      this.chatRoomListView.hide();
     } else if (selectedTab === TabType.CHAT) {
-      this.chatListView.show();
+      this.chatRoomListView.show();
       this.salingProductListView.hide();
       this.interestProductListView.hide();
     } else if (selectedTab === TabType.INTEREST_PRODUCT) {
       this.interestProductListView.show();
-      this.chatListView.hide();
+      this.chatRoomListView.hide();
       this.salingProductListView.hide();
     } else {
       throw "사용할 수 없는 탭입니다.";

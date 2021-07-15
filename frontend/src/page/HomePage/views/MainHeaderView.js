@@ -8,7 +8,7 @@ import gpsSVG from "@/public/svg/gps-white.svg";
 import profileSVG from "@/public/svg/profile-white.svg";
 import menuSVG from "@/public/svg/menu-white.svg";
 
-const tag = "[MainHeader]";
+const tag = "[MainHeaderView]";
 
 export default class MainHeaderView extends View {
   constructor(element = qs("#main-header"), template = new Template()) {
@@ -74,12 +74,12 @@ class Template {
       <div class="location dropdown-wrapper" id="location">
         <div class="location-icon">${gpsSVG}</div>
         <strong> ${currentLocation} </strong>
-
-        <div class="dropdown" id="location-menu">
-          ${locationElements}
-          <div class="dropdown-item">
-            <a href="/location" data-link>내 동내 설정하기</a>
-          </div>
+        
+      </div>
+      <div class="dropdown" id="location-menu">
+        ${locationElements}
+        <div class="dropdown-item">
+          <a href="/location" data-link>내 동내 설정하기</a>
         </div>
       </div>
     </div>
