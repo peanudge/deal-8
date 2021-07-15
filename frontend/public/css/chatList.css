@@ -1,0 +1,19 @@
+@import url('./common/basic_header.css');
+@import url('./common/chat_list_item.css');
+body {
+  background-color: #fff;
+}
+
+.header {
+  background-color: #fff;
+}
+
+.content {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  flex: 1;
+  overflow-y: scroll;
+  height: 100%;
+}
