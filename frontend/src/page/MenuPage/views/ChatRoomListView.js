@@ -43,7 +43,7 @@ class Template {
       lastChat: { id, message, writer, createAt },
     } = room;
 
-    return `<article class="content--chat-item unread">
+    return `<article class="content--chat-item">
       <div class="content--chat-item--left">
         <strong class="username">${targetUser}</strong>
         <span class="current-message">${message}</span>

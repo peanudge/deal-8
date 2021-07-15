@@ -1,3 +1,8 @@
+import { getChatRoomsAsync } from "@/api/chat";
+import {
+  getMyInterestProductsAsync,
+  getMySalingProductsAsync,
+} from "@/api/product";
 import { TabType } from "./views/TabView";
 
 const tag = "[Controller]";
@@ -21,6 +26,7 @@ export default class Controller {
 
     this.subscribeViewEvents();
     this.render();
+    this.fetchData();
   }
 
   subscribeViewEvents() {
@@ -41,22 +47,43 @@ export default class Controller {
 
   changeTab(tab) {
     this.store.selectedTab = tab;
+    this.fetchData();
     this.render();
   }
 
+  fetchData() {
+    const requestChatRoom = getChatRoomsAsync();
+    const requestInterestProducts = getMyInterestProductsAsync();
+    const requestSalingProducts = getMySalingProductsAsync();
+
+    Promise.all([
+      requestChatRoom,
+      requestInterestProducts,
+      requestSalingProducts,
+    ]).then(([chatRooms, interestProducts, salingProducts]) => {
+      this.store.chatRooms = chatRooms;
+      this.store.interestProducts = interestProducts;
+      this.store.salingProducts = salingProducts;
+      this.render();
+    });
+  }
+
   render() {
-    const selectedTab = this.store.selectedTab;
+    const { selectedTab, chatRooms, salingProducts, interestProducts } =
+      this.store;
+
     this.tabView.show(selectedTab);
+
     if (selectedTab === TabType.SAIL_PRODUCT) {
-      this.salingProductListView.show();
+      this.salingProductListView.show(salingProducts);
       this.interestProductListView.hide();
       this.chatRoomListView.hide();
     } else if (selectedTab === TabType.CHAT) {
-      this.chatRoomListView.show();
+      this.chatRoomListView.show(chatRooms);
       this.salingProductListView.hide();
       this.interestProductListView.hide();
     } else if (selectedTab === TabType.INTEREST_PRODUCT) {
-      this.interestProductListView.show();
+      this.interestProductListView.show(interestProducts);
       this.chatRoomListView.hide();
       this.salingProductListView.hide();
     } else {

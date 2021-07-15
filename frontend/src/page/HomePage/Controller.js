@@ -1,6 +1,6 @@
 const tag = "[HomePage Controller]";
 
-import { getAllProducts, getProducts } from "@/api/product";
+import { getAllProductsAsync, getProducts } from "@/api/product";
 import { getProfileAsync } from "@/api/user";
 
 export default class Controller {
@@ -43,7 +43,7 @@ export default class Controller {
   }
 
   fetchData() {
-    const requestProducts = getAllProducts();
+    const requestProducts = getAllProductsAsync();
     const requestUserProfile = getProfileAsync();
     Promise.all([requestProducts, requestUserProfile]).then(
       ([products, user]) => {
