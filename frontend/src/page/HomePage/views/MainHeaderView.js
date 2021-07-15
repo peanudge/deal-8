@@ -1,6 +1,7 @@
 import View from "@/page/View";
 
 import { qs } from "@/helper/selectHelpers";
+import { delegate } from "@/helper/eventHelpers";
 
 import categorySVG from "@/public/svg/category-white.svg";
 import gpsSVG from "@/public/svg/gps-white.svg";
@@ -14,6 +15,17 @@ export default class MainHeaderView extends View {
     console.log(tag, "constructor");
     super(element);
     this.template = template;
+    this.bindingEvents();
+  }
+
+  bindingEvents() {
+    delegate(this.element, "click", "#category-btn", (e) => {
+      this.showCategoryView();
+    });
+  }
+
+  showCategoryView() {
+    this.emit("@show-category");
   }
 
   show(data = []) {
@@ -26,7 +38,9 @@ class Template {
   getHeader() {
     return `
     <div class="main-header--left" href="/category.html">
-      <div class="category-icon">${categorySVG}</div>  
+      <div id="category-btn" class="category-icon">
+          ${categorySVG} 
+      </div>
     </div>
     <div class="main-header--center">
       <div class="location">
