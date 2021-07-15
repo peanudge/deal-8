@@ -2,6 +2,6 @@
 
 cd ./frontend
 webpack
-cp ./dists/* ../backend/public/
+cp ./dist/* ../backend/public/
 cd ../backend
-npm pm2
+npm run pm2
