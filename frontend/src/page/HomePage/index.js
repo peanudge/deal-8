@@ -1,24 +1,21 @@
-import AbstractPage from "../AbstractPage";
-import Controller from "./Controller";
-import MainHeaderView from "./views/MainHeaderView";
-import ProductListView from "./views/ProductListView";
+import AbstractPage from '../AbstractPage';
+import Controller from './Controller';
+import MainHeaderView from './views/MainHeaderView';
+import ProductListView from './views/ProductListView';
 
-import "@/public/css/main.css";
-import "@/public/css/category.css";
+import '@/public/css/category.css';
+import '@/public/css/common/drop_down.css';
+import '@/public/css/main.css';
 
-import exampleCooler from "@/public/image/example-cooler.svg";
-import interestIcon from "@/public/svg/interest.svg";
-import chatIcon from "@/public/svg/chat.svg";
-import interestSmallIcon from "@/public/svg/interest-small.svg";
-import plusIcon from "@/public/svg/plus.svg";
-import CategoryView from "./views/CategoryView";
+import plusIcon from '@/public/svg/plus.svg';
+import CategoryView from './views/CategoryView';
 
-const tag = "[HomePage]";
+const tag = '[HomePage]';
 
 export default class HomePage extends AbstractPage {
   constructor(params) {
     super(params);
-    this.setTitle("Home");
+    this.setTitle('Home');
   }
 
   async render() {
@@ -26,7 +23,7 @@ export default class HomePage extends AbstractPage {
     <div id="main-header" class="main-header"></div>
     <div id="product-list-container" class="content"></div>
     <article class="new-product-button">
-      <a href="./createPost.html">
+      <a href="/createPost">
        <div class="plus-icon">${plusIcon}</div>
       </a>
     </article>
