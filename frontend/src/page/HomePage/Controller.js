@@ -1,8 +1,13 @@
-const tag = "[HomePage Controller]";
+const tag = '[HomePage Controller]';
+
+import { getProduct } from '@/api/product';
+
 export default class Controller {
-  constructor({ mainHeaderView }) {
+  constructor({ mainHeaderView, productListView }) {
     console.log(tag);
     this.mainHeaderView = mainHeaderView;
+    this.productListView = productListView;
+
     this.subscribeViewEvents();
     this.render();
   }
@@ -12,6 +17,7 @@ export default class Controller {
   }
 
   render() {
+    getProduct().then((data) => this.productListView.show(data));
     this.mainHeaderView.show();
   }
 }
