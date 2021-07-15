@@ -110,6 +110,16 @@ export const getProducts = (categoryId) => {
   });
 };
 
-export const getAllProducts = () => {
+export const getAllProductsAsync = () => {
+  return getProducts();
+};
+
+export const getMySalingProductsAsync = () => {
+  // GET /account/me/product
+  return getProducts();
+};
+
+export const getMyInterestProductsAsync = () => {
+  // GET /account/me/interest
   return getProducts();
 };

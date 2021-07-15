@@ -38,7 +38,6 @@ export default class CategoryView extends View {
   }
 
   handleCategoryItemClick(e) {
-    console.log(e);
     const id = e.target.dataset.id;
     this.emit("@search", { value: id });
   }

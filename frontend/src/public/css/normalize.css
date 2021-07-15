@@ -149,3 +149,7 @@ table {
 svg {
   pointer-events: none;
 }
+
+a[data-link] > * {
+  pointer-events: none;
+}

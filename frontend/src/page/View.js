@@ -1,11 +1,7 @@
 import { on, emit } from "@/helper/eventHelpers";
 
-const tag = "[View]";
-
 export default class View {
   constructor(element) {
-    console.log(tag, "constructor");
-
     if (!element) throw "no element";
 
     this.element = element;

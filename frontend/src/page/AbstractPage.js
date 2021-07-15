@@ -1,7 +1,5 @@
-const tag = "[AbstractPage]";
 class AbstractPage {
   constructor(params) {
-    console.log(tag, "constructor");
     this.params = params;
   }
 
