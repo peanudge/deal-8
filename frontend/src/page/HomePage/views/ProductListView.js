@@ -1,22 +1,41 @@
-import View from '@/page/View';
+import View from "@/page/View";
 
-import { qs } from '@/helper/selectHelpers';
+import { qs } from "@/helper/selectHelpers";
+import { delegate } from "@/helper/eventHelpers";
 
-import exampleCooler from '@/public/image/example-cooler.svg';
-import interestIcon from '@/public/svg/interest.svg';
-import chatIcon from '@/public/svg/chat.svg';
-import interestSmallIcon from '@/public/svg/interest-small.svg';
+import exampleCooler from "@/public/image/example-cooler.svg";
+import interestIcon from "@/public/svg/interest.svg";
+import chatIcon from "@/public/svg/chat.svg";
+import interestSmallIcon from "@/public/svg/interest-small.svg";
 
-const tag = '[ProductList]';
+const tag = "[ProductList]";
 
 export default class ProductListView extends View {
   constructor(
-    element = qs('#product-list-container'),
-    template = new Template(),
+    element = qs("#product-list-container"),
+    template = new Template()
   ) {
-    console.log(tag, 'constructor');
+    console.log(tag, "constructor");
     super(element);
     this.template = template;
+    this.bindingEvents();
+  }
+
+  bindingEvents() {
+    delegate(this.element, "click", "#interest-btn", (e) =>
+      this.handleClickInterestEvent(e)
+    );
+  }
+
+  handleClickInterestEvent(event) {
+    const target = event.target;
+    const id = target.dataset.id;
+
+    const currentInterestStatus = Array.from(target.classList).includes("on");
+
+    this.emit("@interest", {
+      value: { id, isInterested: !currentInterestStatus },
+    });
   }
 
   show(data = []) {
@@ -28,7 +47,7 @@ export default class ProductListView extends View {
 class Template {
   getProductItems(products) {
     const result = products.map((product) => this.getProductItem(product));
-    return result.join('');
+    return result.join("");
   }
   getProductItem(product) {
     const {
@@ -40,6 +59,7 @@ class Template {
       thumbnail,
       countOfChat,
       countOfInterest,
+      isInterested,
     } = product;
 
     return `
@@ -52,9 +72,11 @@ class Template {
           <div class="content--product--info--top">
             <div>
               <h1>${title}</h1>
-              <div class="content--product--info--top--interest" data-id=${id}>
+              <button id="interest-btn" class="content--product--info--top--interest ${
+                isInterested ? "on" : "off"
+              }" data-id=${id}>
                 ${interestIcon}
-              </div>
+              </button>
             </div>
             <div>
               <span class="location">${location}</span>

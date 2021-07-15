@@ -58,7 +58,7 @@
 }
 
 .content--product--info--top .location::after {
-  content: '∙';
+  content: "∙";
   font-size: 14px;
   font-weight: 500;
   margin: 0 4px;
