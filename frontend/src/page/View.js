@@ -16,6 +16,7 @@ export default class View {
 
   hide() {
     this.element.style.display = "none";
+
     return this;
   }
 

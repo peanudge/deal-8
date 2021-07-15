@@ -4,12 +4,14 @@ import MainHeaderView from "./views/MainHeaderView";
 import ProductListView from "./views/ProductListView";
 
 import "@/public/css/main.css";
+import "@/public/css/category.css";
 
 import exampleCooler from "@/public/image/example-cooler.svg";
 import interestIcon from "@/public/svg/interest.svg";
 import chatIcon from "@/public/svg/chat.svg";
 import interestSmallIcon from "@/public/svg/interest-small.svg";
 import plusIcon from "@/public/svg/plus.svg";
+import CategoryView from "./views/CategoryView";
 
 const tag = "[HomePage]";
 
@@ -25,9 +27,11 @@ export default class HomePage extends AbstractPage {
     <div id="product-list-container" class="content"></div>
     <article class="new-product-button">
       <a href="./createPost.html">
-        <div class="plus-icon">${plusIcon}</div>
+       <div class="plus-icon">${plusIcon}</div>
       </a>
     </article>
+
+    <div id="category" class="category-container"></div>
     `;
   }
 
@@ -35,6 +39,7 @@ export default class HomePage extends AbstractPage {
     const views = {
       mainHeaderView: new MainHeaderView(),
       productListView: new ProductListView(),
+      categoryView: new CategoryView(),
     };
     new Controller(views);
   }

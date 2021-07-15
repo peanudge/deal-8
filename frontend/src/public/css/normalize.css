@@ -125,7 +125,6 @@ body > #app {
   font-family: sans-serif;
   height: 568px;
   width: 320px;
-  background-color: #c0c0c0;
   overflow-y: scroll;
 }
 ol,
@@ -146,4 +145,10 @@ q:after {
 table {
   border-collapse: collapse;
   border-spacing: 0;
+}
+
+/* Remove SVG Event */
+
+svg {
+  pointer-events: none;
 }

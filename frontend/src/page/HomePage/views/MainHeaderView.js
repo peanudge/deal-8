@@ -1,19 +1,31 @@
-import View from '@/page/View';
+import View from "@/page/View";
 
-import { qs } from '@/helper/selectHelpers';
+import { qs } from "@/helper/selectHelpers";
+import { delegate } from "@/helper/eventHelpers";
 
-import categorySVG from '@/public/svg/category-white.svg';
-import gpsSVG from '@/public/svg/gps-white.svg';
-import profileSVG from '@/public/svg/profile-white.svg';
-import menuSVG from '@/public/svg/menu-white.svg';
+import categorySVG from "@/public/svg/category-white.svg";
+import gpsSVG from "@/public/svg/gps-white.svg";
+import profileSVG from "@/public/svg/profile-white.svg";
+import menuSVG from "@/public/svg/menu-white.svg";
 
-const tag = '[MainHeader]';
+const tag = "[MainHeader]";
 
 export default class MainHeaderView extends View {
-  constructor(element = qs('#main-header'), template = new Template()) {
-    console.log(tag, 'constructor');
+  constructor(element = qs("#main-header"), template = new Template()) {
+    console.log(tag, "constructor");
     super(element);
     this.template = template;
+    this.bindingEvents();
+  }
+
+  bindingEvents() {
+    delegate(this.element, "click", "#category-btn", (e) => {
+      this.showCategoryView();
+    });
+  }
+
+  showCategoryView() {
+    this.emit("@show-category");
   }
 
   show(data = []) {
@@ -26,11 +38,9 @@ class Template {
   getHeader() {
     return `
     <div class="main-header--left" href="/category.html">
-      <a href="/category">
-        <div class="category-icon">
+      <div id="category-btn" class="category-icon">
           ${categorySVG} 
-        </div>  
-      </a>
+      </div>
     </div>
     <div class="main-header--center">
       <div class="location">
