@@ -1,7 +1,7 @@
 import View from '@/page/View';
+import { delegate } from '@/helper/eventHelpers';
 
 import { qs } from '@/helper/selectHelpers';
-import { delegate } from '@/helper/eventHelpers';
 
 import categorySVG from '@/public/svg/category-white.svg';
 import gpsSVG from '@/public/svg/gps-white.svg';
@@ -29,7 +29,7 @@ export default class MainHeaderView extends View {
 
   handleLocationClick() {
     const dropdown = qs('.dropdown');
-    dropdown.style.display = 'block';
+    this.emit('@toggle-location-dropbar', dropdown);
   }
 
   showCategoryView() {
@@ -43,7 +43,7 @@ export default class MainHeaderView extends View {
 }
 
 class Template {
-  getHeader() {
+  getHeader({ locations }) {
     return `
     <div class="main-header--left" href="/category.html">
       <div id="category-btn" class="category-icon">
@@ -54,7 +54,6 @@ class Template {
       <div class="location dropdown-wrapper" id="location">
         <div class="location-icon">${gpsSVG}</div>
         <strong> 역삼동 </strong>
-        
         <div class="dropdown" id="location-menu">
           <div class="dropdown-item selected">역삼동</div>
           <div class="dropdown-item">내 동내 설정하기</div>

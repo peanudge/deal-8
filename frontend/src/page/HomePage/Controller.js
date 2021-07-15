@@ -1,6 +1,7 @@
 const tag = '[HomePage Controller]';
 
 import { getAllProducts, getProducts } from '@/api/product';
+import { getProfileAsync } from '@/api/user';
 import { navigateTo } from '@/router';
 
 export default class Controller {
@@ -40,12 +41,23 @@ export default class Controller {
       const categoryId = e.detail.value;
       this.searchCategory(categoryId);
     });
+
+    this.mainHeaderView.on('@toggle-location-dropbar', (e) => {
+      const dropdown = e.detail;
+      const currentState = dropdown.style.display;
+      if (currentState === 'none' || !currentState) {
+        dropdown.style.display = 'block';
+      } else {
+        dropdown.style.display = 'none';
+      }
+    });
   }
 
   fetchData() {
     getAllProducts().then((data) => {
       this.render(data);
     });
+    // getProfileAsync().then((data) => {});
   }
 
   searchCategory(categoryId) {

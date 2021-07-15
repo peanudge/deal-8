@@ -124,7 +124,7 @@ body {
 .dropdown {
   display: none;
   position: absolute;
-  top: 10%;
+  top: 8%;
   border-radius: 8px;
   background-color: #f6f6f6;
   left: 50%;
