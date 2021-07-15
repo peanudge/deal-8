@@ -41,9 +41,18 @@ body {
   justify-content: center;
 }
 
-.svg-container {
+.category-icon > svg {
   width: 20px;
   height: 20px;
+}
+.location-icon > svg {
+  width: 15px;
+  margin-right: 10px;
+}
+
+.profile-icon > svg,
+.menu-icon > svg {
+  width: 20px;
 }
 
 .main-header .location {
@@ -51,11 +60,6 @@ body {
   align-items: center;
   color: white;
   justify-content: center;
-}
-
-.location--icon {
-  width: 15px;
-  margin-right: 10px;
 }
 
 .main-header--right {

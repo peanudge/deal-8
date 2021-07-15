@@ -2,6 +2,8 @@ import AbstractPage from "../AbstractPage";
 import Controller from "./Controller";
 import MainHeaderView from "./views/MainHeaderView";
 
+import "@/public/css/main.css";
+
 const tag = "[HomePage]";
 
 export default class HomePage extends AbstractPage {
@@ -13,7 +15,6 @@ export default class HomePage extends AbstractPage {
   async render() {
     return `
     <div id="main-header" class="main-header"></div>
-    <div class="content"></div>
     `;
   }
 

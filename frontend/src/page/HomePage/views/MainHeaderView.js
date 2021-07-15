@@ -14,11 +14,6 @@ export default class MainHeaderView extends View {
     console.log(tag, "constructor");
     super(element);
     this.template = template;
-    this.bindEvents();
-  }
-
-  bindEvents() {
-    // TODO: click event
   }
 
   show(data = []) {
@@ -31,20 +26,20 @@ class Template {
   getHeader() {
     return `
     <div class="main-header--left" href="/category.html">
-      <div class="svg-container">${categorySVG}</div>  
+      <div class="category-icon">${categorySVG}</div>  
     </div>
     <div class="main-header--center">
       <div class="location">
-        <div class="svg-container location--icon">${gpsSVG}</div>
+        <div class="location-icon">${gpsSVG}</div>
         <strong> 역삼동 </strong>
       </div>
     </div>
     <div class="main-header--right">
-      <a class="svg-container" href="/login" data-link>
-        ${profileSVG}
+      <a href="/login" data-link>
+        <div class="profile-icon">${profileSVG}</div>  
       </a>
-      <a class="svg-container" href="/menu" data-link>
-      ${menuSVG}
+      <a href="/menu" data-link>
+        <div class="menu-icon">${menuSVG}</div>  
       </a>
     </div>
         `;
