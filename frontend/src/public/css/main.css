@@ -1,10 +1,6 @@
-:root {
-  --primary-color: #2ac1bc;
-  --primary-color-light: #a0e1e0;
-  --primary-color-dark: #219a95;
-  --gray-text-color: #888;
-  --black-text-color: #222222;
-}
+@import url("./common/basic_header.css");
+@import url("./common/global_color.css");
+@import url("./common/product_list_item.css");
 
 body {
   background-color: #fff;
@@ -17,19 +13,11 @@ body {
   align-items: center;
   width: 100%;
   max-width: inherit;
-  background-color: #2ac1bc;
+  background-color: var(--primary1-color);
   height: 56px;
   padding: 0 20px;
   border-bottom-left-radius: 16px;
   border-bottom-right-radius: 16px;
-}
-
-.main-header > * {
-  height: 100%;
-}
-
-.main-header i {
-  font-size: 1rem;
 }
 
 .main-header--left {
@@ -45,18 +33,15 @@ body {
   justify-content: center;
 }
 
-.category-icon > svg {
-  width: 20px;
-  height: 20px;
-}
-.location-icon > svg {
-  width: 15px;
-  margin-right: 10px;
-}
-
+.category-icon > svg,
+.location-icon > svg,
 .profile-icon > svg,
 .menu-icon > svg {
   width: 20px;
+}
+
+.location-icon {
+  margin-right: 10px;
 }
 
 .main-header .location {
@@ -86,26 +71,8 @@ body {
   margin-right: 0;
 }
 
-.content {
-  background-color: #fff;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  overflow: scroll;
-}
-
-.chat-icon > svg {
-  width: 15px;
-  height: 15px;
-}
-.interest-small-icon > svg {
-  width: 15px;
-  height: 15px;
-}
-
-.plus-icon {
-  width: 14px;
-  height: 14px;
+.product-container {
+  height: calc(100% - 56px);
 }
 
 .new-product-button {

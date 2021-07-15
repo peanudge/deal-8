@@ -1,8 +1,6 @@
-const tag = '[HomePage Controller]';
+const tag = "[HomePage Controller]";
 
-import { getAllProducts, getProducts } from '@/api/product';
-import { getProfileAsync } from '@/api/user';
-import { navigateTo } from '@/router';
+import { getAllProducts, getProducts } from "@/api/product";
 
 export default class Controller {
   constructor({ mainHeaderView, productListView, categoryView }) {
@@ -19,36 +17,35 @@ export default class Controller {
   }
 
   subscribeViewEvents() {
-    this.productListView.on('@interest', (e) => {
+    this.productListView.on("@interest", (e) => {
       const { id, isInterested } = e.detail.value;
-      if (isInterested) this.addInterest(id);
-      else this.removeInterest(id);
+      this.changeInterest(id, isInterested);
     });
 
-    this.categoryView.on('@show-main', (e) => {
+    this.categoryView.on("@show-main", (e) => {
       this.isOnCategory = false;
       // TODO: Cache previous
       this.fetchData();
       this.render();
     });
 
-    this.mainHeaderView.on('@show-category', (e) => {
+    this.mainHeaderView.on("@show-category", (e) => {
       this.isOnCategory = true;
       this.render();
     });
 
-    this.categoryView.on('@search', (e) => {
+    this.categoryView.on("@search", (e) => {
       const categoryId = e.detail.value;
       this.searchCategory(categoryId);
     });
 
-    this.mainHeaderView.on('@toggle-location-dropbar', (e) => {
+    this.mainHeaderView.on("@toggle-location-dropbar", (e) => {
       const dropdown = e.detail;
       const currentState = dropdown.style.display;
-      if (currentState === 'none' || !currentState) {
-        dropdown.style.display = 'block';
+      if (currentState === "none" || !currentState) {
+        dropdown.style.display = "block";
       } else {
-        dropdown.style.display = 'none';
+        dropdown.style.display = "none";
       }
     });
   }
@@ -57,7 +54,6 @@ export default class Controller {
     getAllProducts().then((data) => {
       this.render(data);
     });
-    // getProfileAsync().then((data) => {});
   }
 
   searchCategory(categoryId) {
@@ -70,14 +66,12 @@ export default class Controller {
     });
   }
 
-  addInterest(productId) {
-    console.log('Interest ON ' + productId);
-    //TODO: api call
-  }
-
-  removeInterest(productId) {
-    console.log('Interest OFF ' + productId);
-    //TODO: api call
+  changeInterest(productId, isInterested) {
+    if (isInterested) {
+      console.log("Interest ON " + productId);
+    } else {
+      console.log("Interest OFF " + productId);
+    }
   }
 
   render(data) {
