@@ -65,7 +65,7 @@ class Template {
       locationElements = this.getLocationElements(locations);
     }
     return `
-    <div class="main-header--left" href="/category.html">
+    <div class="main-header--left">
       <div id="category-btn" class="category-icon">
           ${categorySVG} 
       </div>
