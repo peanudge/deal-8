@@ -1,31 +1,39 @@
-import View from "@/page/View";
+import View from '@/page/View';
 
-import { qs } from "@/helper/selectHelpers";
-import { delegate } from "@/helper/eventHelpers";
+import { qs } from '@/helper/selectHelpers';
+import { delegate } from '@/helper/eventHelpers';
 
-import categorySVG from "@/public/svg/category-white.svg";
-import gpsSVG from "@/public/svg/gps-white.svg";
-import profileSVG from "@/public/svg/profile-white.svg";
-import menuSVG from "@/public/svg/menu-white.svg";
+import categorySVG from '@/public/svg/category-white.svg';
+import gpsSVG from '@/public/svg/gps-white.svg';
+import profileSVG from '@/public/svg/profile-white.svg';
+import menuSVG from '@/public/svg/menu-white.svg';
 
-const tag = "[MainHeader]";
+const tag = '[MainHeader]';
 
 export default class MainHeaderView extends View {
-  constructor(element = qs("#main-header"), template = new Template()) {
-    console.log(tag, "constructor");
+  constructor(element = qs('#main-header'), template = new Template()) {
+    console.log(tag, 'constructor');
     super(element);
     this.template = template;
     this.bindingEvents();
   }
 
   bindingEvents() {
-    delegate(this.element, "click", "#category-btn", (e) => {
+    delegate(this.element, 'click', '#category-btn', (e) => {
       this.showCategoryView();
+    });
+    delegate(this.element, 'click', '.location', (e) => {
+      this.handleLocationClick();
     });
   }
 
+  handleLocationClick() {
+    const dropdown = qs('.dropdown');
+    dropdown.style.display = 'block';
+  }
+
   showCategoryView() {
-    this.emit("@show-category");
+    this.emit('@show-category');
   }
 
   show(data = []) {
@@ -43,10 +51,16 @@ class Template {
       </div>
     </div>
     <div class="main-header--center">
-      <div class="location">
+      <div class="location dropdown-wrapper" id="location">
         <div class="location-icon">${gpsSVG}</div>
         <strong> 역삼동 </strong>
+        
+        <div class="dropdown" id="location-menu">
+          <div class="dropdown-item selected">역삼동</div>
+          <div class="dropdown-item">내 동내 설정하기</div>
+        </div>
       </div>
+          
     </div>
     <div class="main-header--right">
       <a href="/login" data-link>

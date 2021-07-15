@@ -37,14 +37,22 @@
 
 .content--product--info--top--interest,
 .content--product--info--top--menu {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  padding: 0px;
   width: 21px;
   height: 18px;
 }
+.content--product--info--top--interest.on > svg {
+  fill: red;
+  stroke: none;
+}
 
-.content--product--info--top--interest > img,
-.content--product--info--top--menu > img {
+.content--product--info--top--interest > svg {
   width: 100%;
   height: 100%;
+  pointer-events: none;
 }
 
 .content--product--info--top > div:nth-child(2) > div {
@@ -74,11 +82,6 @@
   margin-top: 4px;
 }
 
-.content--product--info--top h1 > a {
-  color: var(--black-text-color);
-  text-decoration: none;
-}
-
 .content--product--info--bottom {
   display: flex;
   justify-content: flex-end;
@@ -96,4 +99,9 @@
 }
 .content--product--info--bottom > div:last-child {
   margin-right: 0;
+}
+
+.content--product--thumbnail {
+  width: 106px;
+  height: 106px;
 }

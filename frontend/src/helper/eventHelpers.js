@@ -1,4 +1,4 @@
-import { qsAll } from "./selectHelpers";
+import { qsAll } from './selectHelpers';
 
 export function on(target, eventName, handler) {
   target.addEventListener(eventName, handler);
