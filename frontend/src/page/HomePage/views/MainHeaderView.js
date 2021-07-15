@@ -43,7 +43,21 @@ export default class MainHeaderView extends View {
 }
 
 class Template {
-  getHeader({ locations }) {
+  getLocationElements(locations) {
+    const results = locations.map(
+      (location) => `<div class="dropdown-item">${location}</div>`,
+    );
+    return results.join('');
+  }
+  getHeader(locations) {
+    let currentLocation;
+    let locationElements = '';
+    if (!locations || location?.length === 0) {
+      currentLocation = '';
+    } else {
+      currentLocation = locations[0];
+      locationElements = this.getLocationElements(locations);
+    }
     return `
     <div class="main-header--left" href="/category.html">
       <div id="category-btn" class="category-icon">
@@ -53,10 +67,10 @@ class Template {
     <div class="main-header--center">
       <div class="location dropdown-wrapper" id="location">
         <div class="location-icon">${gpsSVG}</div>
-        <strong> 역삼동 </strong>
+        <strong> ${currentLocation} </strong>
         <div class="dropdown" id="location-menu">
-          <div class="dropdown-item selected">역삼동</div>
-          <div class="dropdown-item">내 동내 설정하기</div>
+          ${locationElements}
+          <div class="dropdown-item"><a href="location/">내 동내 설정하기</a></div>
         </div>
       </div>
           
