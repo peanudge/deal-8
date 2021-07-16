@@ -14,7 +14,7 @@ export default class Controller {
       productImageListView,
       productDetailView,
       productDetailFooterView,
-    }
+    },
   ) {
     this.store = store;
     this.productId = productId;
@@ -54,14 +54,14 @@ export default class Controller {
         this.store.user = user;
         this.store.productDetail = productDetail;
         this.render();
-      }
+      },
     );
   }
 
   render() {
     const productDetail = this.store.productDetail;
     const user = this.store.user;
-    this.productDetailHeaderView.show();
+    this.productDetailHeaderView.show(user, productDetail);
     this.productImageListView.show(productDetail.images);
     this.productDetailView.show(user, productDetail);
     this.productDetailFooterView.show(user, productDetail);
