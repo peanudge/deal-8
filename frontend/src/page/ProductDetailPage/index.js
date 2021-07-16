@@ -32,14 +32,9 @@ export default class ProductDetailPage extends AbstractPage {
     `;
   }
 
-  getId() {
-    return this.params.productId;
-  }
-
   async after_render() {
-    const store = new Store();
+    const store = new Store({ productId: this.params.productId });
     const views = {
-      productId: this.getId(),
       productDetailHeaderView: new ProductDetailHeaderView(),
       productImageListView: new ProductImageListView(),
       productDetailView: new ProductDetailView(),

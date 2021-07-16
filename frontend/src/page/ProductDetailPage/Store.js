@@ -1,6 +1,7 @@
 export default class Store {
-  constructor() {
+  constructor({ productId }) {
     this.user = {};
+    this.productId = productId;
     this.productDetail = {};
   }
 }
