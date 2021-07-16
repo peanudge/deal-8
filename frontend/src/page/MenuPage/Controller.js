@@ -76,16 +76,10 @@ export default class Controller {
 
     if (selectedTab === TabType.SAIL_PRODUCT) {
       this.salingProductListView.show(salingProducts);
-      this.interestProductListView.hide();
-      this.chatRoomListView.hide();
     } else if (selectedTab === TabType.CHAT) {
       this.chatRoomListView.show(chatRooms);
-      this.salingProductListView.hide();
-      this.interestProductListView.hide();
     } else if (selectedTab === TabType.INTEREST_PRODUCT) {
       this.interestProductListView.show(interestProducts);
-      this.chatRoomListView.hide();
-      this.salingProductListView.hide();
     } else {
       throw "사용할 수 없는 탭입니다.";
     }

@@ -47,18 +47,20 @@ a {
   justify-content: flex-start;
   align-items: flex-start;
   flex-direction: column;
+  width: 100%;
   height: calc(100% - 106px);
+  position: relative;
 }
 
 .section-wrapper {
   display: flex;
-  width: 100%;
+  width: 300%;
   height: 100%;
-  overflow: hidden;
-  position: relative;
+  position: absolute;
+  transition: left 0.5s 0s ease;
 }
 
 .section-wrapper > section {
-  width: 100%;
+  width: calc(100% / 3);
   height: 100%;
 }
