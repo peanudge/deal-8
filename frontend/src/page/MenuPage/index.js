@@ -21,7 +21,7 @@ export default class MenuPage extends AbstractPage {
   }
 
   async render() {
-    return `
+    return /*html*/ `
     <header class="header">
         <a class="header--left" href="/" data-link>
           <div class="back-icon">${chevronLeftSVG}</div>
