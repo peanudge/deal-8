@@ -17,10 +17,17 @@ const TabLabel = {
   [TabType.INTEREST_PRODUCT]: "관심목록",
 };
 
+const TabSlidingIndex = {
+  [TabType.SAIL_PRODUCT]: 0,
+  [TabType.CHAT]: 1,
+  [TabType.INTEREST_PRODUCT]: 2,
+};
+
 export default class TabView extends View {
   constructor(element = qs("#tab-bar")) {
     console.log(tag, "constructor");
     super(element);
+    this.slideContainer = qs(".section-wrapper");
     this.template = new Template();
     this.bindEvents();
   }
@@ -35,8 +42,15 @@ export default class TabView extends View {
   }
 
   show(currentTabType = TabType.SAIL_PRODUCT) {
+    const slidingIndex = TabSlidingIndex[currentTabType];
+    this.slideTab(slidingIndex);
     this.element.innerHTML = this.template.getTabList(currentTabType);
     super.show();
+  }
+
+  slideTab(index) {
+    const left = `-${index * 100}%`;
+    this.slideContainer.style.left = left;
   }
 }
 
