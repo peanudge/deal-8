@@ -1,9 +1,9 @@
-import { navigateTo } from '@/router';
+import { navigateTo } from "@/router";
 
-import { getProductDetail } from '@/api/product';
-import { getProfileAsync } from '@/api/user';
+import { getProductDetail } from "@/api/product";
+import { getProfileAsync } from "@/api/user";
 
-const tag = '[ProductDetail Controller]';
+const tag = "[ProductDetail Controller]";
 
 export default class Controller {
   constructor(
@@ -14,7 +14,7 @@ export default class Controller {
       productImageListView,
       productDetailView,
       productDetailFooterView,
-    },
+    }
   ) {
     this.store = store;
     this.productId = productId;
@@ -28,7 +28,7 @@ export default class Controller {
   }
 
   subscribeViewEvents() {
-    this.productDetailFooterView.on('@interest', (e) => {
+    this.productDetailFooterView.on("@interest", (e) => {
       const { id, isInterested } = e.detail.value;
       this.changeInterest(id, isInterested);
     });
@@ -36,26 +36,25 @@ export default class Controller {
 
   changeInterest(productId, isInterested) {
     if (isInterested) {
-      console.log('Interest ON ' + productId);
+      console.log("Interest ON " + productId);
     } else {
-      console.log('Interest OFF ' + productId);
+      console.log("Interest OFF " + productId);
     }
   }
 
   init() {
     if (this.productId === undefined) {
-      return 'unknown product';
+      return "unknown product";
       // TODO alert and redirect to main
     }
     const getUserPromise = getProfileAsync();
     const getProductPromise = getProductDetail({ id: this.productId });
     Promise.all([getUserPromise, getProductPromise]).then(
       ([user, productDetail]) => {
-        console.log(this.store);
         this.store.user = user;
         this.store.productDetail = productDetail;
         this.render();
-      },
+      }
     );
   }
 
