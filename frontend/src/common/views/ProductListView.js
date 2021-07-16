@@ -1,28 +1,28 @@
-import View from '@/page/View';
+import View from "@/page/View";
 
-import { qs } from '@/helper/selectHelpers';
-import { delegate } from '@/helper/eventHelpers';
+import { qs } from "@/helper/selectHelpers";
+import { delegate } from "@/helper/eventHelpers";
 
-import exampleCooler from '@/public/image/example-cooler.svg';
-import interestSVG from '@/public/svg/interest.svg';
-import moreVerticalSVG from '@/public/svg/more-vertical.svg';
-import chatSVG from '@/public/svg/chat.svg';
-import interestSmallSVG from '@/public/svg/interest-small.svg';
+import exampleCooler from "@/public/image/example-cooler.svg";
+import interestSVG from "@/public/svg/interest.svg";
+import moreVerticalSVG from "@/public/svg/more-vertical.svg";
+import chatSVG from "@/public/svg/chat.svg";
+import interestSmallSVG from "@/public/svg/interest-small.svg";
 
-const tag = '[ProductList]';
+const tag = "[ProductList]";
 
 export default class ProductListView extends View {
   constructor(
-    element = qs('#product-container'),
+    element = qs("#product-container"),
     option = {
       showInterestBtn: true,
       showSettingBtn: false,
       showChatMark: true,
       showInterestMark: true,
-      emptyMessage: '상품이 존재하지 않습니다.',
-    },
+      emptyMessage: "상품이 존재하지 않습니다.",
+    }
   ) {
-    console.log(tag, 'constructor');
+    console.log(tag, "constructor");
     super(element);
     this.option = option;
     this.template = new Template();
@@ -30,16 +30,16 @@ export default class ProductListView extends View {
   }
 
   bindingEvents() {
-    delegate(this.element, 'click', '#interest-btn', (e) =>
-      this.handleClickInterestEvent(e),
+    delegate(this.element, "click", "#interest-btn", (e) =>
+      this.handleClickInterestEvent(e)
     );
   }
 
   handleClickInterestEvent(event) {
     const target = event.target;
     const id = target.dataset.id;
-    const currentInterestStatus = Array.from(target.classList).includes('on');
-    this.emit('@interest', {
+    const currentInterestStatus = Array.from(target.classList).includes("on");
+    this.emit("@interest", {
       value: { id, isInterested: !currentInterestStatus },
     });
   }
@@ -49,7 +49,7 @@ export default class ProductListView extends View {
       this.element.innerHTML = this.template.getProductItems(data, this.option);
     } else {
       this.element.innerHTML = this.template.getEmptyLabel(
-        this.option.emptyMessage,
+        this.option.emptyMessage
       );
     }
     super.show();
@@ -62,7 +62,7 @@ class Template {
       <div class="content">
         ${products
           .map((product) => this.getProductItem(product, option))
-          .join('')}
+          .join("")}
       </div> 
     `;
   }
@@ -80,11 +80,9 @@ class Template {
       isInterested,
     } = product;
 
-    return `
+    return /*html*/ `
     <article class="content--product" data-id=${id}>
-          <div class="content--product--thumbnail">
-            ${exampleCooler}
-          </div>
+          <img class="content--product--thumbnail" src="${thumbnail}" />
           <div class="content--product--info">
             <div class="content--product--info--top">
               <div>
@@ -92,9 +90,9 @@ class Template {
                 ${
                   option.showInterestBtn
                     ? this._getInterestBtn(isInterested, id)
-                    : ''
+                    : ""
                 }
-                ${option.showSettingBtn ? this._getSettingBtn() : ''}
+                ${option.showSettingBtn ? this._getSettingBtn() : ""}
               </div>
               <div>
                 <span class="location">${location}</span>
@@ -108,12 +106,12 @@ class Template {
               ${
                 option.showChatMark && countOfChat
                   ? this._getChatMark(countOfChat)
-                  : ''
+                  : ""
               }
               ${
                 option.showInterestMark && countOfInterest >= 0
                   ? this._getInterestMark(countOfInterest)
-                  : ''
+                  : ""
               }
             </div>
           </div>
@@ -147,7 +145,7 @@ class Template {
 
   _getInterestBtn(isInterested, id) {
     return `<button id="interest-btn" class="content--product--info--top--interest ${
-      isInterested ? 'on' : 'off'
+      isInterested ? "on" : "off"
     }" data-id=${id}>
       ${interestSVG}
     </button>`;

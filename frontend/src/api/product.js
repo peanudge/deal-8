@@ -7,8 +7,10 @@ const mockProductData = [
     content: "팝니다. 싸게",
     cost: 100000, // 원
     location: "상암동",
-    thumbnail: "/static/image/1233422",
-    image: "/static/image/1233422",
+    thumbnail:
+      "http://img.danawa.com/prod_img/500000/281/013/img/4013281_1.jpg?shrink=500:500&_v=20210129094708",
+    image:
+      "http://img.danawa.com/prod_img/500000/281/013/img/4013281_1.jpg?shrink=500:500&_v=20210129094708",
     createAt: new Date(), // db datetime type
     updateAt: new Date(),
     deleteAt: new Date(),
@@ -25,8 +27,10 @@ const mockProductData = [
     content: "팝니다. 싸게",
     cost: 1000, // 원
     location: "상암동",
-    thumbnail: "/static/image/1233422",
-    image: "/static/image/1233422",
+    thumbnail:
+      "http://img.danawa.com/prod_img/500000/281/013/img/4013281_1.jpg?shrink=500:500&_v=20210129094708",
+    image:
+      "http://img.danawa.com/prod_img/500000/281/013/img/4013281_1.jpg?shrink=500:500&_v=20210129094708",
     createAt: new Date(), // db datetime type
     updateAt: new Date(),
     deleteAt: new Date(),
@@ -43,8 +47,10 @@ const mockProductData = [
     content: "팝니다. 싸게",
     cost: 1000, // 원
     location: "상암동",
-    thumbnail: "/static/image/1233422",
-    image: "/static/image/1233422",
+    thumbnail:
+      "http://img.danawa.com/prod_img/500000/281/013/img/4013281_1.jpg?shrink=500:500&_v=20210129094708",
+    image:
+      "http://img.danawa.com/prod_img/500000/281/013/img/4013281_1.jpg?shrink=500:500&_v=20210129094708",
     createAt: new Date(), // db datetime type
     updateAt: new Date(),
     deleteAt: new Date(),
@@ -61,8 +67,10 @@ const mockProductData = [
     content: "팝니다. 싸게",
     cost: 1000, // 원
     location: "상암동",
-    thumbnail: "/static/image/1233422",
-    image: "/static/image/1233422",
+    thumbnail:
+      "http://img.danawa.com/prod_img/500000/281/013/img/4013281_1.jpg?shrink=500:500&_v=20210129094708",
+    image:
+      "http://img.danawa.com/prod_img/500000/281/013/img/4013281_1.jpg?shrink=500:500&_v=20210129094708",
     createAt: new Date(), // db datetime type
     updateAt: new Date(),
     deleteAt: new Date(),
@@ -79,8 +87,10 @@ const mockProductData = [
     content: "팝니다. 싸게",
     cost: 1000, // 원
     location: "상암동",
-    thumbnail: "/static/image/1233422",
-    image: "/static/image/1233422",
+    thumbnail:
+      "http://img.danawa.com/prod_img/500000/281/013/img/4013281_1.jpg?shrink=500:500&_v=20210129094708",
+    image:
+      "http://img.danawa.com/prod_img/500000/281/013/img/4013281_1.jpg?shrink=500:500&_v=20210129094708",
     createAt: new Date(), // db datetime type
     updateAt: new Date(),
     deleteAt: new Date(),

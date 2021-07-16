@@ -20,13 +20,12 @@ export default class ProductDetailPage extends AbstractPage {
   }
 
   async render() {
-    return `
+    return /*html*/ `
     <header class="header"></header>
     <main>
       <div class="post-main--img-container">
       </div>
       <section id="sale-info">
-        
       </section>
     </main>
     <footer>
@@ -34,14 +33,9 @@ export default class ProductDetailPage extends AbstractPage {
     `;
   }
 
-  getId() {
-    return this.params.productId;
-  }
-
   async after_render() {
-    const store = new Store();
+    const store = new Store({ productId: this.params.productId });
     const views = {
-      productId: this.getId(),
       productDetailHeaderView: new ProductDetailHeaderView(),
       productImageListView: new ProductImageListView(),
       productDetailView: new ProductDetailView(),
