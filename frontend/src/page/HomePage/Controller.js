@@ -1,15 +1,19 @@
-const tag = '[HomePage Controller]';
+const tag = "[HomePage Controller]";
 
-import { getAllProductsAsync, getProducts } from '@/api/product';
-import { getProfileAsync } from '@/api/user';
+import { getAllProductsAsync, getProducts } from "@/api/product";
+import { getProfileAsync } from "@/api/user";
 
 export default class Controller {
-  constructor(store, { mainHeaderView, productListView, categoryView }) {
+  constructor(
+    store,
+    { mainHeaderView, productListView, categoryView, locationDropDownView }
+  ) {
     this.store = store;
 
     this.mainHeaderView = mainHeaderView;
     this.productListView = productListView;
     this.categoryView = categoryView;
+    this.locationDropDownView = locationDropDownView;
 
     this.subscribeViewEvents();
     this.fetchData();
@@ -19,24 +23,24 @@ export default class Controller {
   }
 
   subscribeViewEvents() {
-    this.productListView.on('@interest', (e) => {
+    this.productListView.on("@interest", (e) => {
       const { id, isInterested } = e.detail.value;
       this.changeInterest(id, isInterested);
     });
 
-    this.categoryView.on('@show-main', (e) => {
+    this.categoryView.on("@show-main", (e) => {
       this.isOnCategory = false;
       // TODO: Cache previous
       this.fetchData();
       this.render();
     });
 
-    this.mainHeaderView.on('@show-category', (e) => {
+    this.mainHeaderView.on("@show-category", (e) => {
       this.isOnCategory = true;
       this.render();
     });
 
-    this.categoryView.on('@search', (e) => {
+    this.categoryView.on("@search", (e) => {
       const categoryId = e.detail.value;
       this.searchCategory(categoryId);
     });
@@ -48,12 +52,12 @@ export default class Controller {
     Promise.all([requestProducts, requestUserProfile]).then(
       ([products, user]) => {
         if (!user) {
-          navigateTo('/login');
+          navigateTo("/login");
         }
         this.store.user = user;
         this.store.products = products;
         this.render();
-      },
+      }
     );
   }
 
@@ -67,9 +71,9 @@ export default class Controller {
 
   changeInterest(productId, isInterested) {
     if (isInterested) {
-      console.log('Interest ON ' + productId);
+      console.log("Interest ON " + productId);
     } else {
-      console.log('Interest OFF ' + productId);
+      console.log("Interest OFF " + productId);
     }
   }
 
@@ -78,11 +82,13 @@ export default class Controller {
     if (this.isOnCategory) {
       this.categoryView.show();
       this.mainHeaderView.hide();
+      this.locationDropDownView.hide();
       this.productListView.hide();
     } else {
       this.categoryView.hide();
       this.mainHeaderView.show(user);
       this.productListView.show(products);
+      this.locationDropDownView.show();
     }
   }
 }

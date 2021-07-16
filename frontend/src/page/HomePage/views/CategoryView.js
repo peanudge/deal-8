@@ -24,7 +24,6 @@ const categoryItems = [
 
 export default class CategoryView extends View {
   constructor(element = qs("#category"), template = new Template()) {
-    // console.log(tag, "constructor");
     super(element);
     this.template = template;
     this.bindingEvent();
