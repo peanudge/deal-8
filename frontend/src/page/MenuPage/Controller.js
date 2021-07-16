@@ -73,24 +73,15 @@ export default class Controller {
       this.store;
 
     this.tabView.show(selectedTab);
-    this.salingProductListView.show(salingProducts);
-    this.chatRoomListView.show(chatRooms);
-    this.interestProductListView.show(interestProducts);
 
-    // if (selectedTab === TabType.SAIL_PRODUCT) {
-    //   this.salingProductListView.show(salingProducts);
-    //   this.interestProductListView.hide();
-    //   this.chatRoomListView.hide();
-    // } else if (selectedTab === TabType.CHAT) {
-    //   this.chatRoomListView.show(chatRooms);
-    //   this.salingProductListView.hide();
-    //   this.interestProductListView.hide();
-    // } else if (selectedTab === TabType.INTEREST_PRODUCT) {
-    //   this.interestProductListView.show(interestProducts);
-    //   this.chatRoomListView.hide();
-    //   this.salingProductListView.hide();
-    // } else {
-    //   throw "사용할 수 없는 탭입니다.";
-    // }
+    if (selectedTab === TabType.SAIL_PRODUCT) {
+      this.salingProductListView.show(salingProducts);
+    } else if (selectedTab === TabType.CHAT) {
+      this.chatRoomListView.show(chatRooms);
+    } else if (selectedTab === TabType.INTEREST_PRODUCT) {
+      this.interestProductListView.show(interestProducts);
+    } else {
+      throw "사용할 수 없는 탭입니다.";
+    }
   }
 }
