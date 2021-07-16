@@ -4,6 +4,7 @@ import { qs } from "@/helper/selectHelpers";
 
 import chevronLeftSvg from "@/public/svg/chevron-left.svg";
 import moreVertival from "@/public/svg/more-vertical.svg";
+import { delegate } from "@/helper/eventHelpers";
 
 const tag = "[BasicHeaderView]";
 
@@ -15,7 +16,11 @@ export default class ProductDetailHeaderView extends View {
     this.bindingEvents();
   }
 
-  bindingEvents() {}
+  bindingEvents() {
+    delegate(this.element, "click", "#vertical-menu", (event) => {
+      console.log("clicked");
+    });
+  }
 
   show(user, { author }) {
     this.element.innerHTML = this.template.getHeadaer({ user, author });
@@ -32,8 +37,13 @@ class Template {
       ${
         user["username"] === author
           ? `
-        <a class="header--right" href="#">
+        <a class="header--right" id="vertical-menu">
           ${moreVertival}
+          <div class="dropdown">
+            <div class="dropdown-item">
+              수정
+            </div>
+          </div>
         </a>
       `
           : ""

@@ -1,21 +1,21 @@
-import View from '@/page/View';
-import { qs } from '@/helper/selectHelpers';
-import { delegate } from '@/helper/eventHelpers';
+import View from "@/page/View";
+import { qs } from "@/helper/selectHelpers";
+import { delegate } from "@/helper/eventHelpers";
 
-import chevronDownSvg from '@/public/svg/chevron-down.svg';
+import chevronDownSvg from "@/public/svg/chevron-down.svg";
 
-const tag = '[ProductDetailView]';
+const tag = "[ProductDetailView]";
 
 export default class ProductDetailView extends View {
-  constructor(element = qs('#sale-info'), template = new Template()) {
-    console.log(tag, 'constructor');
+  constructor(element = qs("#sale-info"), template = new Template()) {
+    console.log(tag, "constructor");
     super(element);
     this.template = template;
     this.bindingEvents();
   }
 
   bindingEvents() {
-    delegate(this.element, 'click', '#sale-status', () => {
+    delegate(this.element, "click", "#sale-status", () => {
       this.handleStatusClick();
     });
   }
@@ -26,12 +26,12 @@ export default class ProductDetailView extends View {
   }
 
   handleStatusClick() {
-    const locationMenu = qs('.post-main--sale-status--dropdown');
+    const locationMenu = qs(".post-main--sale-status--dropdown");
     const currentState = locationMenu.style.display;
-    if (currentState === 'block') {
-      locationMenu.style.display = 'none';
+    if (currentState === "block") {
+      locationMenu.style.display = "none";
     } else {
-      locationMenu.style.display = 'block';
+      locationMenu.style.display = "block";
     }
   }
 }
@@ -50,7 +50,7 @@ class Template {
       location,
     } = productDetail;
     return `
-      ${user.username === author ? this.getStatusSelector(status) : ''}
+      ${user.username === author ? this.getStatusSelector(status) : ""}
       
       <div class="post-main--title">${title}</div>
       <div class="post-main--sub-title">
@@ -75,16 +75,16 @@ class Template {
 
   getStatusSelector(status) {
     const textMapping = {
-      SALE: '판매 중',
-      SOLD: '판매 완료',
-      RESERVE: '예약 중',
+      SALE: "판매 중",
+      SOLD: "판매 완료",
+      RESERVE: "예약 중",
     };
     const statusTypes = Object.keys(textMapping);
     let flag = false;
 
     const getDropDownItem = (statusType, isSelected) => {
-      return `<div class="dropdown-item${
-        isSelected ? ' selected' : ''
+      return `<div class="dropdown-item ${
+        isSelected ? " selected" : ""
       }" data-type=${statusType}>${textMapping[statusType]}</div>`;
     };
 
@@ -104,8 +104,8 @@ class Template {
         <div class="post-main--sale-status" id="sale-status">
             <p>판매 중</p>
             ${chevronDownSvg}
-            <div class="post-main--sale-status--dropdown">
-                ${dropDownList.join('')}
+            <div class="dropdown">
+                ${dropDownList.join("")}
             </div>
         </div>
       `;

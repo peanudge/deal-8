@@ -1,20 +1,21 @@
-import AbstractPage from '../AbstractPage';
-import Controller from './Controller';
+import AbstractPage from "../AbstractPage";
+import Controller from "./Controller";
 
-import '@/public/css/detailPost.css';
+import "@/public/css/detailPost.css";
+import "@/public/css/common/drop_down.css";
 
-import Store from './Store';
+import Store from "./Store";
 
-import ProductDetailHeaderView from './views/ProductDetailHeaderView';
-import ProductImageListView from './views/ProductImageListView';
-import ProductDetailView from './views/ProductDetailView';
-import ProductDetailFooterView from './views/ProductDetailFooterView';
+import ProductDetailHeaderView from "./views/ProductDetailHeaderView";
+import ProductImageListView from "./views/ProductImageListView";
+import ProductDetailView from "./views/ProductDetailView";
+import ProductDetailFooterView from "./views/ProductDetailFooterView";
 
-const tag = '[ProductDetailPage]';
+const tag = "[ProductDetailPage]";
 
 export default class ProductDetailPage extends AbstractPage {
   constructor(params) {
-    console.log(tag, 'contructor');
+    console.log(tag, "contructor");
     super(params);
   }
 
