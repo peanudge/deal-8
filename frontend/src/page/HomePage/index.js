@@ -20,7 +20,7 @@ export default class HomePage extends AbstractPage {
   }
 
   async render() {
-    return `
+    return /*html*/ `
     <div id="main-header" class="main-header"></div>
     <div id="product-container" class="product-container"></div>
 

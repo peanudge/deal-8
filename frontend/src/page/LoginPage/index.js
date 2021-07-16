@@ -15,7 +15,7 @@ export default class LoginPage extends AbstractPage {
   }
 
   async render() {
-    return `
+    return /*html*/ `
     <header id="header" class="header">
       <a class="header--left" href="/" data-link>
         <div class="back-icon">${chevronLeftSVG}</div>

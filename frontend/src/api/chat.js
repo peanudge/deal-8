@@ -6,7 +6,8 @@ export const getChatRoomsAsync = () => {
           key: "550e8400-e29b-41d4-a716-446655440000",
           targetUser: "UserA",
           product: 4002,
-          productThumbnail: "/static/thumbnail/123233434",
+          productThumbnail:
+            "http://img.danawa.com/prod_img/500000/281/013/img/4013281_1.jpg?shrink=500:500&_v=20210129094708",
           lastChat: {
             id: 1233423,
             room: "550e8400-e29b-41d4-a716-446655440000",
@@ -19,7 +20,8 @@ export const getChatRoomsAsync = () => {
           key: "550e8400-e29b-41d4-a716-446655440000",
           targetUser: "UserC",
           product: 4002,
-          productThumbnail: "/static/thumbnail/123233434",
+          productThumbnail:
+            "http://img.danawa.com/prod_img/500000/281/013/img/4013281_1.jpg?shrink=500:500&_v=20210129094708",
           lastChat: {
             id: 1233423,
             room: "550e8400-e29b-41d4-a716-446655440000",

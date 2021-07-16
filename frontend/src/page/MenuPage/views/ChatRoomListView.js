@@ -43,7 +43,7 @@ class Template {
       lastChat: { id, message, writer, createAt },
     } = room;
 
-    return `<article class="content--chat-item">
+    return /*html*/ `<article class="content--chat-item">
       <div class="content--chat-item--left">
         <strong class="username">${targetUser}</strong>
         <span class="current-message">${message}</span>
@@ -58,7 +58,7 @@ class Template {
           </div>
         </div>
         <div class="content--chat-item--right--right">
-          <div class="product-img">${exampleCooler}</div>
+          <img class="product-img" src="${productThumbnail}" />
         </div>
       </div>
     </article>`;

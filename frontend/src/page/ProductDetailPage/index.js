@@ -1,31 +1,30 @@
-import AbstractPage from '../AbstractPage';
-import Controller from './Controller';
+import AbstractPage from "../AbstractPage";
+import Controller from "./Controller";
 
-import '@/public/css/detailPost.css';
+import "@/public/css/detailPost.css";
 
-import Store from './Store';
+import Store from "./Store";
 
-import ProductDetailHeaderView from './views/ProductDetailHeaderView';
-import ProductImageListView from './views/ProductImageListView';
-import ProductDetailView from './views/ProductDetailView';
-import ProductDetailFooterView from './views/ProductDetailFooterView';
+import ProductDetailHeaderView from "./views/ProductDetailHeaderView";
+import ProductImageListView from "./views/ProductImageListView";
+import ProductDetailView from "./views/ProductDetailView";
+import ProductDetailFooterView from "./views/ProductDetailFooterView";
 
-const tag = '[ProductDetailPage]';
+const tag = "[ProductDetailPage]";
 
 export default class ProductDetailPage extends AbstractPage {
   constructor(params) {
-    console.log(tag, 'contructor');
+    console.log(tag, "contructor");
     super(params);
   }
 
   async render() {
-    return `
+    return /*html*/ `
     <header class="header"></header>
     <main>
       <div class="post-main--img-container">
       </div>
       <section id="sale-info">
-        
       </section>
     </main>
     <footer>
@@ -33,14 +32,9 @@ export default class ProductDetailPage extends AbstractPage {
     `;
   }
 
-  getId() {
-    return this.params.productId;
-  }
-
   async after_render() {
-    const store = new Store();
+    const store = new Store({ productId: this.params.productId });
     const views = {
-      productId: this.getId(),
       productDetailHeaderView: new ProductDetailHeaderView(),
       productImageListView: new ProductImageListView(),
       productDetailView: new ProductDetailView(),

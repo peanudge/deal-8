@@ -9,7 +9,6 @@ export default class Controller {
   constructor(
     store,
     {
-      productId,
       productDetailHeaderView,
       productImageListView,
       productDetailView,
@@ -17,7 +16,7 @@ export default class Controller {
     }
   ) {
     this.store = store;
-    this.productId = productId;
+    this.productId = store.productId;
     this.productDetailHeaderView = productDetailHeaderView;
     this.productImageListView = productImageListView;
     this.productDetailView = productDetailView;
@@ -44,12 +43,13 @@ export default class Controller {
 
   init() {
     if (this.productId === undefined) {
-      return "unknown product";
-      // TODO alert and redirect to main
+      navigateTo("/");
     }
-    const getUserPromise = getProfileAsync();
-    const getProductPromise = getProductDetail({ id: this.productId });
-    Promise.all([getUserPromise, getProductPromise]).then(
+
+    const getUserRequest = getProfileAsync();
+    const getProductRequest = getProductDetail({ id: this.productId });
+
+    Promise.all([getUserRequest, getProductRequest]).then(
       ([user, productDetail]) => {
         this.store.user = user;
         this.store.productDetail = productDetail;

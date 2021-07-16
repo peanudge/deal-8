@@ -16,18 +16,19 @@ export default class ProfilePage extends AbstractPage {
   }
 
   async render() {
-    return ` <header class="header">
-                <a class="header--left" href="/login" data-link>
-                <div class="back-icon">${chevronLeftSVG}</div>
-                </a>
-                <h1 class="header--center">
-                <span class="header--center--title"> 내 계정 </span>
-                </h1>
-            </header>
-            <main id="profile-view" class="profile-main">
-                <h1  id="username-label" class="profile-main--username">Username</h1>
-                <div id="logout-btn" class="profile-main--logout-btn">로그아웃</div>
-            </main>`;
+    return /*html*/ ` 
+    <header class="header">
+        <a class="header--left" href="/login" data-link>
+        <div class="back-icon">${chevronLeftSVG}</div>
+        </a>
+        <h1 class="header--center">
+        <span class="header--center--title"> 내 계정 </span>
+        </h1>
+    </header>
+    <main id="profile-view" class="profile-main">
+        <h1  id="username-label" class="profile-main--username">Username</h1>
+        <div id="logout-btn" class="profile-main--logout-btn">로그아웃</div>
+    </main>`;
   }
 
   async after_render() {
