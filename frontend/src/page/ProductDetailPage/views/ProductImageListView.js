@@ -1,15 +1,15 @@
-import View from '@/page/View';
+import View from "@/page/View";
 
-import { qs } from '@/helper/selectHelpers';
+import { qs } from "@/helper/selectHelpers";
 
-const tag = '[ProductImageListView]';
+const tag = "[ProductImageListView]";
 
 export default class ProductImageListView extends View {
   constructor(
-    element = qs('div.post-main--img-container'),
+    element = qs("div.post-main--img-container"),
     template = new Template(),
   ) {
-    console.log(tag, 'constructor');
+    console.log(tag, "constructor");
     super(element);
     this.template = template;
     this.bindingEvents();
@@ -26,11 +26,14 @@ export default class ProductImageListView extends View {
 class Template {
   imagesToElements(images) {
     const elementArray = images.map((image) => `<img src=${image} />`);
-    return elementArray.join('');
+    return elementArray.join("");
   }
   getImages(images) {
     return `
-        ${this.imagesToElements(images)}
+      <div id="slider" class="slider">
+        
+      </div>
+            ${this.imagesToElements(images)}
     `;
   }
 }

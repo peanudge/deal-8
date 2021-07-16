@@ -33,11 +33,10 @@ export default class Controller {
     });
 
     this.productDetailHeaderView.on("@modifyPost", () => {
-      // location.href = `/product/${this.store.productId}/modify`;
-      navigateTo(`/product/${this.store.productId}/modify`);
+      navigateTo(`/product-edit/${this.store.productId}`);
     });
     this.productDetailHeaderView.on("@deletePost", () => {
-      navigateTo(`/product/${this.store.productId}/delete`);
+      navigateTo(`/product-edit/${this.store.productId}`);
     });
   }
 
