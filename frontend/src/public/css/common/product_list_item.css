@@ -53,8 +53,7 @@
   height: 18px;
 }
 .content--product--info--top--interest.on > svg {
-  fill: red;
-  stroke: none;
+  fill: var(--primary1-color);
 }
 
 .content--product--info--top--interest > svg {

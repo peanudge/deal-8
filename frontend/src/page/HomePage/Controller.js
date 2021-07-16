@@ -1,8 +1,7 @@
 const tag = '[HomePage Controller]';
 
-import { getAllProducts, getProducts } from '@/api/product';
+import { getAllProductsAsync, getProducts } from '@/api/product';
 import { getProfileAsync } from '@/api/user';
-import { navigateTo } from '@/router';
 
 export default class Controller {
   constructor(store, { mainHeaderView, productListView, categoryView }) {
@@ -44,7 +43,7 @@ export default class Controller {
   }
 
   fetchData() {
-    const requestProducts = getAllProducts();
+    const requestProducts = getAllProductsAsync();
     const requestUserProfile = getProfileAsync();
     Promise.all([requestProducts, requestUserProfile]).then(
       ([products, user]) => {
@@ -62,8 +61,6 @@ export default class Controller {
     this.isOnCategory = false;
 
     getProducts(categoryId).then((data) => {
-      console.log(this.isOnCategory);
-      console.log(data);
       this.render(data);
     });
   }
