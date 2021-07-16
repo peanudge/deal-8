@@ -22,7 +22,6 @@ export default class ProductDetailView extends View {
 
   show(user, productDetail) {
     this.element.innerHTML = this.template.getDetail(user, productDetail);
-    super.show();
   }
 
   handleStatusClick() {
