@@ -20,7 +20,7 @@ export default class DropDownMenuView extends View {
       this.toggleDropDownMenu()
     );
 
-    // out focus event Handler
+    // Detecting Out-Focus Event Handler
     document.addEventListener("click", (e) => {
       const toggler = qs(".dropdown-wrapper--toggle", this.element);
       if (toggler === e.target) return;
@@ -34,7 +34,14 @@ export default class DropDownMenuView extends View {
         this.toggleDropDownMenu(false);
       }
     });
+
+    delegate(this.element, "click", ".dropdown-wrapper--menu--item", (e) => {
+      const { item } = e.target.dataset;
+      this.emit("@change-item", { value: item });
+    });
   }
+
+  handleClickItem() {}
 
   toggleDropDownMenu(expand = null) {
     const menu = qs(".dropdown-wrapper--menu", this.element);
@@ -43,7 +50,7 @@ export default class DropDownMenuView extends View {
     menu.setAttribute("aria-expanded", expand);
   }
 
-  show(currentItem = "동천동", items = ["역삼동", "동천동"]) {
+  show(currentItem = "", items = []) {
     this.element.innerHTML = /* html */ `
             <div class="dropdown-wrapper">
                 <div class="dropdown-wrapper--toggle">

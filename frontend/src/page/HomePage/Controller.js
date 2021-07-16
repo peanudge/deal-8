@@ -44,6 +44,11 @@ export default class Controller {
       const categoryId = e.detail.value;
       this.searchCategory(categoryId);
     });
+
+    this.locationDropDownView.on("@change-item", (e) => {
+      const location = e.detail.value;
+      this.changeLocation(location);
+    });
   }
 
   fetchData() {
@@ -55,17 +60,34 @@ export default class Controller {
           navigateTo("/login");
         }
         this.store.user = user;
+        if (this.store.currentLocation === "") {
+          this.store.currentLocation =
+            user.locations.length > 0 ? user.locations[0] : "";
+        }
         this.store.products = products;
         this.render();
       }
     );
   }
 
+  changeLocation(location) {
+    this.store.currentLocation = location;
+    this.render();
+
+    getProducts({
+      location,
+    }).then((data) => {
+      this.store.products = data;
+      this.render();
+    });
+  }
+
   searchCategory(categoryId) {
     this.isOnCategory = false;
 
     getProducts(categoryId).then((data) => {
-      this.render(data);
+      this.store.products = data;
+      this.render();
     });
   }
 
@@ -78,7 +100,7 @@ export default class Controller {
   }
 
   render() {
-    const { products, user } = this.store;
+    const { products, user, currentLocation } = this.store;
     if (this.isOnCategory) {
       this.categoryView.show();
       this.mainHeaderView.hide();
@@ -88,7 +110,7 @@ export default class Controller {
       this.categoryView.hide();
       this.mainHeaderView.show(user);
       this.productListView.show(products);
-      this.locationDropDownView.show();
+      this.locationDropDownView.show(currentLocation, user.locations);
     }
   }
 }

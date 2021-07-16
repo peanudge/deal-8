@@ -101,14 +101,13 @@ const mockProductData = [
   },
 ];
 
-export const getProducts = (categoryId) => {
+export const getProducts = (
+  conditions = { categoryId: null, location: null }
+) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       try {
-        if (categoryId) {
-          const filteredData = mockProductData.filter((d) => {
-            return d.catrgory === Number(categoryId);
-          });
+        if (conditions.categoryId) {
           resolve(filteredData);
         } else {
           resolve(mockProductData);

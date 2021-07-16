@@ -1,7 +1,7 @@
 import AbstractPage from "../AbstractPage";
 import Controller from "./Controller";
 import MainHeaderView from "./views/MainHeaderView";
-import DropDownMenuView from "./views/DropDownMenuView";
+import DropDownMenuView from "@/common/views/DropDownMenuView";
 
 import ProductListView from "@/common/views/ProductListView";
 
