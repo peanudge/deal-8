@@ -41,8 +41,6 @@ export default class DropDownMenuView extends View {
     });
   }
 
-  handleClickItem() {}
-
   toggleDropDownMenu(expand = null) {
     const menu = qs(".dropdown-wrapper--menu", this.element);
     expand =
