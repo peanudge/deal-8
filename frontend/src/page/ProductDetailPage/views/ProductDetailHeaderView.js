@@ -17,14 +17,30 @@ export default class ProductDetailHeaderView extends View {
   }
 
   bindingEvents() {
-    delegate(this.element, "click", "#vertical-menu", (event) => {
-      console.log("clicked");
+    delegate(this.element, "click", "#author-menu", () => {
+      this.handleMenuClick();
     });
+    delegate(this.element, "click", "#modify-btn", () =>
+      this.emit("@modifyPost"),
+    );
+    delegate(this.element, "click", "#delete-btn", () =>
+      this.emit("@deletePost"),
+    );
   }
 
   show(user, { author }) {
     this.element.innerHTML = this.template.getHeadaer({ user, author });
     super.show();
+  }
+
+  handleMenuClick() {
+    const $verticalBtn = qs("#author-menu .dropdown");
+    const currentState = $verticalBtn.style.display;
+    if (currentState === "block") {
+      $verticalBtn.style.display = "none";
+    } else {
+      $verticalBtn.style.display = "block";
+    }
   }
 }
 
@@ -37,11 +53,14 @@ class Template {
       ${
         user["username"] === author
           ? `
-        <a class="header--right" id="vertical-menu">
+        <a class="header--right" id="author-menu">
           ${moreVertival}
           <div class="dropdown">
-            <div class="dropdown-item">
-              수정
+            <div class="dropdown-item" id="modify-btn">
+              수정하기
+            </div>
+            <div class="dropdown-item red-color" id="delete-btn">
+              삭제하기
             </div>
           </div>
         </a>

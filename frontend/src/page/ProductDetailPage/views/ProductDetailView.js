@@ -26,7 +26,7 @@ export default class ProductDetailView extends View {
   }
 
   handleStatusClick() {
-    const locationMenu = qs(".post-main--sale-status--dropdown");
+    const locationMenu = qs("#sale-status .dropdown");
     const currentState = locationMenu.style.display;
     if (currentState === "block") {
       locationMenu.style.display = "none";

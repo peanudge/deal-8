@@ -31,6 +31,14 @@ export default class Controller {
       const { id, isInterested } = e.detail.value;
       this.changeInterest(id, isInterested);
     });
+
+    this.productDetailHeaderView.on("@modifyPost", () => {
+      // location.href = `/product/${this.store.productId}/modify`;
+      navigateTo(`/product/${this.store.productId}/modify`);
+    });
+    this.productDetailHeaderView.on("@deletePost", () => {
+      navigateTo(`/product/${this.store.productId}/delete`);
+    });
   }
 
   changeInterest(productId, isInterested) {

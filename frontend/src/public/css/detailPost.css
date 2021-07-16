@@ -1,5 +1,5 @@
-@import url('./common/basic_header.css');
-@import url('./common/global_color.css');
+@import url("./common/basic_header.css");
+@import url("./common/global_color.css");
 
 body {
   border: 1px solid #c0c0c0;
@@ -187,4 +187,30 @@ footer .move-btn {
 .interest-btn {
   width: 20px;
   height: 20px;
+}
+
+#author-menu {
+  cursor: pointer;
+}
+
+#author-menu .dropdown {
+  z-index: 999;
+  position: fixed;
+  left: 100%;
+  transform: translateX(-100%);
+}
+
+.red-color {
+  color: var(--red-text-color);
+}
+
+#sale-status {
+  position: relative;
+}
+
+#sale-status .dropdown {
+  position: absolute;
+  z-index: 999;
+  top: 100%;
+  transform: translateX(-30%);
 }
