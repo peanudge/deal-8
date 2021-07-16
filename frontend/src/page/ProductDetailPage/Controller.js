@@ -1,4 +1,3 @@
-import { signupAsync } from '@/api/auth';
 import { navigateTo } from '@/router';
 
 import { getProductDetail } from '@/api/product';

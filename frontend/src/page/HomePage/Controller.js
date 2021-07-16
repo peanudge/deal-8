@@ -1,7 +1,8 @@
-const tag = "[HomePage Controller]";
+const tag = '[HomePage Controller]';
 
-import { getAllProducts, getProducts } from "@/api/product";
-import { getProfileAsync } from "@/api/user";
+import { getAllProducts, getProducts } from '@/api/product';
+import { getProfileAsync } from '@/api/user';
+import { navigateTo } from '@/router';
 
 export default class Controller {
   constructor(store, { mainHeaderView, productListView, categoryView }) {
@@ -19,24 +20,24 @@ export default class Controller {
   }
 
   subscribeViewEvents() {
-    this.productListView.on("@interest", (e) => {
+    this.productListView.on('@interest', (e) => {
       const { id, isInterested } = e.detail.value;
       this.changeInterest(id, isInterested);
     });
 
-    this.categoryView.on("@show-main", (e) => {
+    this.categoryView.on('@show-main', (e) => {
       this.isOnCategory = false;
       // TODO: Cache previous
       this.fetchData();
       this.render();
     });
 
-    this.mainHeaderView.on("@show-category", (e) => {
+    this.mainHeaderView.on('@show-category', (e) => {
       this.isOnCategory = true;
       this.render();
     });
 
-    this.categoryView.on("@search", (e) => {
+    this.categoryView.on('@search', (e) => {
       const categoryId = e.detail.value;
       this.searchCategory(categoryId);
     });
@@ -47,10 +48,13 @@ export default class Controller {
     const requestUserProfile = getProfileAsync();
     Promise.all([requestProducts, requestUserProfile]).then(
       ([products, user]) => {
+        if (!user) {
+          navigateTo('/login');
+        }
         this.store.user = user;
         this.store.products = products;
         this.render();
-      }
+      },
     );
   }
 
@@ -66,9 +70,9 @@ export default class Controller {
 
   changeInterest(productId, isInterested) {
     if (isInterested) {
-      console.log("Interest ON " + productId);
+      console.log('Interest ON ' + productId);
     } else {
-      console.log("Interest OFF " + productId);
+      console.log('Interest OFF ' + productId);
     }
   }
 
