@@ -27,6 +27,15 @@ app.use(function (req, res, next) {
   next(createError(404));
 });
 
+// express-session
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "adnifneaoifdnaoisunfg",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+
 // error handler
 app.use(function (err, req, res, next) {
   // set locals, only providing error in development
