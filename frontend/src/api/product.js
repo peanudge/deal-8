@@ -154,7 +154,7 @@ export const getProductDetail = ({ id }) => {
       countOfView: 10,
       countOfChat: 2,
       countOfInterest: 10,
-      author: "TESTER",
+      author: "Woowahan",
       location: "역삼동",
       isInterested: true,
     };

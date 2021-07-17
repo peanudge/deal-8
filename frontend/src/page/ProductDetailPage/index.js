@@ -2,6 +2,7 @@ import AbstractPage from "../AbstractPage";
 import Controller from "./Controller";
 
 import "@/public/css/detailPost.css";
+import "@/public/css/common/drop_down.css";
 
 import Store from "./Store";
 
