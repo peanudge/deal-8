@@ -6,7 +6,7 @@
 
 import DEBUG from "debug";
 import http from "http";
-import app from "../app.mjs";
+import app from "../src/app.js";
 
 const debug = DEBUG("backend:server");
 /**
