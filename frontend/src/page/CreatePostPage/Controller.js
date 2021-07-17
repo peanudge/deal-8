@@ -1,9 +1,11 @@
 const tag = "[Controller]";
 
 export default class Controller {
-  constructor(store, { imageUploadView }) {
+  constructor(store, { imageUploadView, createPostFormView }) {
     this.store = store;
     this.imageUploadView = imageUploadView;
+    this.createPostFormView = createPostFormView;
+
     this.subscribeViewEvents();
     this.render();
   }
@@ -28,5 +30,6 @@ export default class Controller {
   render() {
     const { images } = this.store;
     this.imageUploadView.show(images);
+    this.createPostFormView.show();
   }
 }

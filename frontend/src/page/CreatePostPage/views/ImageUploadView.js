@@ -3,7 +3,10 @@ import { qs } from "@/helper/selectHelpers";
 import { on } from "@/helper/eventHelpers";
 
 export default class ImageUploadView extends View {
-  constructor(element = qs("#img-register"), template = new Template()) {
+  constructor(
+    element = qs("#img-register-container"),
+    template = new Template()
+  ) {
     super(element);
     this.imgInputElement = qs("#img-input", this.element);
     this.imgCountLabelElement = qs("#image-count", this.element);
