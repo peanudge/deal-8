@@ -5,6 +5,9 @@ import { navigateTo } from "@/router";
 
 const tag = "[Controller]";
 
+const ERROR_EMPTY_CATEGORY = "(필수) 카테고리는 선택해주세요.";
+const ERROR_EMPTY_TITLE = "글 제목을 입력해주세요.";
+
 export default class Controller {
   constructor(
     store,
@@ -22,7 +25,7 @@ export default class Controller {
     this.categorySelectView = categorySelectView;
 
     this.isShowCategorySelectView = false;
-
+    this.error = {};
     this.subscribeViewEvents();
     this.render();
   }
@@ -71,6 +74,11 @@ export default class Controller {
     });
 
     this.createPostHeaderView.on("@create-post", (e) => {
+      if (!this.validateStoreForSubmit(this.store)) {
+        this.render();
+        return;
+      }
+
       const { images, category, cost, title, comment, location } = this.store;
 
       createProductAsync({
@@ -82,7 +90,21 @@ export default class Controller {
       }).then((id) => {
         navigateTo("/product/" + id);
       });
+
+      // TODO: add image upload api
     });
+  }
+
+  validateStoreForSubmit() {
+    const error = {};
+    if (this.store.category === null) {
+      error.category = ERROR_EMPTY_CATEGORY;
+    }
+    if (!this.store.title || this.store.title === "") {
+      error.title = ERROR_EMPTY_TITLE;
+    }
+    this.error = error;
+    return Object.keys(this.error).length === 0;
   }
 
   uploadImagesFromFileSystem(files) {
@@ -98,6 +120,7 @@ export default class Controller {
 
   render() {
     const { images, category, comment, title, location, cost } = this.store;
+    console.log(this.error);
     if (this.isShowCategorySelectView) {
       this.categorySelectView.show();
       this.createPostFormView.hide();
@@ -105,13 +128,16 @@ export default class Controller {
     } else {
       this.categorySelectView.hide();
       this.imageUploadView.show(images);
-      this.createPostFormView.show({
-        title,
-        comment,
-        cost,
-        location,
-        category: category?.name,
-      });
+      this.createPostFormView.show(
+        {
+          title,
+          comment,
+          cost,
+          location,
+          category: category?.name,
+        },
+        this.error
+      );
       this.createPostHeaderView.show();
     }
   }

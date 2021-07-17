@@ -75,6 +75,10 @@ body {
   border: none;
 }
 
+.posting-main--text-input.error::placeholder {
+  color: red;
+}
+
 .posting-main--text-input:focus {
   outline: none;
 }
@@ -154,4 +158,8 @@ body {
 
 .image-icon {
   width: 25px;
+}
+
+.category-name.error {
+  border-bottom: 1px solid red;
 }

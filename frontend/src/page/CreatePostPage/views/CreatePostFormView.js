@@ -43,14 +43,27 @@ export default class CreatePostFormView extends View {
     this.emit("@show-select-category");
   }
 
-  show({ title, cost, comment, category }) {
+  show({ title, cost, comment, category }, error = {}) {
     this.titleInputElement.value = title;
+    if (error["title"]) {
+      this.titleInputElement.placeholder = error["title"];
+      this.titleInputElement.classList.add("error");
+    } else {
+      this.titleInputElement.classList.remove("error");
+    }
     this.costInputElement.value = cost;
     this.commentAreaElement.innerText = comment;
+
+    const $textElement = qs(".category-name", this.categoryMenuBtnElement);
     if (category) {
-      const $textElement = qs(".category-name", this.categoryMenuBtnElement);
       $textElement.innerText = category;
     }
+    if (error["category"]) {
+      $textElement.classList.add("error");
+    } else {
+      $textElement.classList.remove("error");
+    }
+
     super.show();
   }
 }
