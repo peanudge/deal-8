@@ -16,7 +16,7 @@ body {
   overflow: scroll;
 }
 
-.posting-main--img-register {
+.img-register {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -25,17 +25,37 @@ body {
   height: 76px;
   background-color: #f6f6f6;
   border-radius: 8px;
-  margin-top: 24px;
 }
 
-.posting-main--img-register--img {
-  margin: 5px;
+.img-register > * {
+  pointer-events: none;
 }
 
-.posting-main--img-register--msg {
+.img-register:active {
+  border: 1px solid var(--primary1-color);
+}
+
+.img-register--img {
   font-size: 12px;
   font-weight: 400;
   text-align: center;
+}
+
+.img-container {
+  margin-top: 5px;
+  flex-grow: 1;
+  display: flex;
+  overflow-x: auto;
+}
+
+.img-box {
+  margin-right: 2px;
+}
+.img-box > img {
+  width: 76px;
+  height: 76px;
+  border-radius: 8px;
+  border: 1px solid #f6f6f6;
 }
 
 .posting-main--text-input {
@@ -140,4 +160,8 @@ body {
 
 .image-icon {
   width: 25px;
+}
+
+#img-register #img-input {
+  display: none;
 }
