@@ -10,8 +10,10 @@ import ImageUploadView from "./views/ImageUploadView";
 import Controller from "./Controller";
 import Store from "./Store";
 import CreatePostFormView from "./views/CreatePostFormView";
+import CreatePostHeaderView from "./views/CreatePostHeaderView";
 
 import "@/public/css/createPost.css";
+import CategorySelectView from "./views/CategorySelectView";
 
 export default class CreatePostPage extends AbstractPage {
   constructor(params) {
@@ -21,7 +23,7 @@ export default class CreatePostPage extends AbstractPage {
 
   async render() {
     return /* html */ `
-    <header class="header">
+    <header id="posting-header" class="header">
       <a class="header--left" href="/main" data-link>
        ${chevronLeftSVG}
       </a>
@@ -78,14 +80,16 @@ export default class CreatePostPage extends AbstractPage {
             contenteditable
         ></span>
     </main>
-    <div id="category-list-container" class="category-list-container"></div>
+    <div id="category-select-view" class="category-list-container"></div>
     `;
   }
   async after_render() {
     const store = new Store();
     const views = {
+      createPostHeaderView: new CreatePostHeaderView(),
       imageUploadView: new ImageUploadView(),
       createPostFormView: new CreatePostFormView(),
+      categorySelectView: new CategorySelectView(),
     };
 
     new Controller(store, views);

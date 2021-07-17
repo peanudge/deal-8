@@ -23,8 +23,8 @@ export default class CreatePostFormView extends View {
     // TODO: create custom event
   }
 
-  handleCategoryMenuBtn(e) {
-    // TODO: Show Category Menu
+  handleCategoryMenuBtn() {
+    this.emit("@show-select-category");
   }
 
   show() {

@@ -155,10 +155,3 @@ body {
 .image-icon {
   width: 25px;
 }
-
-/* Category List View */
-.category-list-container {
-  display: block;
-  width: 100%;
-  height: 100%;
-}

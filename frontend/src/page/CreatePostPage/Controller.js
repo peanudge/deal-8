@@ -1,16 +1,38 @@
 const tag = "[Controller]";
 
 export default class Controller {
-  constructor(store, { imageUploadView, createPostFormView }) {
+  constructor(
+    store,
+    {
+      imageUploadView,
+      createPostFormView,
+      createPostHeaderView,
+      categorySelectView,
+    }
+  ) {
     this.store = store;
-    this.imageUploadView = imageUploadView;
+    this.createPostHeaderView = createPostHeaderView;
     this.createPostFormView = createPostFormView;
+    this.imageUploadView = imageUploadView;
+    this.categorySelectView = categorySelectView;
+
+    this.isShowCategorySelectView = false;
 
     this.subscribeViewEvents();
     this.render();
   }
 
   subscribeViewEvents() {
+    this.categorySelectView.on("@back", () => {
+      this.isShowCategorySelectView = false;
+      this.render();
+    });
+
+    this.createPostFormView.on("@show-select-category", () => {
+      this.isShowCategorySelectView = true;
+      this.render();
+    });
+
     this.imageUploadView.on("@image-upload", (e) => {
       this.uploadImagesFromFileSystem(e.detail.value);
     });
@@ -29,7 +51,16 @@ export default class Controller {
 
   render() {
     const { images } = this.store;
-    this.imageUploadView.show(images);
-    this.createPostFormView.show();
+
+    if (this.isShowCategorySelectView) {
+      this.categorySelectView.show();
+      this.createPostFormView.hide();
+      this.createPostHeaderView.hide();
+    } else {
+      this.categorySelectView.hide();
+      this.createPostFormView.show();
+      this.createPostHeaderView.show();
+      this.imageUploadView.show(images);
+    }
   }
 }
