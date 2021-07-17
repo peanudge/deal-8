@@ -77,10 +77,10 @@ class Template {
                 <div class="location-icon"> ${moreVertival}</div>
             </div>
             <div class="dropdown-wrapper--menu right" aria-expanded="false">
-                <div class="dropdown-wrapper--menu--item">
+                <div class="dropdown-wrapper--menu--item center">
                     <a href="/" data-link>수정</a>
                 </div>
-                <div class="dropdown-wrapper--menu--item">
+                <div class="dropdown-wrapper--menu--item center">
                     <a href="/" data-link>삭제</a>
                 </div>
             </div>
