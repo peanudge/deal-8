@@ -120,7 +120,6 @@ export default class Controller {
 
   render() {
     const { images, category, comment, title, location, cost } = this.store;
-    console.log(this.error);
     if (this.isShowCategorySelectView) {
       this.categorySelectView.show();
       this.createPostFormView.hide();
