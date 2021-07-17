@@ -7,20 +7,7 @@ import chevronLeftSVG from "@/public/svg/chevron-left.svg";
 
 const tag = "[CategoryView]";
 
-const categoryItems = [
-  {
-    name: "디지털 기기",
-    id: 1,
-  },
-  {
-    name: "생활 가전",
-    id: 2,
-  },
-  {
-    name: "가구 인테리어",
-    id: 3,
-  },
-];
+import { categoryItems } from "@/util/category";
 
 export default class CategoryView extends View {
   constructor(element = qs("#category"), template = new Template()) {

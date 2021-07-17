@@ -162,3 +162,18 @@ export const getProductDetail = ({ id }) => {
     resolve(result);
   });
 };
+
+export const createProductAsync = ({
+  title,
+  cost,
+  comment,
+  location,
+  category,
+}) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      console.log("Create Product Post -", title);
+      resolve({ success: true, id: 1 });
+    }, 500);
+  });
+};
