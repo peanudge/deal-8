@@ -17,7 +17,7 @@ export default class Controller {
   uploadImagesFromFileSystem(files) {
     const countOfImage = Object.keys(files).length;
 
-    if (countOfImage > 5) {
+    if (countOfImage > 10) {
       alert("상품 Image는 10개까지만 올릴 수 있습니다.");
     } else {
       this.store.images = files;
