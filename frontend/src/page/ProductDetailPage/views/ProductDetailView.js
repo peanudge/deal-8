@@ -1,10 +1,22 @@
 import View from "@/page/View";
-import { qs } from "@/helper/selectHelpers";
+import { qs, qsAll } from "@/helper/selectHelpers";
 import { delegate } from "@/helper/eventHelpers";
 
 import chevronDownSvg from "@/public/svg/chevron-down.svg";
 
 const tag = "[ProductDetailView]";
+
+export const STATUS_TYPE = {
+  SALE: "SALE",
+  SOLD: "SOLD",
+  RESERVE: "RESERVE",
+};
+
+const STATUS_TEXT = {
+  [STATUS_TYPE.SALE]: "판매 중",
+  [STATUS_TYPE.SOLD]: "판매 완료",
+  [STATUS_TYPE.RESERVE]: "예약 중",
+};
 
 export default class ProductDetailView extends View {
   constructor(element = qs("#sale-info"), template = new Template()) {
@@ -15,23 +27,37 @@ export default class ProductDetailView extends View {
   }
 
   bindingEvents() {
-    delegate(this.element, "click", "#sale-status", () => {
-      this.handleStatusClick();
+    delegate(this.element, "click", ".dropdown-wrapper--toggle", (e) =>
+      this.toggleDropDownMenu()
+    );
+    // out-focus event handler
+    document.addEventListener("click", (e) => {
+      const toggler = qs(".dropdown-wrapper--toggle", this.element);
+      if (toggler === e.target) return;
+
+      const menuItems = qsAll(".dropdown-wrapper--menu--item", this.element);
+      const match = Array.from(menuItems).some(
+        (menuItem) => e.target === menuItem
+      );
+
+      if (!match) {
+        const $menu = qs(".dropdown-wrapper--menu", this.element);
+        if ($menu) {
+          this.toggleDropDownMenu(false);
+        }
+      }
     });
+  }
+
+  toggleDropDownMenu(expand = null) {
+    const menu = qs(".dropdown-wrapper--menu", this.element);
+    expand =
+      expand === null ? menu.getAttribute("aria-expanded") !== "true" : expand;
+    menu.setAttribute("aria-expanded", expand);
   }
 
   show(user, productDetail) {
     this.element.innerHTML = this.template.getDetail(user, productDetail);
-  }
-
-  handleStatusClick() {
-    const locationMenu = qs("#sale-status .dropdown");
-    const currentState = locationMenu.style.display;
-    if (currentState === "block") {
-      locationMenu.style.display = "none";
-    } else {
-      locationMenu.style.display = "block";
-    }
   }
 }
 
@@ -72,41 +98,32 @@ class Template {
     `;
   }
 
-  getStatusSelector(status) {
-    const textMapping = {
-      SALE: "판매 중",
-      SOLD: "판매 완료",
-      RESERVE: "예약 중",
-    };
-    const statusTypes = Object.keys(textMapping);
-    let flag = false;
-
-    const getDropDownItem = (statusType, isSelected) => {
-      return `<div class="dropdown-item ${
-        isSelected ? " selected" : ""
-      }" data-type=${statusType}>${textMapping[statusType]}</div>`;
-    };
-
-    const dropDownList = statusTypes.map((statusType) => {
-      if (flag) {
-        return getDropDownItem(statusType);
-      }
-      if (status === statusType) {
-        flag = true;
-        return getDropDownItem(statusType, true);
-      } else {
-        return getDropDownItem(statusType);
-      }
-    });
+  getStatusSelector(status = STATUS_TYPE.SOLD) {
+    const statusList = Object.values(STATUS_TYPE);
 
     return `
-        <div class="post-main--sale-status" id="sale-status">
-            <p>판매 중</p>
-            ${chevronDownSvg}
-            <div class="dropdown">
-                ${dropDownList.join("")}
-            </div>
+        <div  id="sale-status">
+            ${this._getSaleStatusDropDown(statusList)}
         </div>
       `;
+  }
+
+  _getSaleStatusDropDown(statusList = []) {
+    return /*html*/ `
+        <div class="post-main--sale-status" class="dropdown-wrapper">
+            <div class="dropdown-wrapper--toggle">
+                <p>판매 중</p>
+                <div class="location-icon"> ${chevronDownSvg}</div>
+            </div>
+            <div class="dropdown-wrapper--menu " aria-expanded="false">
+                ${statusList
+                  .map((status) => this._getSaleStatusItem(status))
+                  .join("")}
+            </div>
+        </div>`;
+  }
+
+  _getSaleStatusItem(status) {
+    return /* html */ `<div class="dropdown-wrapper--menu--item compact center" data-status="${status}">${STATUS_TEXT[status]}</div>`;
   }
 }
