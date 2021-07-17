@@ -1,6 +1,10 @@
 @import url("./common/basic_header.css");
 @import url("./common/global_color.css");
 
+body {
+  border: 1px solid #c0c0c0;
+}
+
 .location-main {
   display: flex;
   flex-direction: column;
@@ -29,18 +33,15 @@
   background-color: var(--primary1-color);
   border-radius: 8px;
   width: 136px;
-  height: 36px;
+  height: 36;
   padding: 6px 16px;
   justify-content: space-between;
   align-items: center;
   color: white;
   font-size: 14px;
 }
-
 .location--container--location-card .close-icon {
-  width: 12px;
-  height: 12px;
-  background-color: red;
+  width: 20px;
 }
 
 .location--container--location-card.empty {
@@ -49,8 +50,8 @@
   border: 1px solid var(--primary1-color);
 }
 
-.location--container--location-card.empty svg {
-  fill: var(--primary1-color);
+.location--container--location-card.empty .plus-icon {
+  stroke: var(--primary1-color);
 }
 
 .edit-modal {
