@@ -50,7 +50,7 @@ export default class HomePage extends AbstractPage {
     <div id="product-container" class="product-container"></div>
 
     <article class="new-product-button">
-      <a href="/createPost">
+      <a href="/createPost" data-link>
        <div class="plus-icon">${plusSVG}</div>
       </a>
     </article>
