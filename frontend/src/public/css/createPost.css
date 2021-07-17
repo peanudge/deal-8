@@ -1,10 +1,6 @@
 @import url("./common/basic_header.css");
 @import url("./common/global_color.css");
 
-body {
-  border: 1px solid #c0c0c0;
-}
-
 .posting-main {
   display: flex;
   flex-direction: column;
