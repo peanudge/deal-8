@@ -1,6 +1,7 @@
 export default class AbstractAccountStore {
-    getAccount(Account) {}
-    getAddress(Account) {}
-    addLocation(Account,newLocation) {}
-    getInterests(Account) {}
+  getAccount({ username }) {}
+  createAccount({ username, newLocation }) {}
+  getLocations({ username }) {}
+  addLocation(Account, newLocation) {}
+  getInterests(Account) {}
 }

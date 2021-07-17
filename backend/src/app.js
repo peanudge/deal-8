@@ -3,6 +3,7 @@ import express from "express";
 import path from "path";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
+import session from "express-session";
 
 import indexRouter from "./routes/index.js";
 
@@ -20,13 +21,6 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "../public")));
 
-app.use("/", indexRouter);
-
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  next(createError(404));
-});
-
 // express-session
 app.use(
   session({
@@ -35,6 +29,13 @@ app.use(
     saveUninitialized: true,
   })
 );
+
+app.use("/", indexRouter);
+
+// catch 404 and forward to error handler
+app.use(function (req, res, next) {
+  next(createError(404));
+});
 
 // error handler
 app.use(function (err, req, res, next) {
