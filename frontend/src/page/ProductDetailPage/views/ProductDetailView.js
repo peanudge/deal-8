@@ -1,5 +1,5 @@
 import View from "@/page/View";
-import { qs } from "@/helper/selectHelpers";
+import { qs, qsAll } from "@/helper/selectHelpers";
 import { delegate } from "@/helper/eventHelpers";
 
 import chevronDownSvg from "@/public/svg/chevron-down.svg";
@@ -30,6 +30,23 @@ export default class ProductDetailView extends View {
     delegate(this.element, "click", ".dropdown-wrapper--toggle", (e) =>
       this.toggleDropDownMenu()
     );
+    // out-focus event handler
+    document.addEventListener("click", (e) => {
+      const toggler = qs(".dropdown-wrapper--toggle", this.element);
+      if (toggler === e.target) return;
+
+      const menuItems = qsAll(".dropdown-wrapper--menu--item", this.element);
+      const match = Array.from(menuItems).some(
+        (menuItem) => e.target === menuItem
+      );
+
+      if (!match) {
+        const $menu = qs(".dropdown-wrapper--menu", this.element);
+        if ($menu) {
+          this.toggleDropDownMenu(false);
+        }
+      }
+    });
   }
 
   toggleDropDownMenu(expand = null) {
