@@ -57,13 +57,16 @@ export default class CreatePostPage extends AbstractPage {
         <span class="split-line"></span>
         <div id="category-btn" 
             class="posting-main--category-btn">
-              <p>(필수) 카테고리를 선택해주세요.<p>
+              <p class="category-name">(필수) 카테고리를 선택해주세요.<p>
               <div class="right-arrow-icon">${chevronRightSVG}</div>
           </div>
         <span class="split-line"></span>
         <input
+            id="cost-input"
             class="posting-main--text-input"
             type="number"
+            min="1"
+            step="any"
             placeholder="가격 (선택사항)"
         />
         <span class="split-line"></span>
@@ -75,6 +78,7 @@ export default class CreatePostPage extends AbstractPage {
         </div>
         <span class="split-line"></span>
         <span
+            id="comment-textarea"
             class="posting-main--textarea expand-textarea"
             role="textbox"
             contenteditable

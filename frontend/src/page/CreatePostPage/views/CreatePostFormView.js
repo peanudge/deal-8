@@ -7,6 +7,9 @@ export default class CreatePostFormView extends View {
     super(element);
     this.titleInputElement = qs("#title-input", this.element);
     this.categoryMenuBtnElement = qs("#category-btn", this.element);
+    this.costInputElement = qs("#cost-input", this.element);
+    this.commentAreaElement = qs("#comment-textarea", this.element);
+
     this.bindingEvents();
   }
 
@@ -16,18 +19,38 @@ export default class CreatePostFormView extends View {
     );
 
     on(this.titleInputElement, "input", (e) => this.handleTitleChangeEvent(e));
+    on(this.costInputElement, "input", (e) => this.handleCostChangeEvent(e));
+    on(this.commentAreaElement, "input", (e) =>
+      this.handleCommentChangeEvent(e)
+    );
   }
 
-  handleTitleChangeEvent() {
-    console.log(e.target.value);
-    // TODO: create custom event
+  handleTitleChangeEvent(e) {
+    const title = e.target.value;
+    this.emit("@change-title", { value: title });
+  }
+  handleCostChangeEvent(e) {
+    const cost = e.target.value;
+    this.emit("@change-cost", { value: Number(cost) });
+  }
+
+  handleCommentChangeEvent(e) {
+    const comment = e.target.innerText;
+    this.emit("@change-comment", { value: comment });
   }
 
   handleCategoryMenuBtn() {
     this.emit("@show-select-category");
   }
 
-  show() {
+  show({ title, cost, comment, category }) {
+    this.titleInputElement.value = title;
+    this.costInputElement.value = cost;
+    this.commentAreaElement.innerText = comment;
+    if (category) {
+      const $textElement = qs(".category-name", this.categoryMenuBtnElement);
+      $textElement.innerText = category;
+    }
     super.show();
   }
 }

@@ -20,6 +20,15 @@ export default class CategorySelectView extends View {
     delegate(this.element, "click", "#back-btn", () =>
       this.handleClickBackButtonEvent()
     );
+
+    delegate(this.element, "click", ".category-list--item", (e) =>
+      this.handleClickCategoryEvent(e)
+    );
+  }
+
+  handleClickCategoryEvent(e) {
+    const categoryId = e.target.dataset.id;
+    this.emit("@select-category", { value: categoryId });
   }
 
   handleClickBackButtonEvent() {
