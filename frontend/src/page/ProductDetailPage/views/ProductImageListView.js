@@ -11,7 +11,7 @@ const tag = "[ProductImageListView]";
 export default class ProductImageListView extends View {
   constructor(
     element = qs("div.post-main--img-container"),
-    template = new Template(),
+    template = new Template()
   ) {
     console.log(tag, "constructor");
     super(element);
@@ -41,20 +41,18 @@ export default class ProductImageListView extends View {
   }
 
   animateImageContent({ currentLeft, left }) {
-    console.log(`current left : ${currentLeft}\nleft : ${left}`);
     this.$images.animate(
       [
         { transform: `translateX(${currentLeft})` },
         { transform: `translateX(${left})` },
       ],
-      this.SLIDETIME,
+      this.SLIDETIME
     );
     this.$images.style.transform = `translateX(${left})`;
   }
 
   handleMoveButtonClick(event) {
     const moveValue = Number(event?.target?.dataset?.move);
-    console.log(moveValue);
     let tmpImageIndex = this.currentImageIndex + moveValue;
 
     const isFirstNow = tmpImageIndex === -1;
@@ -76,12 +74,11 @@ class Template {
     const elementArray = images.map(
       (image) => `
       <img src=${image} />
-    `,
+    `
     );
     return elementArray.join("");
   }
   getImages(images) {
-    console.log("get images");
     return `
         <div class="images">
           ${this.imagesToElements(images)}

@@ -55,7 +55,7 @@ export default class DropDownMenuView extends View {
                     <div class="location-icon">${gpsSVG}</div>
                     <strong> ${currentItem} </strong>
                 </div>
-                <div class="dropdown-wrapper--menu" aria-expanded="false">
+                <div class="dropdown-wrapper--menu center" aria-expanded="false">
                     ${this.template.getItems(items)}
                     <div class="dropdown-wrapper--menu--item">
                         <a href="/location" data-link>내 동내 설정하기</a>
@@ -67,8 +67,6 @@ export default class DropDownMenuView extends View {
 }
 
 class Template {
-  getDropDownToggle;
-
   getItems(items) {
     return items
       .map(
