@@ -10,9 +10,16 @@ const locations = [
 ];
 
 export default class InMemoryAccountStore extends AbstractAccountStore {
+  
   async getAccount({ username }) {
-    if (accounts.includes(username)) {
-      return new AccountDTO(username);
+    const result = {username, locations: []}
+    locations.forEach(locationInfo => {
+      if (locationInfo.username === username) {
+        result.locations.push(locationInfo.location)
+      }
+    })
+    if (!result.locations.length <= 0) {
+      return result;
     }
     return null;
   }
@@ -35,13 +42,6 @@ export default class InMemoryAccountStore extends AbstractAccountStore {
   }
 
   async createAccount({ username, location }) {
-    console.log("create account")
-    if (accounts.includes(username) === -1) {
-    console.log("include name")
-      return false;
-    }
-    
-    
     if (await this.addLocation({ username, location })) {
       return true;
     }

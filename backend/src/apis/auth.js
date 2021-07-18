@@ -5,15 +5,12 @@ const accountStore = new AccountStore();
 
 const signIn = async (req, res) => {
   const { username } = req.body;
-  const accountDTO = new Account(username);
-  const account = await accountStore.getAccount(accountDTO);
-
+  const account = await accountStore.getAccount({username});
   if (account === null) {
     return res.json({ success: false });
   }
-  req.session.user = {
-    username,
-  };
+
+  req.session.username = username
   req.session.save(() => {
     return res.json({ success: true });
   });
@@ -21,6 +18,11 @@ const signIn = async (req, res) => {
 
 const signUp = async (req, res) => {
   const { username, location } = req.body;
+ 
+  if (await accountStore.getAccount(username) !== null) {
+    return res.json({success: false }) // overlap
+  }
+
   const account = await accountStore.createAccount({username, location});
   if (account) {
     return res.json({ success: true });
@@ -29,12 +31,7 @@ const signUp = async (req, res) => {
 };
 
 const authApi = {
-  signIn: (req, res) => {
-    signIn(req, res);
-  },
-  signUp: (req, res) => {
-    signUp(req, res);
-  },
+  signIn, signUp,
   signOut: (req,res) => {
     req.session.destroy((err) => {
       return res.json({success: true})
