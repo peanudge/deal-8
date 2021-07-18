@@ -15,7 +15,6 @@ export default class Product {
     deletedAt,
   }) {
     if (images?.length === 0 || !images) {
-      console.log("no images");
       thumbnail = null;
     }
     this.id = id;
