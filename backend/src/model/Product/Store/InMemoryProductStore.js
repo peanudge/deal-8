@@ -12,7 +12,7 @@ const testImage2 =
 
 const productList = [
   {
-    id: 1,
+    id: 0,
     category: 1,
     author: "testuser",
     title: "예시1",
@@ -20,17 +20,16 @@ const productList = [
     cost: 100000, // 원
     location: "역삼동",
     thumbnail: testImage1,
-    image: [testImage1, testImage2],
+    images: [testImage1, testImage2],
     createAt: new Date(),
     updateAt: new Date(),
     deleteAt: null,
     countOfView: 10,
     countOfChat: 2,
     countOfInterested: 4,
-    isInterested: false,
   },
   {
-    id: 2,
+    id: 1,
     category: 2,
     author: "testuser",
     title: "예시2",
@@ -38,18 +37,54 @@ const productList = [
     cost: 1000, // 원
     location: "범박동",
     thumbnail: testImage2,
-    image: [testImage1, testImage2],
+    images: [testImage1, testImage2],
     createAt: new Date(),
     updateAt: new Date(),
     deleteAt: null,
     countOfView: 10,
     countOfChat: 2,
     countOfInterested: 4,
-    isInterested: false,
   },
 ];
 
 export default class InMemmoryProductStore extends AbstractProductStore {
+  async createProduct({
+    category,
+    title,
+    content,
+    cost,
+    location,
+    author,
+    images,
+  }) {
+    let thumbnail;
+
+    if (!images || images?.length === 0) {
+      thumbnail = null;
+      images = [];
+    }
+    const newProduct = {
+      id: productList.length,
+      category,
+      author,
+      title,
+      content,
+      cost,
+      location,
+      thumbnail,
+      images,
+      createAt: new Date(),
+      updateAt: new Date(),
+      deleteAt: null,
+      countOfView: 0,
+      countOfChat: 0,
+      countOfInterested: 0,
+    };
+
+    productList.push(newProduct);
+    return newProduct;
+  }
+
   async getProductByCategoryAndLocation({ location, category }) {
     const result = [];
     category = Number(category);
@@ -61,6 +96,7 @@ export default class InMemmoryProductStore extends AbstractProductStore {
 
     return result;
   }
+
   async getProductById({ id }) {
     id = Number(id);
     const result = productList.find((p) => p.id === id);
@@ -72,6 +108,43 @@ export default class InMemmoryProductStore extends AbstractProductStore {
   async getCategories() {
     return categoryList;
   }
+
+  async updateProduct({
+    id,
+    category,
+    title,
+    content,
+    cost,
+    location,
+    images,
+  }) {
+    const targetIndex = productList.findIndex((product) => product.id === id);
+    if (targetIndex === -1) {
+      console.log(targetIndex);
+      return null;
+    }
+    let thumbnail;
+
+    if (!images || images?.length === 0) {
+      thumbnail = null;
+      images = [];
+    } else {
+      thumbnail = images[0];
+    }
+
+    const newProduct = productList[targetIndex];
+    newProduct.category = category;
+    newProduct.title = title;
+    newProduct.content = content;
+    newProduct.cost = cost;
+    newProduct.location = location;
+    newProduct.images = images;
+    newProduct.thumbnail = thumbnail;
+    productList[targetIndex] = newProduct;
+
+    return newProduct;
+  }
+
   async deleteProductById({ id }) {
     id = Number(id);
     const productIndex = productList.findIndex((p) => p.id === id);
