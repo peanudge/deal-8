@@ -1,5 +1,6 @@
 export default class Account {
-    constructor(username) {
-        this.username = username
-    }
+  constructor(username, locations = []) {
+    this.username = username;
+    this.locations = locations;
+  }
 }

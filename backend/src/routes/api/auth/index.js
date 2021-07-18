@@ -6,29 +6,30 @@ const router = express.Router();
 
 router.post("/signin", async (req, res) => {
   const { username } = req.body;
-  const account = await accountStore.getAccount({ username });
-  if (account === null) {
+  const account = await accountStore.getAccount(username);
+  if (account) {
+    req.session.username = account.username;
+    req.session.save(() => {
+      return res.json({ success: true });
+    });
+  } else {
     return res.json({ success: false });
   }
-
-  req.session.username = username;
-  req.session.save(() => {
-    return res.json({ success: true });
-  });
 });
 
 router.post("/signup", async (req, res) => {
   const { username, location } = req.body;
-
-  if ((await accountStore.getAccount(username)) !== null) {
-    return res.json({ success: false }); // overlap
+  const originAccount = await accountStore.getAccount(username);
+  if (originAccount) {
+    return res.json({ success: false });
   }
 
-  const account = await accountStore.createAccount({ username, location });
-  if (account) {
+  const newAccount = await accountStore.createAccount({ username, location });
+  if (newAccount) {
     return res.json({ success: true });
+  } else {
+    return res.json({ success: false });
   }
-  return res.json({ success: false });
 });
 
 router.post("/signout", (req, res) => {
