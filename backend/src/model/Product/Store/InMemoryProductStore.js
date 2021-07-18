@@ -61,12 +61,13 @@ export default class InMemmoryProductStore extends AbstractProductStore {
     images,
   }) {
     let thumbnail;
-
+    console.log(category, title, content, cost, location, author, images);
     if (!images || images?.length === 0) {
       thumbnail = null;
       images = [];
+    } else {
+      thumbnail = images[0];
     }
-
     const newProduct = new Product({
       id: productData.length,
       category,
@@ -85,6 +86,8 @@ export default class InMemmoryProductStore extends AbstractProductStore {
       countOfInterested: 0,
       isInterested: false,
     });
+
+    console.log(newProduct);
 
     productData.push(newProduct);
     return newProduct;
@@ -114,7 +117,6 @@ export default class InMemmoryProductStore extends AbstractProductStore {
     const result = productData
       .filter((p) => compareFunc(p, location, category))
       .map((p) => {
-        console.log(p);
         return new Product({
           id: p.id,
           category: p.category,
@@ -160,7 +162,6 @@ export default class InMemmoryProductStore extends AbstractProductStore {
   }) {
     const targetIndex = productData.findIndex((product) => product.id === id);
     if (targetIndex === -1) {
-      console.log(targetIndex);
       return null;
     }
     let thumbnail;

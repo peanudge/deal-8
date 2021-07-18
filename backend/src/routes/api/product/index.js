@@ -44,30 +44,42 @@ router.put("/media", async (req, res) => {
   res.send("test");
 });
 
-router.put("/", async (req, res) => {
+router.post("/", async (req, res) => {
   const { category, title, content, cost, location, images } = req.body;
+
   // TODO auth middleware
-  const author = req.session.user;
-  const product = new Product(
-    category,
-    title,
-    content,
-    cost,
-    location,
-    images,
-    author,
-  );
+  const author = req.session.username;
   try {
-    const newProduct = await productStore.createProduct(product);
+    const newProduct = await productStore.createProduct({
+      category,
+      title,
+      content,
+      cost,
+      location,
+      images,
+      author,
+    });
     return res.json(newProduct);
   } catch (err) {
+    console.log(err);
     return res.status(500).json({ error: "unexpect error occured" });
   }
 });
 
-router.post("/", async (req, res) => {
+router.put("/", async (req, res) => {
   const { id, category, title, content, cost, location, images } = req.body;
   // TODO auth middleware
+  const author = req.session.username;
+
+  try {
+    const targetProduct = await productStore.getProductById({ id });
+    if (targetProduct.author !== author) {
+      return res.status(402).json({ success: false });
+    }
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ success: false });
+  }
 
   const product = new Product({
     id,
@@ -79,13 +91,27 @@ router.post("/", async (req, res) => {
     images,
   });
 
-  const updatedProduct = await productStore.updateProduct(product);
-
-  return res.json(updatedProduct);
+  try {
+    const updatedProduct = await productStore.updateProduct(product);
+    return res.json(updatedProduct);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ success: false });
+  }
 });
 
 router.delete("/", async (req, res) => {
   const { id } = req.query;
+  const username = req.session.username;
+  try {
+    const oldProduct = await productStore.getProductById(id);
+    if (oldProduct.author !== username) {
+      return res.status(402).json({ success: false });
+    }
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ success: false });
+  }
 
   try {
     const result = await productStore.deleteProductById({ id });
