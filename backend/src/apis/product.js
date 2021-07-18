@@ -4,7 +4,7 @@ const productStore = new ProductStore();
 
 const getProducts = async (req, res) => {
   const { location, category } = req.query;
-  const products = productStore.getProductByCategoryAndLocation({
+  const products = await productStore.getProductByCategoryAndLocation({
     location,
     category,
   });
@@ -14,12 +14,13 @@ const getProducts = async (req, res) => {
 
 const getProduct = async (req, res) => {
   const { id } = req.query;
-  const product = productStore.getProductById({ id });
+  const product = await productStore.getProductById({ id });
   return res.json(product);
 };
 
 const getCategories = async (req, res) => {
-  res.send("test");
+  const categories = await productStore.getCategories();
+  return res.json(categories);
 };
 
 const uploadFile = async (req, res) => {

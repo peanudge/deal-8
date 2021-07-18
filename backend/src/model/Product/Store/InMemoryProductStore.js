@@ -1,6 +1,9 @@
 import AbstractProductStore from "../AbstractProductStore.js";
 
-const categoryList = ["디지털 기기", "생활과전"];
+const categoryList = [
+  { id: 1, name: "디지털 기기" },
+  { id: 2, name: "생활과전" },
+];
 
 const testImage1 =
   "http://t1.daumcdn.net/friends/prod/editor/dc8b3d02-a15a-4afa-a88b-989cf2a50476.jpg";
@@ -47,7 +50,7 @@ const productList = [
 ];
 
 export default class InMemmoryProductStore extends AbstractProductStore {
-  getProductByCategoryAndLocation({ location, category }) {
+  async getProductByCategoryAndLocation({ location, category }) {
     const result = [];
     category = Number(category);
     productList.forEach((p) => {
@@ -58,7 +61,7 @@ export default class InMemmoryProductStore extends AbstractProductStore {
 
     return result;
   }
-  getProductById({ id }) {
+  async getProductById({ id }) {
     id = Number(id);
     const result = productList.find((p) => p.id === id);
     if (!result) {
@@ -66,6 +69,8 @@ export default class InMemmoryProductStore extends AbstractProductStore {
     }
     return result;
   }
-  getCategories() {}
+  async getCategories() {
+    return categoryList;
+  }
   deleteProductById({ id }) {}
 }
