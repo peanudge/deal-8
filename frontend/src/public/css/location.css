@@ -17,10 +17,16 @@ body {
 
 .location-main--comment {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
   margin-top: 24px;
+}
+
+.location-main--comment .error-message {
+  margin-top: 10px;
+  color: red;
 }
 
 .location--container {

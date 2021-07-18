@@ -3,7 +3,7 @@ export const getProfileAsync = () =>
     setTimeout(() => {
       resolve({
         username: "Woowahan",
-        locations: ["역삼동", "범박동"],
+        locations: ["역삼동"],
       });
     }, 500);
   });

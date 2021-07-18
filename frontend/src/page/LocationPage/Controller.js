@@ -1,25 +1,62 @@
 import { addLocationAsync, deleteLocationAsync } from "@/api/user";
 
+import { getProfileAsync } from "@/api/user";
+
+const ERROR_LOCATION_NEED = "적어도 하나의 동네는 존재해야합니다.";
+
 export default class Controller {
   constructor(
     store,
-    { locationListView, deleteLocationModalView, addLocationModalView }
+    {
+      locationListView,
+      deleteLocationModalView,
+      addLocationModalView,
+      locationCommentView,
+    }
   ) {
     this.store = store;
 
     this.deleteLocationModalView = deleteLocationModalView;
     this.addLocationModalView = addLocationModalView;
     this.locationListView = locationListView;
+    this.locationCommentView = locationCommentView;
 
     this.isShowDeleteLocationModal = false;
     this.isShowAddLocationModal = false;
 
+    this.error = {};
+
     this.subscribeViewEvents();
+    this.fetchData();
     this.render();
+  }
+
+  fetchData() {
+    //TODO: user location fetch
+    getProfileAsync().then((user) => {
+      const { locations } = user;
+      this.store.locations = locations;
+      this.render();
+    });
+  }
+  validateLocationCount() {
+    if (this.store.locations.length <= 1) {
+      this.error = {
+        location: ERROR_LOCATION_NEED,
+      };
+      return false;
+    } else {
+      this.error = {};
+      return true;
+    }
   }
   subscribeViewEvents() {
     this.locationListView.on("@click-delete-location", (e) => {
-      this.showDeleteLocationModal(e.detail.value);
+      if (this.validateLocationCount()) {
+        this.showDeleteLocationModal(e.detail.value);
+      } else {
+        this.render();
+      }
     });
 
     this.locationListView.on("@click-add-location", (e) =>
@@ -89,9 +126,11 @@ export default class Controller {
   }
 
   render() {
-    const { targetLocation } = this.store;
+    const { targetLocation, locations } = this.store;
 
-    this.locationListView.show();
+    this.locationListView.show(locations);
+
+    this.locationCommentView.show(this.error);
 
     if (this.isShowAddLocationModal) {
       this.addLocationModalView.show();

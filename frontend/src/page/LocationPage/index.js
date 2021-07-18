@@ -9,6 +9,7 @@ import LocationListView from "./views/LocationListView";
 import AddLocationModalView from "./views/AddLocationModalView";
 import DeleteLocationModalView from "./views/DeleteLocationModalView";
 import Store from "./Store";
+import LocationCommentView from "./views/LocationCommentView";
 
 const tag = "[LocationPage]";
 
@@ -29,11 +30,12 @@ export default class LocationPage extends AbstractPage {
       </h1>
     </header>
     <main class="location-main">
-      <div class="location-main--comment">
+      <div id="location-comment-container" class="location-main--comment">
         <p>
           지역은 최소 1개 이상<br />
           최대 2개까지 설정 가능해요
         </p>
+        <div class="error-message"></div>
       </div>
       <div id="location-container" class="location--container">
       </div>
@@ -75,6 +77,7 @@ export default class LocationPage extends AbstractPage {
       deleteLocationModalView: new DeleteLocationModalView(),
       addLocationModalView: new AddLocationModalView(),
       locationListView: new LocationListView(),
+      locationCommentView: new LocationCommentView(),
     };
     new Controller(store, views);
   }
