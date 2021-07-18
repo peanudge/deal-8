@@ -1,6 +1,11 @@
+import ProductStore from "../model/Product/Store/InMemoryProductStore.js";
+
+const productStore = new ProductStore();
+
 const getProducts = async (req, res) => {
   const { location, category } = req.query;
   console.log(location, category);
+  productStore.getProductByCategoryAndLocation({ location, category });
 };
 
 const getProduct = async (req, res) => {

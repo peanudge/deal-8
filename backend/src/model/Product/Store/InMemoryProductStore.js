@@ -1,4 +1,4 @@
-import AbstractProductStoree from "../AbstractProductStore.js";
+import AbstractProductStore from "../AbstractProductStore.js";
 
 const category = new Map();
 const product = new Map();
@@ -11,7 +11,7 @@ const testImage1 =
 const testImage2 =
   "https://img1.daumcdn.net/thumb/R720x0.q80/?scode=mtistory2&fname=http%3A%2F%2Fcfile7.uf.tistory.com%2Fimage%2F24283C3858F778CA2EFABE";
 
-tmpProduct = [
+const tmpProduct = [
   {
     id: 1,
     catrgory: 1,
@@ -55,7 +55,9 @@ tmpProduct.forEach((p, index) => {
 });
 
 export default class InMemmoryProductStore extends AbstractProductStore {
-  getProductByCategoryAndLocation({ location, category }) {}
+  getProductByCategoryAndLocation({ location, category }) {
+    console.log(product);
+  }
   getProductById({ id }) {}
   getCategories() {}
   deleteProductById({ id }) {}
