@@ -35,7 +35,8 @@ const updateProduct = async (req, res) => {
 
 const deleteProduct = async (req, res) => {
   const { id } = req.query;
-  productStore.deleteProductById({ id });
+  const result = await productStore.deleteProductById({ id });
+  return res.json({ success: result });
 };
 
 const productApi = {
