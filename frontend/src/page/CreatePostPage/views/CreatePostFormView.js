@@ -9,6 +9,7 @@ export default class CreatePostFormView extends View {
     this.categoryMenuBtnElement = qs("#category-btn", this.element);
     this.costInputElement = qs("#cost-input", this.element);
     this.commentAreaElement = qs("#comment-textarea", this.element);
+    this.locationElement = qs("#location-name", this.element);
 
     this.bindingEvents();
   }
@@ -43,7 +44,7 @@ export default class CreatePostFormView extends View {
     this.emit("@show-select-category");
   }
 
-  show({ title, cost, comment, category }, error = {}) {
+  show({ title, cost, comment, category, location }, error = {}) {
     this.titleInputElement.value = title;
     if (error["title"]) {
       this.titleInputElement.placeholder = error["title"];
@@ -53,6 +54,7 @@ export default class CreatePostFormView extends View {
     }
     this.costInputElement.value = cost;
     this.commentAreaElement.innerText = comment;
+    this.locationElement.innerText = location;
 
     const $textElement = qs(".category-name", this.categoryMenuBtnElement);
     if (category) {

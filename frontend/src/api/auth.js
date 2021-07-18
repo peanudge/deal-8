@@ -1,11 +1,16 @@
-// TODO: 콜백 함수들을 제거해야한다.
-
-export const loginAsync = ({ id }, cb) =>
+export const loginAsync = ({ id }) =>
   new Promise((resolve, reject) => {
-    setTimeout(() => {
-      console.log(`Login Request with ${id}`);
-      cb();
-    }, 500);
+    const request = fetch("/api/auth/signin", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: id,
+      }),
+    }).then((response) => response.json());
+
+    resolve(request);
   });
 
 export const signupAsync = ({ id, location }, cb) =>

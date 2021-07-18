@@ -2,6 +2,7 @@ import { categoryItems } from "@/util/category";
 
 import { createProductAsync } from "@/api/product";
 import { navigateTo } from "@/router";
+import { getProfileAsync } from "@/api/user";
 
 const tag = "[Controller]";
 
@@ -26,8 +27,17 @@ export default class Controller {
 
     this.isShowCategorySelectView = false;
     this.error = {};
+    this.fetchData();
     this.subscribeViewEvents();
     this.render();
+  }
+
+  fetchData() {
+    getProfileAsync().then((user) => {
+      const { locations } = user;
+      this.store.location = locations[0];
+      this.render();
+    });
   }
 
   subscribeViewEvents() {
@@ -115,11 +125,13 @@ export default class Controller {
     } else {
       this.store.images = files;
     }
+
     this.render();
   }
 
   render() {
     const { images, category, comment, title, location, cost } = this.store;
+
     if (this.isShowCategorySelectView) {
       this.categorySelectView.show();
       this.createPostFormView.hide();
