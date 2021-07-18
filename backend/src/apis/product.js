@@ -4,8 +4,12 @@ const productStore = new ProductStore();
 
 const getProducts = async (req, res) => {
   const { location, category } = req.query;
-  console.log(location, category);
-  productStore.getProductByCategoryAndLocation({ location, category });
+  const products = productStore.getProductByCategoryAndLocation({
+    location,
+    category,
+  });
+
+  return res.json(products);
 };
 
 const getProduct = async (req, res) => {
