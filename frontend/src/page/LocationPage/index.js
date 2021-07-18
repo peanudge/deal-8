@@ -1,9 +1,14 @@
 import AbstractPage from "../AbstractPage";
+import Controller from "./Controller";
+
 import chevronLeftSVG from "@/public/svg/chevron-left.svg";
-import addSVG from "@/public/svg/add.svg";
 import closeSVG from "@/public/svg/close-white.svg";
 
 import "@/public/css/location.css";
+import LocationListView from "./views/LocationListView";
+import AddLocationModalView from "./views/AddLocationModalView";
+import DeleteLocationModalView from "./views/DeleteLocationModalView";
+import Store from "./Store";
 
 const tag = "[LocationPage]";
 
@@ -30,19 +35,13 @@ export default class LocationPage extends AbstractPage {
           최대 2개까지 설정 가능해요
         </p>
       </div>
-      <div class="location--container">
-        <div class="location--container--location-card">
-          <p>역삼동</p>
-          <div class="close-icon">${closeSVG}</div>
-        </div>
-        <div class="location--container--location-card empty">
-            <div class="plus-icon">${addSVG}</div>
-        </div>
+      <div id="location-container" class="location--container">
       </div>
     </main>
-    <div id="edit-modal" class="edit-modal">
+    <div id="location-edit-modal" class="edit-modal">
       <p>우리 동네를 입력하세요</p>
       <input
+        id="edit-location-input"
         class="edit-modal--text-input"
         type="text"
         placeholder="시 구 제외, 동만 입력"
@@ -56,8 +55,27 @@ export default class LocationPage extends AbstractPage {
         </div>
       </div>
     </div>
+    <div id="location-delete-modal" class="delete-modal">
+        <p>정말 <span id="location-name"></span> 동네를 삭제하시겠습니까?</p>
+        <div class="edit-modal--btn-container">
+            <div id="cancel-btn" class="edit-modal--btn-container--cancel-btn">
+            취소
+            </div>
+            <div id="accept-btn" class="edit-modal--btn-container--accept-btn">
+            삭제
+            </div>
+        </div>
+    </div>
     `;
   }
 
-  async after_render() {}
+  async after_render() {
+    const store = new Store();
+    const views = {
+      deleteLocationModalView: new DeleteLocationModalView(),
+      addLocationModalView: new AddLocationModalView(),
+      locationListView: new LocationListView(),
+    };
+    new Controller(store, views);
+  }
 }
