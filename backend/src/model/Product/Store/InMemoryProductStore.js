@@ -27,6 +27,7 @@ const productList = [
     countOfView: 10,
     countOfChat: 2,
     countOfInterested: 4,
+    isInterested: false, // isInterest 는 유저에 따라 달라야 합니다. (이건 테스트용이라 일단 구현하지 않았습니다.)
   },
   {
     id: 1,
@@ -44,6 +45,7 @@ const productList = [
     countOfView: 10,
     countOfChat: 2,
     countOfInterested: 4,
+    isInterested: true,
   },
 ];
 
@@ -90,7 +92,22 @@ export default class InMemmoryProductStore extends AbstractProductStore {
     category = Number(category);
     productList.forEach((p) => {
       if (p.category === category && p.location === location) {
-        result.push(p);
+        const targetProduct = {
+          id: p.id,
+          category: p.category,
+          author: p.author,
+          title: p.title,
+          cost: p.cost,
+          location: p.location,
+          thumbnail: p.thumbnail,
+          createAt: p.createAt,
+          updateAt: p.updateAt,
+          countOfView: p.countOfView,
+          countOfChat: p.countOfChat,
+          countOfInterested: p.countOfInterested,
+          isInterested: p.isInterested,
+        };
+        result.push(targetProduct);
       }
     });
 
