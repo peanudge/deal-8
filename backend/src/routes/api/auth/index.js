@@ -21,7 +21,7 @@ router.post("/signup", async (req, res) => {
   const { username, location } = req.body;
   const originAccount = await accountStore.getAccount(username);
   if (originAccount) {
-    return res.json({ success: false });
+    return res.json({ success: false, error: "Duplicate username" });
   }
 
   const newAccount = await accountStore.createAccount({ username, location });
