@@ -13,7 +13,9 @@ const getProducts = async (req, res) => {
 };
 
 const getProduct = async (req, res) => {
-  res.send("test");
+  const { id } = req.query;
+  const product = productStore.getProductById({ id });
+  return res.json(product);
 };
 
 const getCategories = async (req, res) => {

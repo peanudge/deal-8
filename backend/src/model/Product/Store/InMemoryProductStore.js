@@ -58,7 +58,14 @@ export default class InMemmoryProductStore extends AbstractProductStore {
 
     return result;
   }
-  getProductById({ id }) {}
+  getProductById({ id }) {
+    id = Number(id);
+    const result = productList.find((p) => p.id === id);
+    if (!result) {
+      return null;
+    }
+    return result;
+  }
   getCategories() {}
   deleteProductById({ id }) {}
 }
