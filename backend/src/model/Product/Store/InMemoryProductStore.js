@@ -134,7 +134,6 @@ export default class InMemmoryProductStore extends AbstractProductStore {
           isInterested: p.isInterested,
         });
       });
-
     return result;
   }
 
