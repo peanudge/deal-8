@@ -30,7 +30,7 @@ const productList = [
     isInterested: false, // isInterest 는 유저에 따라 달라야 합니다. (이건 테스트용이라 일단 구현하지 않았습니다.)
   },
   {
-    id: 1,
+    id: 2,
     category: 2,
     author: "testuser",
     title: "예시2",
@@ -81,6 +81,7 @@ export default class InMemmoryProductStore extends AbstractProductStore {
       countOfView: 0,
       countOfChat: 0,
       countOfInterested: 0,
+      isInterested: false,
     };
 
     productList.push(newProduct);

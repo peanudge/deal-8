@@ -1,4 +1,5 @@
 import ProductStore from "../../../model/Product/Store/InMemoryProductStore.js";
+import Product from "../../../model/Product/Product.js";
 
 const productStore = new ProductStore();
 
@@ -6,8 +7,7 @@ const createProduct = async (req, res) => {
   const { category, title, content, cost, location, images } = req.body;
   // TODO auth middleware
   const author = req.session.user;
-
-  const newProduct = await productStore.createProduct({
+  const product = new Product(
     category,
     title,
     content,
@@ -15,9 +15,9 @@ const createProduct = async (req, res) => {
     location,
     images,
     author,
-  });
-
-  return res.json({ product: newProduct });
+  );
+  const newProduct = await productStore.createProduct(product);
+  return res.json(newProduct);
 };
 
 const getProducts = async (req, res) => {
@@ -62,19 +62,9 @@ const updateProduct = async (req, res) => {
 };
 
 const deleteProduct = async (req, res) => {
-  const { category, title, content, cost, location, images } = req.body;
-  // TODO auth middleware
-  const author = req.session.user;
+  const { id } = req.query;
 
-  const newProduct = await productStore.updateProduct({
-    category,
-    title,
-    content,
-    cost,
-    location,
-    images,
-    author,
-  });
+  const newProduct = await productStore.deleteProductById(id);
 
   return res.json({ product: newProduct });
 };
