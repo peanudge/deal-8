@@ -4,10 +4,27 @@ import path from "path";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
 import session from "express-session";
+import multer from "multer";
 
 import indexRouter from "./routes/index.js";
 
 const app = express();
+
+// Set Storage Engine
+const storage = multer.diskStorage({
+  destination: "./uploads/",
+  filename: function (req, file, cb) {
+    cb(
+      null,
+      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+    );
+  },
+});
+
+// Init Upload
+export const upload = multer({
+  storage: storage,
+}).array("myImages", 10);
 
 const __dirname = path.resolve();
 // view engine setup
@@ -26,7 +43,7 @@ app.use(
     secret: process.env.SESSION_SECRET || "adnifneaoifdnaoisunfg",
     resave: false,
     saveUninitialized: true,
-  }),
+  })
 );
 
 app.use("/", indexRouter);
