@@ -5,7 +5,7 @@ const accountStore = new AccountStore();
 
 const router = express.Router();
 
-router.get("/profile", async (req, res) => {
+router.get("/me", async (req, res) => {
   if (req.session["username"]) {
     const account = await accountStore.getAccount(req.session.username);
     res.json({ isAuth: true, account });
