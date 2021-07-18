@@ -76,7 +76,7 @@ class Template {
             <div class="dropdown-wrapper--toggle">
                 <div class="location-icon"> ${moreVertival}</div>
             </div>
-            <div class="dropdown-wrapper--menu right" aria-expanded="false">
+            <div class="dropdown-wrapper--menu right small" aria-expanded="false">
                 <div class="dropdown-wrapper--menu--item center">
                     <a href="/" data-link>수정</a>
                 </div>

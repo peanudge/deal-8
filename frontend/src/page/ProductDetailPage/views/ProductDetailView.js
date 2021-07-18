@@ -80,7 +80,7 @@ class Template {
       <div class="post-main--title">${title}</div>
       <div class="post-main--sub-title">
           <p>${category.name}</p>
-          <p>3분 전</p> <!-- TODO: 상대적 시간 시간 계산 후 배치 -->
+          <p>3분 전</p> 
       </div>
       <div class="post-main--content">
         ${content}
@@ -111,11 +111,11 @@ class Template {
   _getSaleStatusDropDown(statusList = []) {
     return /*html*/ `
         <div class="post-main--sale-status" class="dropdown-wrapper">
-            <div class="dropdown-wrapper--toggle">
+            <div class="dropdown-wrapper--toggle post-main--sale-status--content">
                 <p>판매 중</p>
                 <div class="location-icon"> ${chevronDownSvg}</div>
             </div>
-            <div class="dropdown-wrapper--menu " aria-expanded="false">
+            <div class="dropdown-wrapper--menu small" aria-expanded="false">
                 ${statusList
                   .map((status) => this._getSaleStatusItem(status))
                   .join("")}
@@ -124,6 +124,6 @@ class Template {
   }
 
   _getSaleStatusItem(status) {
-    return /* html */ `<div class="dropdown-wrapper--menu--item compact center" data-status="${status}">${STATUS_TEXT[status]}</div>`;
+    return /* html */ `<div class="dropdown-wrapper--menu--item center post-main--sale-status--menu-item" data-status="${status}">${STATUS_TEXT[status]}</div>`;
   }
 }
