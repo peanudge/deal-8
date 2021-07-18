@@ -1,6 +1,13 @@
 import ProductStore from "../../../model/Product/Store/InMemoryProductStore.js";
 import Product from "../../../model/Product/Product.js";
 import express from "express";
+import {
+  SUCCESS_STATUS,
+  BAD_REQUEST,
+  UNAUTHORIZED_STATUS,
+  NOT_FOUND_STATUS,
+  INTERNAL_SERVER_ERROR_STATUS,
+} from "../../../util/HttpStatus.js";
 
 const router = express.Router();
 
@@ -13,10 +20,12 @@ router.get("/", async (req, res) => {
       location,
       category,
     });
-    return res.json(products);
+    return res.status(SUCCESS_STATUS).json(products);
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ error: "unexpect error occured" });
+    return res
+      .status(INTERNAL_SERVER_ERROR_STATUS)
+      .json({ error: "unexpect error occured" });
   }
 });
 
@@ -25,21 +34,27 @@ router.get("/detail", async (req, res) => {
   try {
     const product = await productStore.getProductById(id);
     if (product === null) {
-      return res.status(404).json({ error: "상품을 찾을 수 없습니다." });
+      return res
+        .status(NOT_FOUND_STATUS)
+        .json({ error: "상품을 찾을 수 없습니다." });
     }
-    return res.json(product);
+    return res.status(SUCCESS_STATUS).json(product);
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ error: "unexpect error occured" });
+    return res
+      .status(INTERNAL_SERVER_ERROR_STATUS)
+      .json({ error: "unexpect error occured" });
   }
 });
 
 router.get("/category", async (req, res) => {
   try {
     const categories = await productStore.getCategories();
-    return res.json(categories);
+    return res.status(SUCCESS_STATUS).json(categories);
   } catch (err) {
-    return res.status(500).json({ error: "unexpect error occured" });
+    return res
+      .status(INTERNAL_SERVER_ERROR_STATUS)
+      .json({ error: "unexpect error occured" });
   }
 });
 
@@ -63,10 +78,12 @@ router.post("/", async (req, res) => {
       author,
     });
     const newProduct = await productStore.createProduct(tmpProduct);
-    return res.json(newProduct);
+    return res.status(SUCCESS_STATUS).json(newProduct);
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ error: "unexpect error occured" });
+    return res
+      .status(INTERNAL_SERVER_ERROR_STATUS)
+      .json({ error: "unexpect error occured" });
   }
 });
 
@@ -78,11 +95,11 @@ router.put("/", async (req, res) => {
   try {
     const targetProduct = await productStore.getProductById(id);
     if (targetProduct.author !== author) {
-      return res.status(402).json({ success: false });
+      return res.status(FORBIDDEN_STATUS).json({ success: false });
     }
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ success: false });
+    return res.status(INTERNAL_SERVER_ERROR_STATUS).json({ success: false });
   }
 
   const product = new Product({
@@ -97,10 +114,10 @@ router.put("/", async (req, res) => {
 
   try {
     const updatedProduct = await productStore.updateProduct(product);
-    return res.json(updatedProduct);
+    return res.status(SUCCESS_STATUS).json(updatedProduct);
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ success: false });
+    return res.status(INTERNAL_SERVER_ERROR_STATUS).json({ success: false });
   }
 });
 
@@ -114,15 +131,17 @@ router.delete("/", async (req, res) => {
     }
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ success: false });
+    return res.status(INTERNAL_SERVER_ERROR_STATUS).json({ success: false });
   }
 
   try {
     const result = await productStore.deleteProductById(id);
-    return res.json({ success: result });
+    return res.status(SUCCESS_STATUS).json({ success: result });
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ error: "unexpect error occured" });
+    return res
+      .status(INTERNAL_SERVER_ERROR_STATUS)
+      .json({ error: "unexpect error occured" });
   }
 });
 
