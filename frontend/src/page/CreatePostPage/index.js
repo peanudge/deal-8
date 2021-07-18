@@ -74,7 +74,9 @@ export default class CreatePostPage extends AbstractPage {
           <div class="posting-location--icon">
               ${mapPinSVG}
           </div>
-          <div class="posting-location--name">상암동</div>
+          <div id="location-name" class="posting-location--name">
+            (자동) 현재 계정 동네
+          </div>
         </div>
         <span class="split-line"></span>
         <span
