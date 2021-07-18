@@ -4,6 +4,8 @@ const accountStore = new AccountStore();
 
 const router = express.Router();
 
+const ERROR_MSG_DUPLICATE = "Duplicate username";
+
 router.post("/signin", async (req, res) => {
   const { username } = req.body;
   const account = await accountStore.getAccount(username);
@@ -21,7 +23,7 @@ router.post("/signup", async (req, res) => {
   const { username, location } = req.body;
   const originAccount = await accountStore.getAccount(username);
   if (originAccount) {
-    return res.json({ success: false, error: "Duplicate username" });
+    return res.json({ success: false, error: ERROR_MSG_DUPLICATE });
   }
 
   const newAccount = await accountStore.createAccount({ username, location });
