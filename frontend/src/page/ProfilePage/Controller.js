@@ -15,9 +15,12 @@ export default class Controller {
 
   init() {
     // Get Username from server
-    getProfileAsync().then((data) => {
-      const { username } = data;
-      this.render(username);
+    getProfileAsync().then(({ isAuth, account }) => {
+      if (!isAuth) {
+        navigateTo("/login");
+      } else {
+        this.render(account.username);
+      }
     });
   }
 
@@ -27,8 +30,11 @@ export default class Controller {
 
   logout() {
     // TODO: start spinner
-    logoutAsync(() => {
-      navigateTo("/login");
+    logoutAsync().then((result) => {
+      console.log(result);
+      if (result.success) {
+        navigateTo("/");
+      }
     });
   }
 

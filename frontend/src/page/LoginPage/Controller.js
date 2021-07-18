@@ -1,4 +1,5 @@
 import { loginAsync } from "@/api/auth";
+import { getProfileAsync } from "@/api/user";
 import { navigateTo } from "@/router";
 
 const ERROR_USERNAME_INVALID = "존재하지않는 사용자입니다.";
@@ -9,9 +10,17 @@ export default class Controller {
     console.log(tag);
     this.loginFormView = loginFormView;
 
+    this.init();
     this.error = {};
     this.subscribeViewEvents();
     this.render();
+  }
+  init() {
+    getProfileAsync().then(({ account, isAuth }) => {
+      if (isAuth) {
+        navigateTo("/profile");
+      }
+    });
   }
 
   subscribeViewEvents() {
