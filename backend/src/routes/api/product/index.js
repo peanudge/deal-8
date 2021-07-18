@@ -1,9 +1,37 @@
 import ProductStore from "../../../model/Product/Store/InMemoryProductStore.js";
 import Product from "../../../model/Product/Product.js";
+import express from "express";
+
+const router = express.Router();
 
 const productStore = new ProductStore();
 
-const createProduct = async (req, res) => {
+router.get("/", async (req, res) => {
+  const { location, category } = req.query;
+  const products = await productStore.getProductByCategoryAndLocation({
+    location,
+    category,
+  });
+
+  return res.json(products);
+});
+
+router.get("/detail", async (req, res) => {
+  const { id } = req.query;
+  const product = await productStore.getProductById({ id });
+  return res.json(product);
+});
+
+router.get("/category", async (req, res) => {
+  const categories = await productStore.getCategories();
+  return res.json(categories);
+});
+
+router.put("/media", async (req, res) => {
+  res.send("test");
+});
+
+router.put("/", async (req, res) => {
   const { category, title, content, cost, location, images } = req.body;
   // TODO auth middleware
   const author = req.session.user;
@@ -18,37 +46,13 @@ const createProduct = async (req, res) => {
   );
   const newProduct = await productStore.createProduct(product);
   return res.json(newProduct);
-};
+});
 
-const getProducts = async (req, res) => {
-  const { location, category } = req.query;
-  const products = await productStore.getProductByCategoryAndLocation({
-    location,
-    category,
-  });
-
-  return res.json(products);
-};
-
-const getProduct = async (req, res) => {
-  const { id } = req.query;
-  const product = await productStore.getProductById({ id });
-  return res.json(product);
-};
-
-const getCategories = async (req, res) => {
-  const categories = await productStore.getCategories();
-  return res.json(categories);
-};
-
-const uploadFile = async (req, res) => {
-  res.send("test");
-};
-
-const updateProduct = async (req, res) => {
+router.post("/", async (req, res) => {
   const { id, category, title, content, cost, location, images } = req.body;
   // TODO auth middleware
-  const updatedProduct = await productStore.updateProduct({
+
+  const product = new Product({
     id,
     category,
     title,
@@ -58,25 +62,17 @@ const updateProduct = async (req, res) => {
     images,
   });
 
-  return res.json(updatedProduct);
-};
+  const updatedProduct = await productStore.updateProduct(product);
 
-const deleteProduct = async (req, res) => {
+  return res.json(updatedProduct);
+});
+
+router.delete("/", async (req, res) => {
   const { id } = req.query;
 
-  const newProduct = await productStore.deleteProductById(id);
+  const result = await productStore.deleteProductById({ id });
 
-  return res.json({ product: newProduct });
-};
+  return res.json({ success: result });
+});
 
-const productApi = {
-  createProduct,
-  getProducts,
-  getProduct,
-  getCategories,
-  uploadFile,
-  updateProduct,
-  deleteProduct,
-};
-
-export default productApi;
+export default router;

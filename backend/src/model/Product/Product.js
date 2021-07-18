@@ -1,22 +1,29 @@
 export default class Product {
   constructor({
+    id,
     category,
     title,
     content,
     cost,
     location,
-    images,
+    thumbnail,
+    images = [],
     author,
     isInterested,
     updatedAt,
     createdAt,
     deletedAt,
   }) {
+    if (images?.length === 0 || !images) {
+      thumbnail = null;
+    }
+    this.id = id;
     this.category = category;
     this.title = title;
     this.content = content;
     this.cost = cost;
     this.location = location;
+    this.thumbnail = thumbnail;
     this.images = images;
     this.author = author;
     this.isInterested = isInterested;
