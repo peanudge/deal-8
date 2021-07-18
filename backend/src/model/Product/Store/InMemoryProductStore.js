@@ -20,7 +20,7 @@ const productList = [
     cost: 100000, // 원
     location: "역삼동",
     thumbnail: testImage1,
-    image: [testImage1, testImage2],
+    images: [testImage1, testImage2],
     createAt: new Date(),
     updateAt: new Date(),
     deleteAt: null,
@@ -37,7 +37,7 @@ const productList = [
     cost: 1000, // 원
     location: "범박동",
     thumbnail: testImage2,
-    image: [testImage1, testImage2],
+    images: [testImage1, testImage2],
     createAt: new Date(),
     updateAt: new Date(),
     deleteAt: null,
@@ -72,7 +72,7 @@ export default class InMemmoryProductStore extends AbstractProductStore {
       cost,
       location,
       thumbnail,
-      image: images,
+      images,
       createAt: new Date(),
       updateAt: new Date(),
       deleteAt: null,
