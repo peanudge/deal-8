@@ -29,4 +29,16 @@ export default class InMemoryAccountStore extends AbstractAccountStore {
     accountData.push(newAccount);
     return newAccount;
   }
+
+  async addLocation(username, location) {
+    const account = accountData.find((account) => account.username == username);
+    account.locations.push(location);
+    return account;
+  }
+
+  async removeLocation(username, location) {
+    const account = accountData.find((account) => account.username == username);
+    account.locations = account.locations.filter((l) => l !== location);
+    return account;
+  }
 }
