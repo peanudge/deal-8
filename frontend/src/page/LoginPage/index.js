@@ -31,6 +31,7 @@ export default class LoginPage extends AbstractPage {
         type="text"
         placeholder="아이디를 입력하세요"
       />
+      <div id="username-error-msg" class="error-message"></div>
       <div id="login-btn" class="login-main--submit-btn">로그인</div>
       <a class="login-main--link" href="/signup" data-link>회원가입</a>
     </main>

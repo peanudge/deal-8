@@ -1,12 +1,15 @@
 import { loginAsync } from "@/api/auth";
 import { navigateTo } from "@/router";
 
+const ERROR_USERNAME_INVALID = "존재하지않는 사용자입니다.";
+
 const tag = "[Login Controller]";
 export default class Controller {
   constructor({ loginFormView }) {
     console.log(tag);
     this.loginFormView = loginFormView;
 
+    this.error = {};
     this.subscribeViewEvents();
     this.render();
   }
@@ -16,12 +19,17 @@ export default class Controller {
   }
 
   login(id) {
-    loginAsync({ id }, () => {
-      navigateTo("/");
+    loginAsync({ id }).then((result) => {
+      if (result.success) {
+        navigateTo("/");
+      } else {
+        this.error = { username: ERROR_USERNAME_INVALID };
+        this.render();
+      }
     });
   }
 
   render() {
-    this.loginFormView.show();
+    this.loginFormView.show(this.error);
   }
 }

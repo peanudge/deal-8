@@ -1,8 +1,10 @@
 import AccountStore from "../../../model/Account/Store/InMemmoryAccountStore.js";
-
+import express from "express";
 const accountStore = new AccountStore();
 
-const signIn = async (req, res) => {
+const router = express.Router();
+
+router.post("/signin", async (req, res) => {
   const { username } = req.body;
   const account = await accountStore.getAccount({ username });
   if (account === null) {
@@ -13,9 +15,9 @@ const signIn = async (req, res) => {
   req.session.save(() => {
     return res.json({ success: true });
   });
-};
+});
 
-const signUp = async (req, res) => {
+router.post("/signup", async (req, res) => {
   const { username, location } = req.body;
 
   if ((await accountStore.getAccount(username)) !== null) {
@@ -27,16 +29,12 @@ const signUp = async (req, res) => {
     return res.json({ success: true });
   }
   return res.json({ success: false });
-};
+});
 
-const authApi = {
-  signIn,
-  signUp,
-  signOut: (req, res) => {
-    req.session.destroy((err) => {
-      return res.json({ success: true });
-    });
-  },
-};
+router.post("/signout", (req, res) => {
+  req.session.destroy((err) => {
+    return res.json({ success: true });
+  });
+});
 
-export default authApi;
+export default router;

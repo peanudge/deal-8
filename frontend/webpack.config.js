@@ -9,6 +9,9 @@ module.exports = {
     port: 8081,
     stats: "errors-only",
     historyApiFallback: true,
+    proxy: {
+      "/api": "http://localhost:3000",
+    },
   },
   resolve: {
     alias: {

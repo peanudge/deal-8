@@ -10,7 +10,6 @@ import indexRouter from "./routes/index.js";
 const app = express();
 
 const __dirname = path.resolve();
-
 // view engine setup
 app.set("views", path.join(__dirname, "/src/views"));
 app.set("view engine", "ejs");
