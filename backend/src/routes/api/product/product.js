@@ -1,4 +1,4 @@
-import ProductStore from "../model/Product/Store/InMemoryProductStore.js";
+import ProductStore from "../../../model/Product/Store/InMemoryProductStore.js";
 
 const productStore = new ProductStore();
 
@@ -28,11 +28,14 @@ const uploadFile = async (req, res) => {
 };
 
 const updateProduct = async (req, res) => {
-  res.send("test");
+  const { catrgory, title, content, cost, address } = req.body;
+  // TODO auth middleware
+  const author = req.session.user;
 };
 
 const deleteProduct = async (req, res) => {
-  res.send("test");
+  const { id } = req.query;
+  productStore.deleteProductById({ id });
 };
 
 const productApi = {
