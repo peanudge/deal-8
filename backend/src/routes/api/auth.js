@@ -1,6 +1,6 @@
 import express from "express";
 
-import authApi from "./auth/auth.js";
+import authApi from "./auth/index.js";
 
 const router = express.Router();
 
