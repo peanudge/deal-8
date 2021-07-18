@@ -1,42 +1,43 @@
 import AccountStore from "../../../model/Account/Store/InMemmoryAccountStore.js";
-
+import express from "express";
 const accountStore = new AccountStore();
 
-const signIn = async (req, res) => {
+const router = express.Router();
+
+const ERROR_MSG_DUPLICATE = "Duplicate username";
+
+router.post("/signin", async (req, res) => {
   const { username } = req.body;
-  const account = await accountStore.getAccount({ username });
-  if (account === null) {
-    return res.json({ success: false });
-  }
-
-  req.session.username = username;
-  req.session.save(() => {
-    return res.json({ success: true });
-  });
-};
-
-const signUp = async (req, res) => {
-  const { username, location } = req.body;
-
-  if ((await accountStore.getAccount(username)) !== null) {
-    return res.json({ success: false }); // overlap
-  }
-
-  const account = await accountStore.createAccount({ username, location });
+  const account = await accountStore.getAccount(username);
   if (account) {
-    return res.json({ success: true });
-  }
-  return res.json({ success: false });
-};
-
-const authApi = {
-  signIn,
-  signUp,
-  signOut: (req, res) => {
-    req.session.destroy((err) => {
+    req.session.username = account.username;
+    req.session.save(() => {
       return res.json({ success: true });
     });
-  },
-};
+  } else {
+    return res.json({ success: false });
+  }
+});
 
-export default authApi;
+router.post("/signup", async (req, res) => {
+  const { username, location } = req.body;
+  const originAccount = await accountStore.getAccount(username);
+  if (originAccount) {
+    return res.json({ success: false, error: ERROR_MSG_DUPLICATE });
+  }
+
+  const newAccount = await accountStore.createAccount({ username, location });
+  if (newAccount) {
+    return res.json({ success: true });
+  } else {
+    return res.json({ success: false });
+  }
+});
+
+router.post("/signout", (req, res) => {
+  req.session.destroy((err) => {
+    return res.json({ success: true });
+  });
+});
+
+export default router;

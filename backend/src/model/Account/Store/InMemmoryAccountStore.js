@@ -1,50 +1,32 @@
 import AbstractAccountStore from "../AbstractAccountStore.js";
-import AccountDTO from "../Account.js";
+import Account from "../Account.js";
 
-const accounts = ["testuser", "woowauser", "testtest"];
-const locations = [
-  { username: "testuser", location: "범박동" },
-  { username: "woowauser", location: "역삼동" },
-  { username: "testtest", location: "출동" },
-  { username: "testuser", location: "반동" },
+const accountData = [
+  new Account("woowahan", ["역삼동"]),
+  new Account("testtest", ["출동"]),
+  new Account("testuser", ["반동"]),
 ];
 
 export default class InMemoryAccountStore extends AbstractAccountStore {
-  
-  async getAccount({ username }) {
-    const result = {username, locations: []}
-    locations.forEach(locationInfo => {
-      if (locationInfo.username === username) {
-        result.locations.push(locationInfo.location)
-      }
-    })
-    if (!result.locations.length <= 0) {
-      return result;
-    }
-    return null;
+  async getAccount(username) {
+    const account = accountData.find(
+      (account) => account.username === username
+    );
+    if (!account) return null;
+    return account;
   }
 
-  async addLocation({ username, location }) {
+  async createAccount({ username, locations }) {
+    const isExistAccount = accountData.find(
+      (account) => account.username === username
+    );
 
-    const isOverlapLocation = locations.find(locationObject => {
-      if (locationObject.username === username && locationObject.location === location) {
-        return true
-      }
-    })
-
-    if (isOverlapLocation) {
-      return false;
+    if (isExistAccount) {
+      return null;
     }
-    const newData = { username: username, location: location };
-    
-    locations.push(newData);
-    return true;
-  }
 
-  async createAccount({ username, location }) {
-    if (await this.addLocation({ username, location })) {
-      return true;
-    }
-    return false;
+    const newAccount = new Account(username, locations);
+    accountData.push(newAccount);
+    return newAccount;
   }
 }
