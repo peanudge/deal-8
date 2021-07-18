@@ -90,28 +90,36 @@ export default class InMemmoryProductStore extends AbstractProductStore {
     return newProduct;
   }
 
-  async getProductByCategoryAndLocation({ location, category }) {
-    category = Number(category);
+  async getProductByCategoryAndLocation({
+    location = false,
+    category = false,
+  }) {
     let compareFunc;
+
     if (!location && !category) {
-      compareFunc = (p) => {
+      compareFunc = (p, location, category) => {
         return true;
       };
     } else if (!location) {
-      compareFunc = (p) => {
+      compareFunc = (p, location, category) => {
+        console.log(p);
+        console.log(category);
         return p.category === category;
       };
     } else if (!category) {
-      compareFunc = (p) => {
+      compareFunc = (p, location, category) => {
         return p.location === location;
       };
     } else {
-      compareFunc = (p) => {
+      compareFunc = (p, location, category) => {
         return p.location === location && p.category === category;
       };
     }
+
+    category = Number(category);
+
     const result = productData
-      .filter((p) => compareFunc)
+      .filter((p) => compareFunc(p, location, category))
       .map((p) => {
         return {
           id: p.id,

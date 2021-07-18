@@ -8,23 +8,36 @@ const productStore = new ProductStore();
 
 router.get("/", async (req, res) => {
   const { location, category } = req.query;
-  const products = await productStore.getProductByCategoryAndLocation({
-    location,
-    category,
-  });
-
-  return res.json(products);
+  try {
+    const products = await productStore.getProductByCategoryAndLocation({
+      location,
+      category,
+    });
+    return res.json(products);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: "unexpect error occured" });
+  }
 });
 
 router.get("/detail", async (req, res) => {
   const { id } = req.query;
-  const product = await productStore.getProductById({ id });
-  return res.json(product);
+  try {
+    const product = await productStore.getProductById({ id });
+    return res.json(product);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: "unexpect error occured" });
+  }
 });
 
 router.get("/category", async (req, res) => {
-  const categories = await productStore.getCategories();
-  return res.json(categories);
+  try {
+    const categories = await productStore.getCategories();
+    return res.json(categories);
+  } catch (err) {
+    return res.status(500).json({ error: "unexpect error occured" });
+  }
 });
 
 router.put("/media", async (req, res) => {
@@ -44,8 +57,12 @@ router.put("/", async (req, res) => {
     images,
     author,
   );
-  const newProduct = await productStore.createProduct(product);
-  return res.json(newProduct);
+  try {
+    const newProduct = await productStore.createProduct(product);
+    return res.json(newProduct);
+  } catch (err) {
+    return res.status(500).json({ error: "unexpect error occured" });
+  }
 });
 
 router.post("/", async (req, res) => {
@@ -70,9 +87,13 @@ router.post("/", async (req, res) => {
 router.delete("/", async (req, res) => {
   const { id } = req.query;
 
-  const result = await productStore.deleteProductById({ id });
-
-  return res.json({ success: result });
+  try {
+    const result = await productStore.deleteProductById({ id });
+    return res.json({ success: result });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: "unexpect error occured" });
+  }
 });
 
 export default router;
