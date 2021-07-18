@@ -58,7 +58,6 @@ const updateProduct = async (req, res) => {
     images,
   });
 
-  console.log(updatedProduct);
   return res.json(updatedProduct);
 };
 
