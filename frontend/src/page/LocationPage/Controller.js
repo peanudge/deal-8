@@ -39,6 +39,7 @@ export default class Controller {
       this.render();
     });
   }
+
   validateLocationCount() {
     if (this.store.locations.length <= 1) {
       this.error = {
@@ -50,6 +51,7 @@ export default class Controller {
       return true;
     }
   }
+
   subscribeViewEvents() {
     this.locationListView.on("@click-delete-location", (e) => {
       if (this.validateLocationCount()) {
