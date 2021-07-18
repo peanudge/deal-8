@@ -91,14 +91,22 @@ export default class InMemmoryProductStore extends AbstractProductStore {
   }
 
   async getProductByCategoryAndLocation({
-    location = false,
-    category = false,
+    location = undefined,
+    category = undefined,
   }) {
     const compareFunc = (target, location, category) => {
+      let locationCompared = target.location === location;
+      let categoryCompared = target.category === category;
+
       if (!location) {
-        return target.category === category;
+        locationCompared = true;
       }
-      return target.category === category && target.location === location;
+
+      if (!category) {
+        categoryCompared = true;
+      }
+
+      return locationCompared && categoryCompared;
     };
 
     category = Number(category);
