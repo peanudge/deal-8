@@ -1,13 +1,54 @@
 import ProductStore from "../../../model/Product/Store/InMemoryProductStore.js";
+import Product from "../../../model/Product/Product.js";
+import express from "express";
+
+const router = express.Router();
 
 const productStore = new ProductStore();
 
-const createProduct = async (req, res) => {
+router.get("/", async (req, res) => {
+  const { location, category } = req.query;
+  try {
+    const products = await productStore.getProductByCategoryAndLocation({
+      location,
+      category,
+    });
+    return res.json(products);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: "unexpect error occured" });
+  }
+});
+
+router.get("/detail", async (req, res) => {
+  const { id } = req.query;
+  try {
+    const product = await productStore.getProductById({ id });
+    return res.json(product);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: "unexpect error occured" });
+  }
+});
+
+router.get("/category", async (req, res) => {
+  try {
+    const categories = await productStore.getCategories();
+    return res.json(categories);
+  } catch (err) {
+    return res.status(500).json({ error: "unexpect error occured" });
+  }
+});
+
+router.put("/media", async (req, res) => {
+  res.send("test");
+});
+
+router.put("/", async (req, res) => {
   const { category, title, content, cost, location, images } = req.body;
   // TODO auth middleware
   const author = req.session.user;
-
-  const newProduct = await productStore.createProduct({
+  const product = new Product(
     category,
     title,
     content,
@@ -15,40 +56,20 @@ const createProduct = async (req, res) => {
     location,
     images,
     author,
-  });
+  );
+  try {
+    const newProduct = await productStore.createProduct(product);
+    return res.json(newProduct);
+  } catch (err) {
+    return res.status(500).json({ error: "unexpect error occured" });
+  }
+});
 
-  return res.json({ product: newProduct });
-};
-
-const getProducts = async (req, res) => {
-  const { location, category } = req.query;
-  const products = await productStore.getProductByCategoryAndLocation({
-    location,
-    category,
-  });
-
-  return res.json(products);
-};
-
-const getProduct = async (req, res) => {
-  const { id } = req.query;
-  const product = await productStore.getProductById({ id });
-  return res.json(product);
-};
-
-const getCategories = async (req, res) => {
-  const categories = await productStore.getCategories();
-  return res.json(categories);
-};
-
-const uploadFile = async (req, res) => {
-  res.send("test");
-};
-
-const updateProduct = async (req, res) => {
+router.post("/", async (req, res) => {
   const { id, category, title, content, cost, location, images } = req.body;
   // TODO auth middleware
-  const updatedProduct = await productStore.updateProduct({
+
+  const product = new Product({
     id,
     category,
     title,
@@ -58,35 +79,21 @@ const updateProduct = async (req, res) => {
     images,
   });
 
+  const updatedProduct = await productStore.updateProduct(product);
+
   return res.json(updatedProduct);
-};
+});
 
-const deleteProduct = async (req, res) => {
-  const { category, title, content, cost, location, images } = req.body;
-  // TODO auth middleware
-  const author = req.session.user;
+router.delete("/", async (req, res) => {
+  const { id } = req.query;
 
-  const newProduct = await productStore.updateProduct({
-    category,
-    title,
-    content,
-    cost,
-    location,
-    images,
-    author,
-  });
+  try {
+    const result = await productStore.deleteProductById({ id });
+    return res.json({ success: result });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({ error: "unexpect error occured" });
+  }
+});
 
-  return res.json({ product: newProduct });
-};
-
-const productApi = {
-  createProduct,
-  getProducts,
-  getProduct,
-  getCategories,
-  uploadFile,
-  updateProduct,
-  deleteProduct,
-};
-
-export default productApi;
+export default router;

@@ -1,4 +1,5 @@
 import AbstractProductStore from "../AbstractProductStore.js";
+import Product from "../Product.js";
 
 const categoryList = [
   { id: 1, name: "디지털 기기" },
@@ -10,8 +11,8 @@ const testImage1 =
 const testImage2 =
   "https://img1.daumcdn.net/thumb/R720x0.q80/?scode=mtistory2&fname=http%3A%2F%2Fcfile7.uf.tistory.com%2Fimage%2F24283C3858F778CA2EFABE";
 
-const productList = [
-  {
+const productData = [
+  new Product({
     id: 0,
     category: 1,
     author: "testuser",
@@ -27,8 +28,9 @@ const productList = [
     countOfView: 10,
     countOfChat: 2,
     countOfInterested: 4,
-  },
-  {
+    isInterested: false, // isInterest 는 유저에 따라 달라야 합니다. (이건 테스트용이라 일단 구현하지 않았습니다.)
+  }),
+  new Product({
     id: 1,
     category: 2,
     author: "testuser",
@@ -44,7 +46,8 @@ const productList = [
     countOfView: 10,
     countOfChat: 2,
     countOfInterested: 4,
-  },
+    isInterested: true,
+  }),
 ];
 
 export default class InMemmoryProductStore extends AbstractProductStore {
@@ -63,8 +66,9 @@ export default class InMemmoryProductStore extends AbstractProductStore {
       thumbnail = null;
       images = [];
     }
-    const newProduct = {
-      id: productList.length,
+
+    const newProduct = new Product({
+      id: productData.length,
       category,
       author,
       title,
@@ -79,32 +83,60 @@ export default class InMemmoryProductStore extends AbstractProductStore {
       countOfView: 0,
       countOfChat: 0,
       countOfInterested: 0,
-    };
+      isInterested: false,
+    });
 
-    productList.push(newProduct);
+    productData.push(newProduct);
     return newProduct;
   }
 
-  async getProductByCategoryAndLocation({ location, category }) {
-    const result = [];
-    category = Number(category);
-    productList.forEach((p) => {
-      if (p.category === category && p.location === location) {
-        result.push(p);
+  async getProductByCategoryAndLocation({
+    location = false,
+    category = false,
+  }) {
+    const compareFunc = (target, location, category) => {
+      if (!location) {
+        return target.category === category;
       }
-    });
+      return target.category === category && target.location === location;
+    };
+
+    category = Number(category);
+
+    const result = productData
+      .filter((p) => compareFunc(p, location, category))
+      .map((p) => {
+        console.log(p);
+        return new Product({
+          id: p.id,
+          category: p.category,
+          author: p.author,
+          title: p.title,
+          cost: p.cost,
+          images: p.images,
+          location: p.location,
+          thumbnail: p.thumbnail,
+          createAt: p.createAt,
+          updateAt: p.updateAt,
+          countOfView: p.countOfView,
+          countOfChat: p.countOfChat,
+          countOfInterested: p.countOfInterested,
+          isInterested: p.isInterested,
+        });
+      });
 
     return result;
   }
 
   async getProductById({ id }) {
     id = Number(id);
-    const result = productList.find((p) => p.id === id);
+    const result = productData.find((p) => p.id === id);
     if (!result) {
       return null;
     }
     return result;
   }
+
   async getCategories() {
     return categoryList;
   }
@@ -118,7 +150,7 @@ export default class InMemmoryProductStore extends AbstractProductStore {
     location,
     images,
   }) {
-    const targetIndex = productList.findIndex((product) => product.id === id);
+    const targetIndex = productData.findIndex((product) => product.id === id);
     if (targetIndex === -1) {
       console.log(targetIndex);
       return null;
@@ -132,7 +164,7 @@ export default class InMemmoryProductStore extends AbstractProductStore {
       thumbnail = images[0];
     }
 
-    const newProduct = productList[targetIndex];
+    const newProduct = productData[targetIndex];
     newProduct.category = category;
     newProduct.title = title;
     newProduct.content = content;
@@ -140,18 +172,19 @@ export default class InMemmoryProductStore extends AbstractProductStore {
     newProduct.location = location;
     newProduct.images = images;
     newProduct.thumbnail = thumbnail;
-    productList[targetIndex] = newProduct;
+
+    productData[targetIndex] = newProduct;
 
     return newProduct;
   }
 
   async deleteProductById({ id }) {
     id = Number(id);
-    const productIndex = productList.findIndex((p) => p.id === id);
+    const productIndex = productData.findIndex((p) => p.id === id);
     if (productIndex === -1) {
       return false;
     }
-    productList.splice(productIndex);
+    productData.splice(productIndex);
     return true;
   }
 }
