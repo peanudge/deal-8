@@ -106,12 +106,14 @@ export default class InMemmoryProductStore extends AbstractProductStore {
     const result = productData
       .filter((p) => compareFunc(p, location, category))
       .map((p) => {
-        return {
+        console.log(p);
+        return new Product({
           id: p.id,
           category: p.category,
           author: p.author,
           title: p.title,
           cost: p.cost,
+          images: p.images,
           location: p.location,
           thumbnail: p.thumbnail,
           createAt: p.createAt,
@@ -120,7 +122,7 @@ export default class InMemmoryProductStore extends AbstractProductStore {
           countOfChat: p.countOfChat,
           countOfInterested: p.countOfInterested,
           isInterested: p.isInterested,
-        };
+        });
       });
 
     return result;
