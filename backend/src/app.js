@@ -12,7 +12,7 @@ const app = express();
 const __dirname = path.resolve();
 
 // view engine setup
-app.set("views", path.join(__dirname, "views"));
+app.set("views", path.join(__dirname, "/src/views"));
 app.set("view engine", "ejs");
 
 app.use(logger("dev"));
@@ -27,7 +27,7 @@ app.use(
     secret: process.env.SESSION_SECRET || "adnifneaoifdnaoisunfg",
     resave: false,
     saveUninitialized: true,
-  })
+  }),
 );
 
 app.use("/", indexRouter);

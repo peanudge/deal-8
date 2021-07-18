@@ -61,7 +61,7 @@ export default class InMemmoryProductStore extends AbstractProductStore {
 
     if (!images || images?.length === 0) {
       thumbnail = null;
-      images = 0;
+      images = [];
     }
     const newProduct = {
       id: productList.length,
@@ -108,6 +108,43 @@ export default class InMemmoryProductStore extends AbstractProductStore {
   async getCategories() {
     return categoryList;
   }
+
+  async updateProduct({
+    id,
+    category,
+    title,
+    content,
+    cost,
+    location,
+    images,
+  }) {
+    const targetIndex = productList.findIndex((product) => product.id === id);
+    if (targetIndex === -1) {
+      console.log(targetIndex);
+      return null;
+    }
+    let thumbnail;
+
+    if (!images || images?.length === 0) {
+      thumbnail = null;
+      images = [];
+    } else {
+      thumbnail = images[0];
+    }
+
+    const newProduct = productList[targetIndex];
+    newProduct.category = category;
+    newProduct.title = title;
+    newProduct.content = content;
+    newProduct.cost = cost;
+    newProduct.location = location;
+    newProduct.images = images;
+    newProduct.thumbnail = thumbnail;
+    productList[targetIndex] = newProduct;
+
+    return newProduct;
+  }
+
   async deleteProductById({ id }) {
     id = Number(id);
     const productIndex = productList.findIndex((p) => p.id === id);
