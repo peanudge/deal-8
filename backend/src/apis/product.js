@@ -1,5 +1,6 @@
 const getProducts = async (req, res) => {
-  res.send("test");
+  const { location, category } = req.query;
+  console.log(location, category);
 };
 
 const getProduct = async (req, res) => {
