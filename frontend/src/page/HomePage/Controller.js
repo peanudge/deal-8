@@ -2,6 +2,7 @@ const tag = "[HomePage Controller]";
 
 import { getAllProductsAsync, getProducts } from "@/api/product";
 import { getProfileAsync } from "@/api/user";
+import { navigateTo } from "@/router";
 
 export default class Controller {
   constructor(
@@ -55,17 +56,21 @@ export default class Controller {
     const requestProducts = getAllProductsAsync();
     const requestUserProfile = getProfileAsync();
     Promise.all([requestProducts, requestUserProfile]).then(
-      ([products, user]) => {
-        if (!user) {
-          navigateTo("/login");
+      ([products, { isAuth, account }]) => {
+        if (isAuth) {
+          this.store.user = account;
+          if (this.store.currentLocation === "") {
+            this.store.currentLocation =
+              this.store.user.locations.length > 0
+                ? this.store.user.locations[0]
+                : "";
+          }
+          this.store.products = products;
+          this.render();
+        } else {
+          this.store.products = products;
+          this.render();
         }
-        this.store.user = user;
-        if (this.store.currentLocation === "") {
-          this.store.currentLocation =
-            user.locations.length > 0 ? user.locations[0] : "";
-        }
-        this.store.products = products;
-        this.render();
       }
     );
   }

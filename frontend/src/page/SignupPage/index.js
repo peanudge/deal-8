@@ -31,6 +31,7 @@ export default class LoginPage extends AbstractPage {
         type="text"
         placeholder="문자, 숫자 조합 20자 이상"
       />
+      <div id="id-error-message" class="error-message"></div>
       <label for="location-input" class="signup-main--label">우리 동네</label>
       <input
         id="location-input"
@@ -38,6 +39,8 @@ export default class LoginPage extends AbstractPage {
         type="text"
         placeholder="시-구 제외, 동만 입력"
       />
+      <div id="location-error-message" class="error-message"></div>
+
       <div id="signup-btn" class="signup-main--submit-btn">회원가입</div>
     </main>
     `;

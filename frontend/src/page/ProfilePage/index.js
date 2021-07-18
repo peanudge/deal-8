@@ -18,7 +18,7 @@ export default class ProfilePage extends AbstractPage {
   async render() {
     return /*html*/ ` 
     <header class="header">
-        <a class="header--left" href="/login" data-link>
+        <a class="header--left" href="/" data-link>
         <div class="back-icon">${chevronLeftSVG}</div>
         </a>
         <h1 class="header--center">
