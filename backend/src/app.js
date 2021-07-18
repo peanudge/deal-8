@@ -3,6 +3,7 @@ import express from "express";
 import path from "path";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
+import session from "express-session";
 
 import indexRouter from "./routes/index.js";
 
@@ -19,6 +20,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "../public")));
+
+// express-session
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "adnifneaoifdnaoisunfg",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 
 app.use("/", indexRouter);
 
