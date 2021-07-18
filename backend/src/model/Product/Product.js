@@ -10,9 +10,9 @@ export default class Product {
     images = [],
     author,
     isInterested,
-    updatedAt,
-    createdAt,
-    deletedAt,
+    updatedAt = new Date(),
+    createdAt = new Date(),
+    deletedAt = null,
   }) {
     if (images?.length === 0 || !images) {
       thumbnail = null;

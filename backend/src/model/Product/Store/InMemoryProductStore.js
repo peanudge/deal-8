@@ -138,7 +138,7 @@ export default class InMemmoryProductStore extends AbstractProductStore {
     return result;
   }
 
-  async getProductById({ id }) {
+  async getProductById(id) {
     id = Number(id);
     const result = productData.find((p) => p.id === id);
     if (!result) {
@@ -187,7 +187,7 @@ export default class InMemmoryProductStore extends AbstractProductStore {
     return newProduct;
   }
 
-  async deleteProductById({ id }) {
+  async deleteProductById(id) {
     id = Number(id);
     const productIndex = productData.findIndex((p) => p.id === id);
     if (productIndex === -1) {

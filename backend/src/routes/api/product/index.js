@@ -23,7 +23,10 @@ router.get("/", async (req, res) => {
 router.get("/detail", async (req, res) => {
   const { id } = req.query;
   try {
-    const product = await productStore.getProductById({ id });
+    const product = await productStore.getProductById(id);
+    if (product === null) {
+      return res.status(404).json({ error: "상품을 찾을 수 없습니다." });
+    }
     return res.json(product);
   } catch (err) {
     console.log(err);
@@ -50,7 +53,7 @@ router.post("/", async (req, res) => {
   // TODO auth middleware
   const author = req.session.username;
   try {
-    const newProduct = await productStore.createProduct({
+    const tmpProduct = new Product({
       category,
       title,
       content,
@@ -59,6 +62,7 @@ router.post("/", async (req, res) => {
       images,
       author,
     });
+    const newProduct = await productStore.createProduct(tmpProduct);
     return res.json(newProduct);
   } catch (err) {
     console.log(err);
@@ -72,7 +76,7 @@ router.put("/", async (req, res) => {
   const author = req.session.username;
 
   try {
-    const targetProduct = await productStore.getProductById({ id });
+    const targetProduct = await productStore.getProductById(id);
     if (targetProduct.author !== author) {
       return res.status(402).json({ success: false });
     }
@@ -114,7 +118,7 @@ router.delete("/", async (req, res) => {
   }
 
   try {
-    const result = await productStore.deleteProductById({ id });
+    const result = await productStore.deleteProductById(id);
     return res.json({ success: result });
   } catch (err) {
     console.log(err);
