@@ -68,7 +68,8 @@ export default class Controller {
           this.store.products = products;
           this.render();
         } else {
-          navigateTo("/login");
+          this.store.products = products;
+          this.render();
         }
       }
     );

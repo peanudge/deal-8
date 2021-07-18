@@ -4,7 +4,7 @@ const accountStore = new AccountStore();
 
 const router = express.Router();
 
-const ERROR_MSG_DUPLICATE = "Duplicate username";
+const ERROR_MSG_DUPLICATE = "중복된 아이디가 존재합니다.";
 
 router.post("/signin", async (req, res) => {
   const { username } = req.body;

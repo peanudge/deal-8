@@ -10,7 +10,12 @@ export default class SignupFormView extends View {
     super(element);
 
     this.idInputElement = qs("#id-input", this.element);
+    this.idErrorMessageElement = qs("#id-error-message", this.element);
     this.locationInputElement = qs("#location-input", this.element);
+    this.locationErrorMessageElement = qs(
+      "#location-error-message",
+      this.element
+    );
     this.submitButtonElement = qs("#signup-btn", this.element);
     this.bindingEvents();
   }
@@ -30,7 +35,17 @@ export default class SignupFormView extends View {
     });
   }
 
-  show() {
+  show(error = {}) {
+    if (error["username"]) {
+      this.idErrorMessageElement.innerText = error["username"];
+    } else {
+      this.idErrorMessageElement.innerText = "";
+    }
+    if (error["location"]) {
+      this.locationErrorMessageElement.innerText = error["location"];
+    } else {
+      this.locationErrorMessageElement.innerText = "";
+    }
     super.show();
   }
 }
