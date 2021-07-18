@@ -12,7 +12,7 @@ const testImage2 =
 
 const productList = [
   {
-    id: 1,
+    id: 0,
     category: 1,
     author: "testuser",
     title: "예시1",
@@ -27,10 +27,9 @@ const productList = [
     countOfView: 10,
     countOfChat: 2,
     countOfInterested: 4,
-    isInterested: false,
   },
   {
-    id: 2,
+    id: 1,
     category: 2,
     author: "testuser",
     title: "예시2",
@@ -45,11 +44,47 @@ const productList = [
     countOfView: 10,
     countOfChat: 2,
     countOfInterested: 4,
-    isInterested: false,
   },
 ];
 
 export default class InMemmoryProductStore extends AbstractProductStore {
+  async createProduct({
+    category,
+    title,
+    content,
+    cost,
+    location,
+    author,
+    images,
+  }) {
+    let thumbnail;
+
+    if (!images || images?.length === 0) {
+      thumbnail = null;
+      images = 0;
+    }
+    const newProduct = {
+      id: productList.length,
+      category,
+      author,
+      title,
+      content,
+      cost,
+      location,
+      thumbnail,
+      image: images,
+      createAt: new Date(),
+      updateAt: new Date(),
+      deleteAt: null,
+      countOfView: 0,
+      countOfChat: 0,
+      countOfInterested: 0,
+    };
+
+    productList.push(newProduct);
+    return newProduct;
+  }
+
   async getProductByCategoryAndLocation({ location, category }) {
     const result = [];
     category = Number(category);
@@ -61,6 +96,7 @@ export default class InMemmoryProductStore extends AbstractProductStore {
 
     return result;
   }
+
   async getProductById({ id }) {
     id = Number(id);
     const result = productList.find((p) => p.id === id);
