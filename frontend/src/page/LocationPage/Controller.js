@@ -1,3 +1,5 @@
+import { addLocationAsync, deleteLocationAsync } from "@/api/user";
+
 export default class Controller {
   constructor(
     store,
@@ -46,12 +48,23 @@ export default class Controller {
 
   addLocation(location) {
     // TODO: CAll Location 추가 API
-    console.log(location + " 추가");
+    addLocationAsync(location).then((data) => {
+      if (data.success) {
+        console.log(location + " 추가");
+        this.render();
+      }
+    });
   }
 
   deleteLocation() {
     // TODO: CAll Location Delete API
-    console.log(this.store.targetLocation + " 제거");
+    const location = this.store.targetLocation;
+    deleteLocationAsync(location).then((data) => {
+      if (data.success) {
+        console.log(this.store.targetLocation + " 제거");
+        this.render();
+      }
+    });
   }
 
   showDeleteLocationModal(location) {
