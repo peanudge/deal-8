@@ -9,13 +9,15 @@ export default class Product {
     thumbnail,
     images = [],
     author,
+    updatedAt = new Date(),
+    createdAt = new Date(),
+    deletedAt = null,
+    countOfView,
+    countOfChat,
+    countOfInterested,
     isInterested,
-    updatedAt,
-    createdAt,
-    deletedAt,
   }) {
     if (images?.length === 0 || !images) {
-      console.log("no images");
       thumbnail = null;
     }
     this.id = id;
@@ -31,5 +33,9 @@ export default class Product {
     this.updatedAt = updatedAt;
     this.createdAt = createdAt;
     this.deletedAt = deletedAt;
+
+    this.countOfView = countOfView;
+    this.countOfChat = countOfChat;
+    this.countOfInterested = countOfInterested;
   }
 }

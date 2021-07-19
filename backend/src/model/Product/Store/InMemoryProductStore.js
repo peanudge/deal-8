@@ -61,12 +61,12 @@ export default class InMemmoryProductStore extends AbstractProductStore {
     images,
   }) {
     let thumbnail;
-
     if (!images || images?.length === 0) {
       thumbnail = null;
       images = [];
+    } else {
+      thumbnail = images[0];
     }
-
     const newProduct = new Product({
       id: productData.length,
       category,
@@ -91,14 +91,22 @@ export default class InMemmoryProductStore extends AbstractProductStore {
   }
 
   async getProductByCategoryAndLocation({
-    location = false,
-    category = false,
+    location = undefined,
+    category = undefined,
   }) {
     const compareFunc = (target, location, category) => {
+      let locationCompared = target.location === location;
+      let categoryCompared = target.category === category;
+
       if (!location) {
-        return target.category === category;
+        locationCompared = true;
       }
-      return target.category === category && target.location === location;
+
+      if (!category) {
+        categoryCompared = true;
+      }
+
+      return locationCompared && categoryCompared;
     };
 
     category = Number(category);
@@ -106,7 +114,6 @@ export default class InMemmoryProductStore extends AbstractProductStore {
     const result = productData
       .filter((p) => compareFunc(p, location, category))
       .map((p) => {
-        console.log(p);
         return new Product({
           id: p.id,
           category: p.category,
@@ -124,11 +131,10 @@ export default class InMemmoryProductStore extends AbstractProductStore {
           isInterested: p.isInterested,
         });
       });
-
     return result;
   }
 
-  async getProductById({ id }) {
+  async getProductById(id) {
     id = Number(id);
     const result = productData.find((p) => p.id === id);
     if (!result) {
@@ -152,7 +158,6 @@ export default class InMemmoryProductStore extends AbstractProductStore {
   }) {
     const targetIndex = productData.findIndex((product) => product.id === id);
     if (targetIndex === -1) {
-      console.log(targetIndex);
       return null;
     }
     let thumbnail;
@@ -178,7 +183,7 @@ export default class InMemmoryProductStore extends AbstractProductStore {
     return newProduct;
   }
 
-  async deleteProductById({ id }) {
+  async deleteProductById(id) {
     id = Number(id);
     const productIndex = productData.findIndex((p) => p.id === id);
     if (productIndex === -1) {
