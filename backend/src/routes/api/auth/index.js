@@ -1,6 +1,8 @@
 import AccountStore from "../../../model/Account/Store/InMemmoryAccountStore.js";
+import MysqlAccountStore from "../../../model/Account/Store/MysqlAccountStore.js";
 import express from "express";
 const accountStore = new AccountStore();
+const mysqlAccountStore = new MysqlAccountStore();
 
 const router = express.Router();
 
@@ -8,7 +10,7 @@ const ERROR_MSG_DUPLICATE = "중복된 아이디가 존재합니다.";
 
 router.post("/signin", async (req, res) => {
   const { username } = req.body;
-  const account = await accountStore.getAccount(username);
+  const account = await mysqlAccountStore.getAccount(username);
   if (account) {
     req.session.username = account.username;
     req.session.save(() => {
