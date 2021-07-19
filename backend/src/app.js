@@ -5,20 +5,13 @@ import cookieParser from "cookie-parser";
 import logger from "morgan";
 import session from "express-session";
 import multer from "multer";
-import mysql2 from "mysql2";
 
+import mysqlConnection from "./config/mysql.js";
 import indexRouter from "./routes/index.js";
 
 const __dirname = path.resolve();
 
 // Mysql Setting
-
-export const mysqlConnection = mysql2.createConnection({
-  host: "localhost",
-  user: "deal",
-  password: "imdealpassword",
-  database: "deal8",
-});
 
 mysqlConnection.connect(function (err) {
   // TODO : connection 정보를 남겨야 한다.

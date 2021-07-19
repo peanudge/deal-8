@@ -1,7 +1,7 @@
 import AbstractAccountStore from "../AbstractAccountStore.js";
 import Account from "../Account.js";
 
-import { mysqlConnection } from "../../../app.js";
+import mysqlConnection from "../../../config/mysql.js";
 
 export default class MySQLAccountStore extends AbstractAccountStore {
   async getAccount(username) {
