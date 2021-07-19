@@ -6,7 +6,7 @@ import mysqlConnection from "../../../config/mysql.js";
 export default class MySQLAccountStore extends AbstractAccountStore {
   async getAccount(username) {
     const query =
-      "SELECT * FROM account LEFT JOIN location ON account.username = location.username where account.username=?";
+      "SELECT account.username as username, location.location as location FROM account LEFT JOIN location ON account.username = location.username where account.username=?";
     const params = [username];
     let rows;
     try {
