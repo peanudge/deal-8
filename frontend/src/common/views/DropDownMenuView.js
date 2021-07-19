@@ -57,9 +57,9 @@ export default class DropDownMenuView extends View {
                 </div>
                 <div class="dropdown-wrapper--menu center" aria-expanded="false">
                     ${this.template.getItems(items)}
-                    <div class="dropdown-wrapper--menu--item">
-                        <a href="/location" data-link>내 동내 설정하기</a>
-                    </div>
+                    <a class="dropdown-wrapper--menu--item"  href="/location" data-link>
+                    내 동내 설정하기
+                    </a>
                 </div>
             </div>`;
     super.show();
@@ -71,7 +71,7 @@ class Template {
     return items
       .map(
         (item) =>
-          `<div class="dropdown-wrapper--menu--item" data-item="${item}">${item}</div>`
+          `<div  class="dropdown-wrapper--menu--item" data-item="${item}">${item}</div>`
       )
       .join("");
   }

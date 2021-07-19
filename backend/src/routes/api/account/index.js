@@ -24,7 +24,11 @@ router.post("/me/location", async (req, res) => {
   if (req.session["username"]) {
     const username = req.session["username"];
     const account = await accountStore.getAccount(username);
-    if (account.locations.length < 2) {
+
+    const originLocation = account.locations.find((l) => location === l);
+    if (originLocation) {
+      res.status(SUCCESS_STATUS).json({ success: true, account });
+    } else if (account.locations.length < 2) {
       const account = await accountStore.addLocation(username, location);
       res.status(SUCCESS_STATUS).json({ success: true, account });
     } else {
