@@ -98,6 +98,13 @@ const productData = [
   }),
 ];
 
+const interestProductData = [
+  {
+    username: "testuser",
+    productId: 0,
+  },
+];
+
 export default class InMemmoryProductStore extends AbstractProductStore {
   async createProduct({
     category,
@@ -238,6 +245,63 @@ export default class InMemmoryProductStore extends AbstractProductStore {
       return false;
     }
     productData.splice(productIndex);
+    return true;
+  }
+
+  async getInterestProducts(username) {
+    const interestInfoByUser = interestProductData.filter(
+      (interest) => username === interest.username
+    );
+
+    const products = interestInfoByUser.map(({ productId }) =>
+      productData.find((product) => product.id === productId)
+    );
+
+    return products;
+  }
+
+  async addInterestProduct(username, productId) {
+    const originInterest = interestProductData.find(
+      (data) => data.username === username && data.productId === productId
+    );
+
+    if (originInterest) {
+      return false;
+    }
+
+    const product = productData.find((product) => product.id === productId);
+    if (!product) {
+      return false;
+    }
+
+    interestProductData.push({
+      username,
+      productId,
+    });
+
+    return true;
+  }
+
+  async removeInterestProduct(username, productId) {
+    const originInterest = interestProductData.find(
+      (data) => data.username === username && data.productId === productId
+    );
+
+    if (!originInterest) {
+      return false;
+    }
+
+    const product = productData.find((product) => product.id === productId);
+    if (!product) {
+      return false;
+    }
+
+    interestProductData = interestProductData.filter((interest) => {
+      return !(
+        interest.username === username && interest.productId === productId
+      );
+    });
+
     return true;
   }
 }

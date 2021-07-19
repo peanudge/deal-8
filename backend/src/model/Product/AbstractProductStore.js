@@ -5,4 +5,7 @@ export default class AbstractProductStore {
   getCategories() {}
   updateProduct({ id, category, title, content, cost, location, images }) {}
   deleteProductById(id) {}
+  getInterestProducts(username) {}
+  addInterestProduct(username, productId) {}
+  removeInterestProduct(username, productId) {}
 }

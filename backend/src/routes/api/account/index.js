@@ -4,9 +4,13 @@ import {
   SUCCESS_STATUS,
   UNAUTHORIZED_STATUS,
 } from "../../../util/HttpStatus.js";
+
 import authMiddleware from "../../../middlewares/auth.js";
 import MysqlAccountStore from "../../../model/Account/Store/MysqlAccountStore.js";
+import ProductStore from "../../../model/Product/Store/InMemoryProductStore.js";
+
 const accountStore = new MysqlAccountStore();
+const productStore = new ProductStore();
 
 const router = express.Router();
 
@@ -71,6 +75,43 @@ router.delete("/me/location", async (req, res) => {
       success: false,
       error: "지역 정보는 최소한 하나는 있어야합니다.",
     });
+  }
+});
+
+router.get("/me/interest", async (req, res) => {
+  if (!req.session["username"]) {
+    res
+      .status(UNAUTHORIZED_STATUS)
+      .json({ success: false, error: "로그인이 필요합니다." });
+    return;
+  }
+
+  const username = req.session["username"];
+  const products = await productStore.getInterestProducts(username);
+  products.forEach((product) => (product.isInterested = true));
+  res.status(SUCCESS_STATUS).json({
+    success: true,
+    products,
+  });
+});
+
+router.put("/me/interest", async (req, res) => {
+  const { username, productId } = req.query;
+  const result = await productStore.addInterestProduct(username, productId);
+  if (result) {
+    res.status(SUCCESS_STATUS).json({ success: true });
+  } else {
+    res.status(BAD_REQUEST).json({ success: false });
+  }
+});
+
+router.delete("/me/interest", async (req, res) => {
+  const { username, productId } = req.query;
+  const result = await productStore.removeInterestProduct(username, productId);
+  if (result) {
+    res.status(SUCCESS_STATUS).json({ success: true });
+  } else {
+    res.status(BAD_REQUEST).json({ success: false });
   }
 });
 

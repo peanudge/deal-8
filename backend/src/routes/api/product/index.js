@@ -10,7 +10,7 @@ import {
 
 const router = express.Router();
 
-const productStore = new ProductStore();
+export const productStore = new ProductStore();
 
 router.get("/", async (req, res) => {
   const { location, category } = req.query;
