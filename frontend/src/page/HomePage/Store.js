@@ -4,5 +4,8 @@ export default class Store {
     this.products = [];
     this.user = {};
     this.currentLocation = "";
+    this.currentCategoryId = null;
+    this.currentCategoryName = "";
+    this.categoryList = [];
   }
 }

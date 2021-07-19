@@ -1,4 +1,8 @@
-import { getAllProductsAsync, getProducts } from "@/api/product";
+import {
+  getAllProductsAsync,
+  getProductsAsync,
+  getCategoriesAsync,
+} from "@/api/product";
 import { getProfileAsync } from "@/api/user";
 
 export default class Controller {
@@ -23,7 +27,7 @@ export default class Controller {
     this.subscribeViewEvents();
     this.fetchData();
 
-    this.isOnCategory = false;
+    this.isShowCategoryView = false;
     this.render();
   }
 
@@ -33,21 +37,13 @@ export default class Controller {
       this.changeInterest(id, isInterested);
     });
 
-    this.categoryView.on("@show-main", (e) => {
-      this.isOnCategory = false;
-      // TODO: Cache previous
-      this.fetchData();
-      this.render();
-    });
+    this.categoryView.on("@show-main", () => this.showMain());
 
-    this.mainHeaderView.on("@show-category", (e) => {
-      this.isOnCategory = true;
-      this.render();
-    });
+    this.mainHeaderView.on("@show-category", () => this.showCategory());
 
     this.categoryView.on("@search", (e) => {
-      const categoryId = e.detail.value;
-      this.searchCategory(categoryId);
+      const { id, name } = e.detail.value;
+      this.searchCategory(id, name);
     });
 
     this.locationDropDownView.on("@change-item", (e) => {
@@ -57,64 +53,91 @@ export default class Controller {
   }
 
   fetchData() {
-    const requestProducts = getAllProductsAsync();
     const requestUserProfile = getProfileAsync();
-    Promise.all([requestProducts, requestUserProfile]).then(
-      ([products, { isAuth, account }]) => {
+
+    requestUserProfile
+      .then(({ isAuth, account }) => {
         if (isAuth) {
           this.store.isAuth = isAuth;
           this.store.user = account;
           this.store.currentLocation =
             account.locations.length > 0 ? account.locations[0] : "";
-          this.store.products = products;
-          this.render();
         } else {
-          this.store.products = products;
-          this.render();
+          this.store.currentLocation = "";
         }
-      }
-    );
+        return getProductsAsync({
+          location: this.store.currentLocation,
+          categoryId: this.store.currentCategory,
+        });
+      })
+      .then((products) => {
+        this.store.products = products;
+        this.render();
+      });
   }
 
   changeLocation(location) {
-    this.store.currentLocation = location;
-    this.render();
+    if (location) {
+      this.store.currentLocation = location;
+      this.render();
 
-    getProducts({
-      location,
-    }).then((data) => {
-      this.store.products = data;
+      getProductsAsync({
+        location,
+      }).then((data) => {
+        this.store.products = data;
+        this.render();
+      });
+    }
+  }
+
+  showMain() {
+    this.isShowCategoryView = false;
+    this.render();
+  }
+
+  showCategory() {
+    this.isShowCategoryView = true;
+    getCategoriesAsync().then(({ category }) => {
+      this.store.categoryList = category;
       this.render();
     });
   }
 
-  searchCategory(categoryId) {
-    this.isOnCategory = false;
+  searchCategory(categoryId, categoryName) {
+    this.store.currentCategoryId = categoryId;
+    this.store.currentCategoryName = categoryName;
+    this.isShowCategoryView = false;
 
-    getProducts(categoryId).then((data) => {
+    getProductsAsync({ categoryId }).then((data) => {
       this.store.products = data;
       this.render();
     });
   }
 
   changeInterest(productId, isInterested) {
-    if (isInterested) {
-      console.log("Interest ON " + productId);
-    } else {
-      console.log("Interest OFF " + productId);
-    }
+    // TODO: add interest Product
   }
 
   render() {
-    const { products, isAuth, user, currentLocation } = this.store;
-    if (this.isOnCategory) {
-      this.categoryView.show();
+    const {
+      products,
+      isAuth,
+      user,
+      currentLocation,
+      currentCategoryName,
+      categoryList,
+    } = this.store;
+
+    if (this.isShowCategoryView) {
+      this.categoryView.show(categoryList);
       this.mainHeaderView.hide();
       this.locationDropDownView.hide();
       this.productListView.hide();
     } else {
       this.categoryView.hide();
-      this.mainHeaderView.show(user);
+      this.mainHeaderView.show({
+        categoryName: currentCategoryName,
+      });
       this.productListView.show(products);
       this.locationDropDownView.show(currentLocation, user.locations);
     }

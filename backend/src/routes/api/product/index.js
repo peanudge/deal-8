@@ -4,8 +4,6 @@ import ProductStore from "../../../model/Product/Store/InMemoryProductStore.js";
 import Product from "../../../model/Product/Product.js";
 import {
   SUCCESS_STATUS,
-  BAD_REQUEST,
-  UNAUTHORIZED_STATUS,
   NOT_FOUND_STATUS,
   INTERNAL_SERVER_ERROR_STATUS,
 } from "../../../util/HttpStatus.js";
@@ -49,7 +47,9 @@ router.get("/detail", async (req, res) => {
 router.get("/category", async (req, res) => {
   try {
     const categories = await productStore.getCategories();
-    return res.status(SUCCESS_STATUS).json(categories);
+    return res.status(SUCCESS_STATUS).json({
+      category: categories,
+    });
   } catch (err) {
     return res
       .status(INTERNAL_SERVER_ERROR_STATUS)

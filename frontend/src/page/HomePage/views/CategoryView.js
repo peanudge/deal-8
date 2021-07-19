@@ -7,8 +7,6 @@ import chevronLeftSVG from "@/public/svg/chevron-left.svg";
 
 const tag = "[CategoryView]";
 
-import { categoryItems } from "@/util/category";
-
 export default class CategoryView extends View {
   constructor(element = qs("#category"), template = new Template()) {
     super(element);
@@ -25,14 +23,15 @@ export default class CategoryView extends View {
 
   handleCategoryItemClick(e) {
     const id = e.target.dataset.id;
-    this.emit("@search", { value: id });
+    const name = e.target.dataset.name;
+    this.emit("@search", { value: { id, name } });
   }
 
   handleBackClick() {
     this.emit("@show-main");
   }
 
-  show() {
+  show(categories = []) {
     this.element.innerHTML = ` 
         <header class="header">
             <div class="header--left">
@@ -43,7 +42,8 @@ export default class CategoryView extends View {
             </h1>
         </header>
         <main class="category-main">
-        ${categoryItems
+        ${this.template.getAllCategoryCard()}
+        ${categories
           .map((item) => this.template.getCategoryCard(item.id, item.name))
           .join("")}
         </main>`;
@@ -53,9 +53,17 @@ export default class CategoryView extends View {
 }
 
 class Template {
+  getAllCategoryCard() {
+    return `
+      <div id="category-item" class="category-main--card">
+        <div class="category-main--card--icon"></div>
+        <div class="category-main--card--title">모든 카테고리</div>
+      </div>
+    `;
+  }
   getCategoryCard(categoryid, name) {
     return `
-      <div id="category-item" class="category-main--card" data-id=${categoryid}>
+      <div id="category-item" class="category-main--card" data-id=${categoryid} data-name=${name}>
         <div class="category-main--card--icon"></div>
         <div class="category-main--card--title">${name}</div>
       </div>
