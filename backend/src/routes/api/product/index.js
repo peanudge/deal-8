@@ -1,6 +1,7 @@
+import express from "express";
+import { upload } from "../../../app.js";
 import ProductStore from "../../../model/Product/Store/InMemoryProductStore.js";
 import Product from "../../../model/Product/Product.js";
-import express from "express";
 import {
   SUCCESS_STATUS,
   BAD_REQUEST,
@@ -56,8 +57,21 @@ router.get("/category", async (req, res) => {
   }
 });
 
-router.put("/media", async (req, res) => {
-  res.send("test");
+router.post("/media", async (req, res) => {
+  upload(req, res, (err) => {
+    if (err) {
+      res
+        .status(INTERNAL_SERVER_ERROR_STATUS)
+        .json({ success: false, error: "Image Upload Fail!" });
+    } else {
+      console.log(req.files);
+      const pathList = req.files.map((file) => file.filename);
+      res.json({
+        success: true,
+        images: pathList,
+      });
+    }
+  });
 });
 
 router.post("/", async (req, res) => {

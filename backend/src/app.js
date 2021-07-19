@@ -4,12 +4,30 @@ import path from "path";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
 import session from "express-session";
+import multer from "multer";
 
 import indexRouter from "./routes/index.js";
 
+const __dirname = path.resolve();
+
+// Multer Setting
+const storage = multer.diskStorage({
+  destination: path.join(__dirname, "/public/upload/"),
+  filename: (req, file, cb) => {
+    cb(
+      null,
+      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+    );
+  },
+});
+
+// Multer Upload Middleware Setting
+export const upload = multer({
+  storage: storage,
+}).array("product_image", 10);
+
 const app = express();
 
-const __dirname = path.resolve();
 // view engine setup
 app.set("views", path.join(__dirname, "/src/views"));
 app.set("view engine", "ejs");
@@ -18,7 +36,7 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "../public")));
+app.use(express.static(path.join(__dirname, "./public")));
 
 // express-session
 app.use(
@@ -26,7 +44,7 @@ app.use(
     secret: process.env.SESSION_SECRET || "adnifneaoifdnaoisunfg",
     resave: false,
     saveUninitialized: true,
-  }),
+  })
 );
 
 app.use("/", indexRouter);
