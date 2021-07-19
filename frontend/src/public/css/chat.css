@@ -35,7 +35,7 @@ body {
 
 .chat-main--content {
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
   padding: 15px 16px;
   height: 267px;
   overflow: scroll;
@@ -51,7 +51,7 @@ body {
 }
 
 .chat-main--content--message:not(:last-child) {
-  margin-bottom: 24px;
+  margin-top: 24px;
 }
 
 .chat-main--content--message.my {

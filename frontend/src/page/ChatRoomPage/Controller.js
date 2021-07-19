@@ -4,11 +4,17 @@ export default class Controller {
   constructor(
     store,
     productId,
-    { chatRoomHeaderView, chatRoomAlertModalView, chatRoomMainHeaderView }
+    {
+      chatRoomHeaderView,
+      chatRoomAlertModalView,
+      chatRoomMainHeaderView,
+      chatRoomMainContentView,
+    }
   ) {
     this.chatRoomHeaderView = chatRoomHeaderView;
     this.chatRoomAlertModalView = chatRoomAlertModalView;
     this.chatRoomMainHeaderView = chatRoomMainHeaderView;
+    this.chatRoomMainContentView = chatRoomMainContentView;
 
     this.store = store;
     this.productId = productId;
@@ -31,6 +37,7 @@ export default class Controller {
       this.store.productCost = roomInfo?.productCost;
       this.store.chatLogs = roomInfo?.chatLogs;
       this.store.totalMessageCount = roomInfo?.totalMessageCount;
+      this.store.messages = roomInfo?.messages;
 
       this.render();
     });
@@ -42,10 +49,14 @@ export default class Controller {
       productCost: this.store.productCost,
       productThumbnail: this.store.productThumbnail,
     };
+    const messages = this.store.messages;
+    const targetUser = this.store.targetUser;
+
     console.log(productInfo);
 
     this.chatRoomHeaderView.show();
     this.chatRoomAlertModalView.show();
     this.chatRoomMainHeaderView.show(productInfo);
+    this.chatRoomMainContentView.addMessages(messages, targetUser);
   }
 }
