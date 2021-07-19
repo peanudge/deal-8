@@ -34,14 +34,18 @@ export default class MySQLAccountStore extends AbstractAccountStore {
     `;
     const params2 = [username, location];
     try {
+      // TODO result 문서 확인 후 변경
       const accountResult = await mysqlConnection
         .promise()
         .query(query1, params1);
-      if (accountResult) {
+      const isAddedAccountRow = accountResult[0]?.affectedRows === 1;
+      if (isAddedAccountRow) {
         const locationResult = await mysqlConnection
           .promise()
           .query(query2, params2);
-        if (locationResult) {
+
+        const isAddedLocationRow = locationResult[0]?.affectedRows === 1;
+        if (isAddedLocationRow) {
           return true;
         }
       }
@@ -50,6 +54,33 @@ export default class MySQLAccountStore extends AbstractAccountStore {
       return false;
     }
   }
-  async addLocation(username, location) {}
-  async removeLocation(username, location) {}
+  async addLocation(username, location) {
+    const query = "INSERT INTO location (username,location) VALUES (?,?);";
+    const params = [username, location];
+
+    try {
+      const result = await mysqlConnection.promise().query(query, params);
+      const isAddedLocation = result[0]?.affectedRows === 1;
+      if (isAddedLocation) {
+        return true;
+      }
+      return false;
+    } catch (err) {
+      return null;
+    }
+  }
+  async removeLocation(username, location) {
+    const query = "DELETE from location WHERE username=? AND location=?;";
+    const params = [username, location];
+    try {
+      const result = await mysqlConnection.promise().query(query, params);
+      const deleteResult = result[0]?.affectedRows === 1;
+      if (deleteResult) {
+        return true;
+      }
+      return false;
+    } catch (err) {
+      return false;
+    }
+  }
 }
