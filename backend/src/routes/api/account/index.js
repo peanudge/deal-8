@@ -10,12 +10,14 @@ const accountStore = new MysqlAccountStore();
 
 const router = express.Router();
 
-router.get("/me", authMiddleware, async (req, res) => {
+router.use("", authMiddleware);
+
+router.get("/me", async (req, res) => {
   const account = await accountStore.getAccount(req.session.username);
   res.json({ isAuth: true, account });
 });
 
-router.post("/me/location", authMiddleware, async (req, res) => {
+router.post("/me/location", async (req, res) => {
   const { location } = req.body;
 
   const username = req.session["username"];

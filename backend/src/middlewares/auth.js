@@ -6,7 +6,6 @@ const authMiddleware = (req, res, next) => {
   if (username === undefined) {
     return res.status(UNAUTHORIZED_STATUS).json({ isAuth: false });
   }
-
   next();
 };
 
