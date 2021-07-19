@@ -34,3 +34,17 @@ export const getChatRoomsAsync = () => {
     }, 500);
   });
 };
+
+export const getChatRoomAsync = () => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({
+        key: "550e8400-e29b-41d4-a716-446655440000",
+        targetUser: "testtest",
+        product: 0,
+        productThumbnail:
+          "http://img.danawa.com/prod_img/500000/281/013/img/4013281_1.jpg?shrink=500:500&_v=20210129094708",
+      });
+    }, 500);
+  });
+};
