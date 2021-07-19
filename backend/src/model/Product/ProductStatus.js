@@ -1,3 +1,3 @@
 export const PRODUCT_STATUS_SAIL = "SAIL";
-export const PRODUCT_STATUS_SOLD = "SAIL";
+export const PRODUCT_STATUS_SOLD = "SOLD";
 export const PRODUCT_STATUS_RESERVED = "RESERVED";

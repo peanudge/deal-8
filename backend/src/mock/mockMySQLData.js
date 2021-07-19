@@ -26,17 +26,6 @@ const addMockProduct = async () => {
       author: "testuser",
     })
   );
-  await productStore.createProduct(
-    new Product({
-      category: 1,
-      title: "Test",
-      content: "This is test date",
-      cost: 3000,
-      status: PRODUCT_STATUS_SOLD,
-      location: "동천동",
-      author: "testuser",
-    })
-  );
   console.log("Generate Product Mock Data");
 };
 
