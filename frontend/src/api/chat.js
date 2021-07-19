@@ -78,3 +78,11 @@ export const getChatRoomAsync = (productId) => {
     }, 500);
   });
 };
+
+export const exitChatRoomAsync = (productId) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({ success: true });
+    }, 100);
+  });
+};
