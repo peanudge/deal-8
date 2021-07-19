@@ -5,7 +5,8 @@ import "@/public/css/chat.css";
 import sendSvg from "@/public/svg/send.svg";
 
 import ChatRoomHeaderView from "./views/ChatRoomHeaderView.js";
-import ChatRoomAlertModalView from "./views/ChatRoomAlertModalView";
+import ChatRoomAlertModalView from "./views/ChatRoomAlertModalView.js";
+import ChatRoomMainHeaderView from "./views/ChatRoomMainHeaderView.js";
 
 import Controller from "./Controller.js";
 import Store from "./Store.js";
@@ -14,6 +15,7 @@ export default class ChatRoomPage extends AbstractPage {
   constructor(params) {
     super(params);
     this.setTitle("Chat Room");
+    this.productId = params.productId;
   }
 
   async render() {
@@ -24,13 +26,10 @@ export default class ChatRoomPage extends AbstractPage {
 
     <main class="chat-main">
         <div class="chat-main--header">
-            <img class="chat-main--header--img" src="./image/example-skate.svg" />
-            <div class="chat-main--header--content">
-                <p>빈티지 롤러 스케이트</p>
-                <p>160,000원</p>
-            </div>
-            <div class="chat-main--header--status">판매중</div>
+            
         </div>
+    
+
         <div class="chat-main--content">
             <div class="chat-main--content--message">
                 안녕하세요! 궁금한게 있는데요
@@ -50,6 +49,8 @@ export default class ChatRoomPage extends AbstractPage {
                 실제로 신어볼 수 있는 건가요?
             </div>
         </div>
+
+
         <div class="chat-main--input-container">
             <input class="chat-main--input-container--input" type="text" />
             <div class="chat-main--input-container--submit-btn">${sendSvg}</div>
@@ -65,8 +66,9 @@ export default class ChatRoomPage extends AbstractPage {
     const views = {
       chatRoomHeaderView: new ChatRoomHeaderView(),
       chatRoomAlertModalView: new ChatRoomAlertModalView(),
+      chatRoomMainHeaderView: new ChatRoomMainHeaderView(),
     };
     const store = new Store();
-    new Controller(store, views);
+    new Controller(store, this.productId, views);
   }
 }

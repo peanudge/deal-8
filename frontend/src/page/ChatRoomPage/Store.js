@@ -4,5 +4,7 @@ export default class Store {
     this.targetUser = undefined;
     this.productId = undefined;
     this.productThumbnail = undefined;
+    this.chatLogs = [];
+    this.totalMessageCount = 0;
   }
 }
