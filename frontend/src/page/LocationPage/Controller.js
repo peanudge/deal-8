@@ -1,6 +1,7 @@
-import { addLocationAsync, deleteLocationAsync } from "@/api/user";
+import { addLocationAsync, removeLocationAsync } from "@/api/user";
 
 import { getProfileAsync } from "@/api/user";
+import { navigateTo } from "@/router";
 
 const ERROR_LOCATION_NEED = "적어도 하나의 동네는 존재해야합니다.";
 
@@ -32,11 +33,14 @@ export default class Controller {
   }
 
   fetchData() {
-    //TODO: user location fetch
-    getProfileAsync().then((user) => {
-      const { locations } = user;
-      this.store.locations = locations;
-      this.render();
+    getProfileAsync().then(({ isAuth, account }) => {
+      if (!isAuth) {
+        navigateTo("/login");
+      } else {
+        const { locations } = account;
+        this.store.locations = locations;
+        this.render();
+      }
     });
   }
 
@@ -86,26 +90,35 @@ export default class Controller {
   }
 
   addLocation(location) {
-    // TODO: CAll Location 추가 API
-    addLocationAsync(location).then((data) => {
-      if (data.success) {
-        console.log(location + " 추가");
+    addLocationAsync(location).then(({ success, account }) => {
+      if (success) {
+        const { locations } = account;
+        this.store.locations = locations;
+        this.clearError();
         this.render();
+      } else {
+        this.fetchData();
       }
     });
   }
 
   deleteLocation() {
-    // TODO: CAll Location Delete API
     const location = this.store.targetLocation;
-    deleteLocationAsync(location).then((data) => {
-      if (data.success) {
-        console.log(this.store.targetLocation + " 제거");
+    removeLocationAsync(location).then(({ success, account }) => {
+      if (success) {
+        const { locations } = account;
+        this.store.locations = locations;
+        this.clearError();
         this.render();
+      } else {
+        this.fetchData();
       }
     });
   }
 
+  clearError() {
+    this.error = {};
+  }
   showDeleteLocationModal(location) {
     this.isShowDeleteLocationModal = true;
     this.store.targetLocation = location;

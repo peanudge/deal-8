@@ -42,6 +42,7 @@
 .dropdown-wrapper--menu--item {
   background-color: transparent;
   padding: 16px;
+  display: block;
 }
 
 .dropdown-wrapper--menu--item.compact {

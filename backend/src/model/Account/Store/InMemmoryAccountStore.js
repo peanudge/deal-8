@@ -16,7 +16,7 @@ export default class InMemoryAccountStore extends AbstractAccountStore {
     return account;
   }
 
-  async createAccount({ username, locations }) {
+  async createAccount({ username, location }) {
     const isExistAccount = accountData.find(
       (account) => account.username === username
     );
@@ -25,7 +25,7 @@ export default class InMemoryAccountStore extends AbstractAccountStore {
       return null;
     }
 
-    const newAccount = new Account(username, locations);
+    const newAccount = new Account(username, [location]);
     accountData.push(newAccount);
     return newAccount;
   }

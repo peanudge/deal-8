@@ -12,22 +12,27 @@ export const getProfileAsync = () =>
 
 export const addLocationAsync = (location) => {
   return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve({
-        success: true,
-        locations: [location],
-      });
-    }, 500);
+    const request = fetch("/api/account/me/location", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        location: location,
+      }),
+    }).then((response) => response.json());
+    resolve(request);
   });
 };
 
-export const deleteLocationAsync = (location) => {
+export const removeLocationAsync = (location) => {
   return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve({
-        success: true,
-        locations: [],
-      });
-    }, 500);
+    const request = fetch(`/api/account/me/location?location=${location}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => response.json());
+    resolve(request);
   });
 };
