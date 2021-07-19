@@ -40,7 +40,7 @@ export const getChatRoomAsync = (productId) => {
     setTimeout(() => {
       resolve({
         key: "550e8400-e29b-41d4-a716-446655440000",
-        targetUser: "testtest",
+        targetUser: "testuser2",
         productTitle: "빈티지 롤러 스케이트",
         productId: 0,
         productCost: 10000,

@@ -7,6 +7,7 @@ import sendSvg from "@/public/svg/send.svg";
 import ChatRoomHeaderView from "./views/ChatRoomHeaderView.js";
 import ChatRoomAlertModalView from "./views/ChatRoomAlertModalView.js";
 import ChatRoomMainHeaderView from "./views/ChatRoomMainHeaderView.js";
+import ChatRoomMainContentView from "./views/ChatRoomMainContentView.js";
 
 import Controller from "./Controller.js";
 import Store from "./Store.js";
@@ -31,23 +32,6 @@ export default class ChatRoomPage extends AbstractPage {
     
 
         <div class="chat-main--content">
-            <div class="chat-main--content--message">
-                안녕하세요! 궁금한게 있는데요
-            </div>
-            <div class="chat-main--content--message my">네 안녕하세요!</div>
-            <div class="chat-main--content--message">혹시</div>
-            <div class="chat-main--content--message">
-                실제로 신어볼 수 있는 건가요?
-            </div>
-            <div class="chat-main--content--message">
-                실제로 신어볼 수 있는 건가요?
-            </div>
-            <div class="chat-main--content--message">
-                실제로 신어볼 수 있는 건가요?
-            </div>
-            <div class="chat-main--content--message">
-                실제로 신어볼 수 있는 건가요?
-            </div>
         </div>
 
 
@@ -67,6 +51,7 @@ export default class ChatRoomPage extends AbstractPage {
       chatRoomHeaderView: new ChatRoomHeaderView(),
       chatRoomAlertModalView: new ChatRoomAlertModalView(),
       chatRoomMainHeaderView: new ChatRoomMainHeaderView(),
+      chatRoomMainContentView: new ChatRoomMainContentView(),
     };
     const store = new Store();
     new Controller(store, this.productId, views);
