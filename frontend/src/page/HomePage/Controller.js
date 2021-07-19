@@ -1,13 +1,16 @@
-const tag = "[HomePage Controller]";
-
 import { getAllProductsAsync, getProducts } from "@/api/product";
 import { getProfileAsync } from "@/api/user";
-import { navigateTo } from "@/router";
 
 export default class Controller {
   constructor(
     store,
-    { mainHeaderView, productListView, categoryView, locationDropDownView }
+    {
+      mainHeaderView,
+      productListView,
+      categoryView,
+      locationDropDownView,
+      newProductButtonView,
+    }
   ) {
     this.store = store;
 
@@ -15,6 +18,7 @@ export default class Controller {
     this.productListView = productListView;
     this.categoryView = categoryView;
     this.locationDropDownView = locationDropDownView;
+    this.newProductButtonView = newProductButtonView;
 
     this.subscribeViewEvents();
     this.fetchData();
@@ -58,13 +62,10 @@ export default class Controller {
     Promise.all([requestProducts, requestUserProfile]).then(
       ([products, { isAuth, account }]) => {
         if (isAuth) {
+          this.store.isAuth = isAuth;
           this.store.user = account;
-          if (this.store.currentLocation === "") {
-            this.store.currentLocation =
-              this.store.user.locations.length > 0
-                ? this.store.user.locations[0]
-                : "";
-          }
+          this.store.currentLocation =
+            account.locations.length > 0 ? account.locations[0] : "";
           this.store.products = products;
           this.render();
         } else {
@@ -105,7 +106,7 @@ export default class Controller {
   }
 
   render() {
-    const { products, user, currentLocation } = this.store;
+    const { products, isAuth, user, currentLocation } = this.store;
     if (this.isOnCategory) {
       this.categoryView.show();
       this.mainHeaderView.hide();
@@ -116,6 +117,12 @@ export default class Controller {
       this.mainHeaderView.show(user);
       this.productListView.show(products);
       this.locationDropDownView.show(currentLocation, user.locations);
+    }
+
+    if (isAuth) {
+      this.newProductButtonView.show();
+    } else {
+      this.newProductButtonView.hide();
     }
   }
 }
