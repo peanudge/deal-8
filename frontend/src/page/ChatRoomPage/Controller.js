@@ -1,4 +1,5 @@
-import { getChatRoomAsync } from "@/api/chat.js";
+import { exitChatRoomAsync, getChatRoomAsync } from "@/api/chat.js";
+import { navigateTo } from "@/router";
 
 export default class Controller {
   constructor(
@@ -24,7 +25,13 @@ export default class Controller {
   }
 
   subscribeViewEvents() {
-    this.chatRoomAlertModalView.on("@exit-room", () => {});
+    this.chatRoomAlertModalView.on("@exit-room", () => {
+      exitChatRoomAsync(this.productId).then((result) => {
+        if (result.success) {
+          navigateTo("/");
+        }
+      });
+    });
   }
 
   init() {
