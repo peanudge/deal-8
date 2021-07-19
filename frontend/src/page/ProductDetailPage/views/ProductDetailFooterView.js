@@ -52,7 +52,7 @@ class Template {
                     <div class="move-btn">채팅 목록 보기 (2)</div>
                 </a>`
             : `
-                <a href="#" data-link>
+                <a href="/chat/${id}" data-link>
                     <div class="move-btn">문의하기</div>
                 </a>`
         }
