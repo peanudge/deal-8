@@ -17,7 +17,7 @@ export const categoryStore = new CategoryStore();
 router.get("/", async (req, res) => {
   const { location, category } = req.query;
   try {
-    const products = await productStore.getProductByCategoryAndLocation({
+    const products = await productStore.getProducts({
       location,
       category,
     });

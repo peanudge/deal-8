@@ -1,10 +1,43 @@
 import MySQLCategoryStore from "../model/Category/Store/MySQLCategoryStore.js";
+import Product from "../model/Product/Product.js";
+import {
+  PRODUCT_STATUS_SAIL,
+  PRODUCT_STATUS_SOLD,
+} from "../model/Product/ProductStatus.js";
+import MySQLProductStore from "../model/Product/Store/MySQLProductStore.js";
 
 const categoryStore = new MySQLCategoryStore();
+const productStore = new MySQLProductStore();
 
 export const createMockData = async () => {
   await createInitCategory();
-  console.log("Generate Category Mock Data");
+  await addMockProduct();
+};
+
+const addMockProduct = async () => {
+  await productStore.createProduct(
+    new Product({
+      category: 1,
+      title: "Test",
+      content: "This is test date",
+      cost: 3000,
+      status: PRODUCT_STATUS_SAIL,
+      location: "동천동",
+      author: "testuser",
+    })
+  );
+  await productStore.createProduct(
+    new Product({
+      category: 1,
+      title: "Test",
+      content: "This is test date",
+      cost: 3000,
+      status: PRODUCT_STATUS_SOLD,
+      location: "동천동",
+      author: "testuser",
+    })
+  );
+  console.log("Generate Product Mock Data");
 };
 
 const createInitCategory = async () => {
@@ -15,6 +48,7 @@ const createInitCategory = async () => {
       await categoryStore.addCategory(id, name);
     }
   }
+  console.log("Generate Category Mock Data");
 };
 
 const categoryList = [

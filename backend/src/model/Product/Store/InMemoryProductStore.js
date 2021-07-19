@@ -106,15 +106,10 @@ const interestProductData = [
 ];
 
 export default class InMemmoryProductStore extends AbstractProductStore {
-  async createProduct({
-    category,
-    title,
-    content,
-    cost,
-    location,
-    author,
-    images,
-  }) {
+  async createProduct(product) {
+    const { category, title, content, cost, location, author, images } =
+      product;
+
     let thumbnail;
     if (!images || images?.length === 0) {
       thumbnail = null;
@@ -134,7 +129,6 @@ export default class InMemmoryProductStore extends AbstractProductStore {
       images,
       createAt: new Date(),
       updateAt: new Date(),
-      deleteAt: null,
       countOfView: 0,
       countOfChat: 0,
       countOfInterested: 0,

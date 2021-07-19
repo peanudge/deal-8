@@ -7,7 +7,7 @@ CREATE TABLE product (
     cost INT,
     status VARCHAR(255) NOT NULL,
     location VARCHAR(255) NOT NULL,
-    thumbnail VARCHAR(255) NOT NULL,
+    thumbnail VARCHAR(255),
     createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
     upadtedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
     countOfView INT DEFAULT(0),
