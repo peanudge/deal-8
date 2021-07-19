@@ -4,12 +4,9 @@ import {
   SUCCESS_STATUS,
   UNAUTHORIZED_STATUS,
 } from "../../../util/HttpStatus.js";
-// import InMemmoryAccountStore from "../../../model/Account/Store/InMemmoryAccountStore.js";
 import MysqlAccountStore from "../../../model/Account/Store/MysqlAccountStore.js";
 
-// const accountStore = new AccountStore();
 const accountStore = new MysqlAccountStore();
-// const accountStore = new InMemmoryAccountStore();
 
 const router = express.Router();
 
