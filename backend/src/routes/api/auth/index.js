@@ -1,7 +1,7 @@
-import AccountStore from "../../../model/Account/Store/InMemmoryAccountStore.js";
+// import AccountStore from "../../../model/Account/Store/InMemmoryAccountStore.js";
 import MysqlAccountStore from "../../../model/Account/Store/MysqlAccountStore.js";
 import express from "express";
-const accountStore = new AccountStore();
+// const accountStore = new AccountStore(); // MysqlAccountStore로 대체
 const mysqlAccountStore = new MysqlAccountStore();
 
 const router = express.Router();
@@ -23,12 +23,15 @@ router.post("/signin", async (req, res) => {
 
 router.post("/signup", async (req, res) => {
   const { username, location } = req.body;
-  const originAccount = await accountStore.getAccount(username);
+  const originAccount = await mysqlAccountStore.getAccount(username);
   if (originAccount) {
     return res.json({ success: false, error: ERROR_MSG_DUPLICATE });
   }
 
-  const newAccount = await accountStore.createAccount({ username, location });
+  const newAccount = await mysqlAccountStore.createAccount({
+    username,
+    location,
+  });
   if (newAccount) {
     return res.json({ success: true });
   } else {

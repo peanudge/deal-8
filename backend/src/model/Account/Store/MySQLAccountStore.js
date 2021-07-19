@@ -24,7 +24,25 @@ export default class MySQLAccountStore extends AbstractAccountStore {
     account.locations = rows.map((row) => row.location);
     return account;
   }
-  async createAccount({ username, locations }) {}
+  async createAccount({ username, location }) {
+    const query1 = `
+      INSERT INTO account (username) VALUES (?);
+    `;
+    const params1 = [username];
+    const query2 = `
+      INSERT INTO location (username, location) VALUES (?,?);
+    `;
+    const params2 = [username, location];
+    try {
+      const result = await mysqlConnection.promise().query(query1, params1);
+      if (result) {
+        return true;
+      }
+      return false;
+    } catch (err) {
+      return false;
+    }
+  }
   async addLocation(username, location) {}
   async removeLocation(username, location) {}
 }
