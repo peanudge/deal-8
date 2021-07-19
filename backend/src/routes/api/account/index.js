@@ -5,13 +5,16 @@ import {
   UNAUTHORIZED_STATUS,
 } from "../../../util/HttpStatus.js";
 import AccountStore from "../../../model/Account/Store/InMemmoryAccountStore.js";
+import MysqlAccountStore from "../../../model/Account/Store/MysqlAccountStore.js";
+
 const accountStore = new AccountStore();
+const mysqlAccountStore = new MysqlAccountStore();
 
 const router = express.Router();
 
 router.get("/me", async (req, res) => {
   if (req.session["username"]) {
-    const account = await accountStore.getAccount(req.session.username);
+    const account = await mysqlAccountStore.getAccount(req.session.username);
     res.json({ isAuth: true, account });
   } else {
     res.json({ isAuth: false });
