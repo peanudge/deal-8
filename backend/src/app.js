@@ -9,6 +9,8 @@ import multer from "multer";
 import mysqlConnection from "./config/mysql.js";
 import indexRouter from "./routes/index.js";
 
+import { createMockData } from "./mock/mockMySQLData.js";
+
 const __dirname = path.resolve();
 
 // Mysql Setting
@@ -16,7 +18,7 @@ const __dirname = path.resolve();
 mysqlConnection.connect(function (err) {
   // TODO : connection 정보를 남겨야 한다.
   if (err) throw err;
-  console.log("database mysqlConnection success");
+  createMockData();
 });
 
 // Multer Setting
