@@ -1,9 +1,10 @@
 import { getChatRoomAsync } from "@/api/chat.js";
 
 export default class Controller {
-  constructor({ chatRoomHeaderView, chatRoomAlertModalView }) {
+  constructor(store, { chatRoomHeaderView, chatRoomAlertModalView }) {
     this.chatRoomHeaderView = chatRoomHeaderView;
     this.chatRoomAlertModalView = chatRoomAlertModalView;
+    this.store = store;
     this.configChatRoom();
     this.subscribeViewEvents();
     this.render();
@@ -11,6 +12,15 @@ export default class Controller {
 
   subscribeViewEvents() {
     this.chatRoomAlertModalView.on("@exit-room", () => {});
+  }
+
+  configChatRoom() {
+    getChatRoomAsync().then((roomInfo) => {
+      this.store.roomKey = roomInfo?.key;
+      this.store.targetUser = roomInfo?.targetUser;
+      this.store.product = roomInfo?.product;
+      this.store.productThumbnail = roomInfo?.productThumbnail;
+    });
   }
 
   render() {
