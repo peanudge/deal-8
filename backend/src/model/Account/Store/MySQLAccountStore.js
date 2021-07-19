@@ -69,5 +69,18 @@ export default class MySQLAccountStore extends AbstractAccountStore {
       return null;
     }
   }
-  async removeLocation(username, location) {}
+  async removeLocation(username, location) {
+    const query = "DELETE from location WHERE username=? AND location=?;";
+    const params = [username, location];
+    try {
+      const result = await mysqlConnection.promise().query(query, params);
+      const deleteResult = result[0]?.affectedRows === 1;
+      if (deleteResult) {
+        return true;
+      }
+      return false;
+    } catch (err) {
+      return false;
+    }
+  }
 }

@@ -63,8 +63,24 @@ router.delete("/me/location", async (req, res) => {
     const username = req.session["username"];
     const account = await accountStore.getAccount(username);
     if (account.locations.length >= 1) {
-      const account = await accountStore.removeLocation(username, location);
-      res.status(SUCCESS_STATUS).json({ success: true, account });
+      const isLocationExist = account.locations.includes(location);
+      if (!isLocationExist) {
+        return res.status(BAD_REQUEST).json({
+          success: false,
+          error: "해당 지역 정보를 보유하고 있지 않습니다.",
+        });
+      }
+      const isDeletedLocation = await accountStore.removeLocation(
+        username,
+        location
+      );
+      if (!isDeletedLocation) {
+        return res
+          .status(INTERNAL_SERVER_ERROR_STATUS)
+          .json({ success: false, error: "알 수 없는 오류입니다." });
+      }
+      const effectedAccount = await accountStore.getAccount(username);
+      res.status(SUCCESS_STATUS).json({ success: true, effectedAccount });
     } else {
       res.status(BAD_REQUEST).json({
         success: false,
