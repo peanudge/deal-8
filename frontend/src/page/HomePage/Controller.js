@@ -42,8 +42,8 @@ export default class Controller {
     this.mainHeaderView.on("@show-category", () => this.showCategory());
 
     this.categoryView.on("@search", (e) => {
-      const categoryId = e.detail.value;
-      this.searchCategory(categoryId);
+      const { id, name } = e.detail.value;
+      this.searchCategory(id, name);
     });
 
     this.locationDropDownView.on("@change-item", (e) => {
@@ -103,7 +103,9 @@ export default class Controller {
     });
   }
 
-  searchCategory(categoryId) {
+  searchCategory(categoryId, categoryName) {
+    this.store.currentCategoryId = categoryId;
+    this.store.currentCategoryName = categoryName;
     this.isShowCategoryView = false;
 
     getProductsAsync({ categoryId }).then((data) => {
@@ -113,16 +115,18 @@ export default class Controller {
   }
 
   changeInterest(productId, isInterested) {
-    if (isInterested) {
-      console.log("Interest ON " + productId);
-    } else {
-      console.log("Interest OFF " + productId);
-    }
+    // TODO: add interest Product
   }
 
   render() {
-    const { products, isAuth, user, currentLocation, categoryList } =
-      this.store;
+    const {
+      products,
+      isAuth,
+      user,
+      currentLocation,
+      currentCategoryName,
+      categoryList,
+    } = this.store;
 
     if (this.isShowCategoryView) {
       this.categoryView.show(categoryList);
@@ -131,7 +135,9 @@ export default class Controller {
       this.productListView.hide();
     } else {
       this.categoryView.hide();
-      this.mainHeaderView.show(user);
+      this.mainHeaderView.show({
+        categoryName: currentCategoryName,
+      });
       this.productListView.show(products);
       this.locationDropDownView.show(currentLocation, user.locations);
     }

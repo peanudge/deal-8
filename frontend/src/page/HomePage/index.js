@@ -32,6 +32,8 @@ export default class HomePage extends AbstractPage {
       <div class="main-header--left">
         <div id="category-btn" class="category-icon">
             ${categorySVG} 
+          <div id="current-category" class="category-name"></div>
+
         </div>
       </div>
       <div class="main-header--center">

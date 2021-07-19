@@ -10,6 +10,8 @@ export default class MainHeaderView extends View {
     console.log(tag, "constructor");
     super(element);
     this.categoryBtn = qs("#category-btn", this.element);
+    this.currentCategoryNameElement = qs("#current-category", this.element);
+
     this.bindingEvents();
   }
 
@@ -33,7 +35,9 @@ export default class MainHeaderView extends View {
     this.emit("@show-category");
   }
 
-  show() {
+  show({ categoryName = "" }) {
+    this.currentCategoryNameElement.innerText =
+      categoryName !== "" ? categoryName : "All Category";
     super.show();
   }
 }
