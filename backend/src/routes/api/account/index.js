@@ -78,10 +78,10 @@ router.delete("/me/location", async (req, res) => {
           .status(INTERNAL_SERVER_ERROR_STATUS)
           .json({ success: false, error: "알 수 없는 오류입니다." });
       }
-      const effectedAccount = await accountStore.getAccount(username);
+      const affectedAccount = await accountStore.getAccount(username);
       res
         .status(SUCCESS_STATUS)
-        .json({ success: true, account: effectedAccount });
+        .json({ success: true, account: affectedAccount });
     } else {
       res.status(BAD_REQUEST).json({
         success: false,
