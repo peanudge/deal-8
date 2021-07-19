@@ -43,7 +43,9 @@ router.post("/me/location", async (req, res) => {
           .json({ success: false });
       }
       const updatedAccount = await accountStore.getAccount(username);
-      res.status(SUCCESS_STATUS).json({ success: true, updatedAccount });
+      res
+        .status(SUCCESS_STATUS)
+        .json({ success: true, account: updatedAccount });
     } else {
       res.status(BAD_REQUEST).json({
         success: false,
@@ -80,7 +82,9 @@ router.delete("/me/location", async (req, res) => {
           .json({ success: false, error: "알 수 없는 오류입니다." });
       }
       const effectedAccount = await accountStore.getAccount(username);
-      res.status(SUCCESS_STATUS).json({ success: true, effectedAccount });
+      res
+        .status(SUCCESS_STATUS)
+        .json({ success: true, account: effectedAccount });
     } else {
       res.status(BAD_REQUEST).json({
         success: false,
