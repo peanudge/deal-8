@@ -34,9 +34,14 @@ export default class MySQLAccountStore extends AbstractAccountStore {
     `;
     const params2 = [username, location];
     try {
-      const result = await mysqlConnection.promise().query(query1, params1);
-      if (result) {
-        if (await mysqlConnection.promise().query(query2, params2)) {
+      const accountResult = await mysqlConnection
+        .promise()
+        .query(query1, params1);
+      if (accountResult) {
+        const locationResult = await mysqlConnection
+          .promise()
+          .query(query2, params2);
+        if (locationResult) {
           return true;
         }
       }
