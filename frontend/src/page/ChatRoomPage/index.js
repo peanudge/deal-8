@@ -8,6 +8,7 @@ import ChatRoomHeaderView from "./views/ChatRoomHeaderView.js";
 import ChatRoomAlertModalView from "./views/ChatRoomAlertModalView";
 
 import Controller from "./Controller.js";
+import Store from "./Store.js";
 
 export default class ChatRoomPage extends AbstractPage {
   constructor(params) {
@@ -65,7 +66,7 @@ export default class ChatRoomPage extends AbstractPage {
       chatRoomHeaderView: new ChatRoomHeaderView(),
       chatRoomAlertModalView: new ChatRoomAlertModalView(),
     };
-
-    new Controller(views);
+    const store = new Store();
+    new Controller(store, views);
   }
 }
