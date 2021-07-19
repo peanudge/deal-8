@@ -1,41 +1,40 @@
+import { PRODUCT_STATUS_SAIL } from "./ProductStatus.js";
+
 export default class Product {
   constructor({
     id,
     category,
     title,
-    content,
-    cost,
-    location,
-    thumbnail,
+    content = "",
+    cost = 0,
+    status = PRODUCT_STATUS_SAIL,
+    location = "",
+    thumbnail = "",
     images = [],
     author,
     updatedAt = new Date(),
     createdAt = new Date(),
-    deletedAt = null,
-    countOfView,
-    countOfChat,
-    countOfInterested,
-    isInterested,
+    countOfView = 0,
+    countOfChat = 0,
+    countOfInterested = 0,
+    isInterested = false,
   }) {
-    if (images?.length === 0 || !images) {
-      thumbnail = null;
-    }
     this.id = id;
     this.category = category;
     this.title = title;
     this.content = content;
     this.cost = cost;
+    this.status = status;
     this.location = location;
     this.thumbnail = thumbnail;
     this.images = images;
     this.author = author;
     this.isInterested = isInterested;
-    this.updatedAt = updatedAt;
     this.createdAt = createdAt;
-    this.deletedAt = deletedAt;
-
+    this.updatedAt = updatedAt;
     this.countOfView = countOfView;
     this.countOfChat = countOfChat;
+
     this.countOfInterested = countOfInterested;
   }
 }

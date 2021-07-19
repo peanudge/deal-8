@@ -5,18 +5,14 @@ import cookieParser from "cookie-parser";
 import logger from "morgan";
 import session from "express-session";
 import multer from "multer";
-
 import mysqlConnection from "./config/mysql.js";
 import indexRouter from "./routes/index.js";
-
 const __dirname = path.resolve();
 
 // Mysql Setting
-
 mysqlConnection.connect(function (err) {
   // TODO : connection 정보를 남겨야 한다.
   if (err) throw err;
-  console.log("database mysqlConnection success");
 });
 
 // Multer Setting

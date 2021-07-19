@@ -67,7 +67,7 @@ export default class Controller {
         }
         return getProductsAsync({
           location: this.store.currentLocation,
-          categoryId: this.store.currentCategory,
+          categoryId: this.store.currentCategoryId,
         });
       })
       .then((products) => {
@@ -107,11 +107,7 @@ export default class Controller {
     this.store.currentCategoryId = categoryId;
     this.store.currentCategoryName = categoryName;
     this.isShowCategoryView = false;
-
-    getProductsAsync({ categoryId }).then((data) => {
-      this.store.products = data;
-      this.render();
-    });
+    this.fetchData();
   }
 
   changeInterest(productId, isInterested) {
