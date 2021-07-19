@@ -1,6 +1,7 @@
 import express from "express";
 import { upload } from "../../../app.js";
 import ProductStore from "../../../model/Product/Store/InMemoryProductStore.js";
+import CategoryStore from "../../../model/Category/Store/MySQLCategoryStore.js";
 import Product from "../../../model/Product/Product.js";
 import {
   SUCCESS_STATUS,
@@ -11,6 +12,7 @@ import {
 const router = express.Router();
 
 export const productStore = new ProductStore();
+export const categoryStore = new CategoryStore();
 
 router.get("/", async (req, res) => {
   const { location, category } = req.query;
@@ -46,7 +48,7 @@ router.get("/detail", async (req, res) => {
 
 router.get("/category", async (req, res) => {
   try {
-    const categories = await productStore.getCategories();
+    const categories = await categoryStore.getCategories();
     return res.status(SUCCESS_STATUS).json({
       category: categories,
     });
