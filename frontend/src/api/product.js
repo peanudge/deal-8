@@ -1,136 +1,35 @@
-const mockProductData = [
-  {
-    id: 1,
-    catrgory: 1,
-    author: "TESTER",
-    title: "예시",
-    content: "팝니다. 싸게",
-    cost: 100000, // 원
-    location: "상암동",
-    thumbnail:
-      "http://img.danawa.com/prod_img/500000/281/013/img/4013281_1.jpg?shrink=500:500&_v=20210129094708",
-    image:
-      "http://img.danawa.com/prod_img/500000/281/013/img/4013281_1.jpg?shrink=500:500&_v=20210129094708",
-    createAt: new Date(), // db datetime type
-    updateAt: new Date(),
-    deleteAt: new Date(),
-    countOfView: 10,
-    countOfChat: 2,
-    countOfInterest: 10,
-    isInterested: false,
-  },
-  {
-    id: 2,
-    catrgory: 2,
-    author: "TESTER",
-    title: "예시",
-    content: "팝니다. 싸게",
-    cost: 1000, // 원
-    location: "상암동",
-    thumbnail:
-      "http://img.danawa.com/prod_img/500000/281/013/img/4013281_1.jpg?shrink=500:500&_v=20210129094708",
-    image:
-      "http://img.danawa.com/prod_img/500000/281/013/img/4013281_1.jpg?shrink=500:500&_v=20210129094708",
-    createAt: new Date(), // db datetime type
-    updateAt: new Date(),
-    deleteAt: new Date(),
-    countOfView: 10,
-    countOfChat: 2,
-    countOfInterest: 0,
-    isInterested: true,
-  },
-  {
-    id: 3,
-    catrgory: 3,
-    author: "TESTER",
-    title: "예시",
-    content: "팝니다. 싸게",
-    cost: 1000, // 원
-    location: "상암동",
-    thumbnail:
-      "http://img.danawa.com/prod_img/500000/281/013/img/4013281_1.jpg?shrink=500:500&_v=20210129094708",
-    image:
-      "http://img.danawa.com/prod_img/500000/281/013/img/4013281_1.jpg?shrink=500:500&_v=20210129094708",
-    createAt: new Date(), // db datetime type
-    updateAt: new Date(),
-    deleteAt: new Date(),
-    countOfView: 10,
-    countOfChat: 2,
-    countOfInterest: 0,
-    isInterested: true,
-  },
-  {
-    id: 3,
-    catrgory: 3,
-    author: "TESTER",
-    title: "예시",
-    content: "팝니다. 싸게",
-    cost: 1000, // 원
-    location: "상암동",
-    thumbnail:
-      "http://img.danawa.com/prod_img/500000/281/013/img/4013281_1.jpg?shrink=500:500&_v=20210129094708",
-    image:
-      "http://img.danawa.com/prod_img/500000/281/013/img/4013281_1.jpg?shrink=500:500&_v=20210129094708",
-    createAt: new Date(), // db datetime type
-    updateAt: new Date(),
-    deleteAt: new Date(),
-    countOfView: 10,
-    countOfChat: 2,
-    countOfInterest: 0,
-    isInterested: true,
-  },
-  {
-    id: 3,
-    catrgory: 3,
-    author: "TESTER",
-    title: "예시",
-    content: "팝니다. 싸게",
-    cost: 1000, // 원
-    location: "상암동",
-    thumbnail:
-      "http://img.danawa.com/prod_img/500000/281/013/img/4013281_1.jpg?shrink=500:500&_v=20210129094708",
-    image:
-      "http://img.danawa.com/prod_img/500000/281/013/img/4013281_1.jpg?shrink=500:500&_v=20210129094708",
-    createAt: new Date(), // db datetime type
-    updateAt: new Date(),
-    deleteAt: new Date(),
-    countOfView: 10,
-    countOfChat: 2,
-    countOfInterest: 0,
-    isInterested: true,
-  },
-];
-
-export const getProducts = (
+export const getProductsAsync = (
   conditions = { categoryId: null, location: null }
 ) => {
   return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      try {
-        if (conditions.categoryId) {
-          resolve(filteredData);
-        } else {
-          resolve(mockProductData);
-        }
-      } catch (err) {
-        reject(err);
-      }
-    }, 500);
+    const { categoryId, location } = conditions;
+    let url = "/api/product?";
+    if (categoryId) {
+      url += `category=${categoryId}`;
+    }
+    if (location && location !== "") {
+      url += `&location=${location}`;
+    }
+    const request = fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => response.json());
+    resolve(request);
   });
 };
 
-export const getAllProductsAsync = () => {
-  return getProducts();
-};
+export const getAllProductsAsync = () => getProductsAsync();
 
 export const getMySalingProductsAsync = () => {
   // GET /account/me/product
-  return getProducts();
+  return getProductsAsync();
 };
 
 export const getMyInterestProductsAsync = () => {
   // GET /account/me/interest
-  return getProducts();
+  return getProductsAsync();
 };
 
 export const getProductDetail = ({ id }) => {
@@ -177,3 +76,14 @@ export const createProductAsync = ({
     }, 500);
   });
 };
+
+export const getCategoriesAsync = () =>
+  new Promise((resolve, reject) => {
+    const request = fetch("/api/product/category", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => response.json());
+    resolve(request);
+  });

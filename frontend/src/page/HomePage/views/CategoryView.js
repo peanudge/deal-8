@@ -32,7 +32,7 @@ export default class CategoryView extends View {
     this.emit("@show-main");
   }
 
-  show() {
+  show(categories = []) {
     this.element.innerHTML = ` 
         <header class="header">
             <div class="header--left">
@@ -43,7 +43,7 @@ export default class CategoryView extends View {
             </h1>
         </header>
         <main class="category-main">
-        ${categoryItems
+        ${categories
           .map((item) => this.template.getCategoryCard(item.id, item.name))
           .join("")}
         </main>`;
