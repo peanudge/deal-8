@@ -9,7 +9,7 @@ CREATE TABLE product (
     location VARCHAR(255) NOT NULL,
     thumbnail VARCHAR(255),
     createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-    upadtedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
     countOfView INT DEFAULT(0),
 
     FOREIGN KEY (author) REFERENCES account (username),

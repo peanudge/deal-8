@@ -1,6 +1,7 @@
 import express from "express";
 import { upload } from "../../../app.js";
-import ProductStore from "../../../model/Product/Store/InMemoryProductStore.js";
+// import ProductStore from "../../../model/Product/Store/InMemoryProductStore.js";
+import ProductStore from "../../../model/Product/Store/MySQLProductStore.js";
 import CategoryStore from "../../../model/Category/Store/MySQLCategoryStore.js";
 import Product from "../../../model/Product/Product.js";
 import {
@@ -23,6 +24,7 @@ router.get("/", async (req, res) => {
     });
     return res.status(SUCCESS_STATUS).json(products);
   } catch (err) {
+    console.log(err);
     return res
       .status(INTERNAL_SERVER_ERROR_STATUS)
       .json({ error: "unexpect error occured" });
@@ -37,8 +39,9 @@ router.get("/detail", async (req, res) => {
       return res
         .status(NOT_FOUND_STATUS)
         .json({ error: "상품을 찾을 수 없습니다." });
+    } else {
+      return res.status(SUCCESS_STATUS).json(product);
     }
-    return res.status(SUCCESS_STATUS).json(product);
   } catch (err) {
     return res
       .status(INTERNAL_SERVER_ERROR_STATUS)

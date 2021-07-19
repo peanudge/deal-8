@@ -8,7 +8,11 @@ export const getProductsAsync = (
       url += `category=${categoryId}`;
     }
     if (location && location !== "") {
-      url += `&location=${location}`;
+      if (categoryId) {
+        url += `&location=${location}`;
+      } else {
+        url += `location=${location}`;
+      }
     }
     const request = fetch(url, {
       method: "GET",
