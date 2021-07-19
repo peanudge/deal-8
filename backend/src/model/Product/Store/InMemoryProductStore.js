@@ -61,7 +61,6 @@ export default class InMemmoryProductStore extends AbstractProductStore {
     images,
   }) {
     let thumbnail;
-    console.log(category, title, content, cost, location, author, images);
     if (!images || images?.length === 0) {
       thumbnail = null;
       images = [];
@@ -86,8 +85,6 @@ export default class InMemmoryProductStore extends AbstractProductStore {
       countOfInterested: 0,
       isInterested: false,
     });
-
-    console.log(newProduct);
 
     productData.push(newProduct);
     return newProduct;

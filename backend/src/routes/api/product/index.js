@@ -22,7 +22,6 @@ router.get("/", async (req, res) => {
     });
     return res.status(SUCCESS_STATUS).json(products);
   } catch (err) {
-    console.log(err);
     return res
       .status(INTERNAL_SERVER_ERROR_STATUS)
       .json({ error: "unexpect error occured" });
@@ -40,7 +39,6 @@ router.get("/detail", async (req, res) => {
     }
     return res.status(SUCCESS_STATUS).json(product);
   } catch (err) {
-    console.log(err);
     return res
       .status(INTERNAL_SERVER_ERROR_STATUS)
       .json({ error: "unexpect error occured" });
@@ -80,7 +78,6 @@ router.post("/", async (req, res) => {
     const newProduct = await productStore.createProduct(tmpProduct);
     return res.status(SUCCESS_STATUS).json(newProduct);
   } catch (err) {
-    console.log(err);
     return res
       .status(INTERNAL_SERVER_ERROR_STATUS)
       .json({ error: "unexpect error occured" });
@@ -98,7 +95,6 @@ router.put("/", async (req, res) => {
       return res.status(FORBIDDEN_STATUS).json({ success: false });
     }
   } catch (err) {
-    console.log(err);
     return res.status(INTERNAL_SERVER_ERROR_STATUS).json({ success: false });
   }
 
@@ -116,7 +112,6 @@ router.put("/", async (req, res) => {
     const updatedProduct = await productStore.updateProduct(product);
     return res.status(SUCCESS_STATUS).json(updatedProduct);
   } catch (err) {
-    console.log(err);
     return res.status(INTERNAL_SERVER_ERROR_STATUS).json({ success: false });
   }
 });
@@ -130,7 +125,6 @@ router.delete("/", async (req, res) => {
       return res.status(402).json({ success: false });
     }
   } catch (err) {
-    console.log(err);
     return res.status(INTERNAL_SERVER_ERROR_STATUS).json({ success: false });
   }
 
@@ -138,7 +132,6 @@ router.delete("/", async (req, res) => {
     const result = await productStore.deleteProductById(id);
     return res.status(SUCCESS_STATUS).json({ success: result });
   } catch (err) {
-    console.log(err);
     return res
       .status(INTERNAL_SERVER_ERROR_STATUS)
       .json({ error: "unexpect error occured" });
