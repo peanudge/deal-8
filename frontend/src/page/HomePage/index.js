@@ -18,6 +18,7 @@ import CategoryView from "./views/CategoryView";
 import Store from "./Store";
 
 import { qs } from "@/helper/selectHelpers";
+import NewProductButtonView from "./views/NewProductButtonView";
 
 export default class HomePage extends AbstractPage {
   constructor(params) {
@@ -49,7 +50,7 @@ export default class HomePage extends AbstractPage {
 
     <div id="product-container" class="product-container"></div>
 
-    <article class="new-product-button">
+    <article id="new-product-btn" class="new-product-button">
       <a href="/createPost" data-link>
        <div class="plus-icon">${plusSVG}</div>
       </a>
@@ -66,6 +67,7 @@ export default class HomePage extends AbstractPage {
       productListView: new ProductListView(qs("#product-container")),
       categoryView: new CategoryView(),
       locationDropDownView: new DropDownMenuView(qs("#location-dropdown")),
+      newProductButtonView: new NewProductButtonView(),
     };
 
     new Controller(store, views);

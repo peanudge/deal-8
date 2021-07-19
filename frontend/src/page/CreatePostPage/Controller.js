@@ -33,10 +33,14 @@ export default class Controller {
   }
 
   fetchData() {
-    getProfileAsync().then((user) => {
-      const { locations } = user;
-      this.store.location = locations[0];
-      this.render();
+    getProfileAsync().then(({ isAuth, account }) => {
+      if (isAuth) {
+        const { locations } = account;
+        this.store.location = locations[0];
+        this.render();
+      } else {
+        navigateTo("/login");
+      }
     });
   }
 
