@@ -4,17 +4,18 @@ import {
   SUCCESS_STATUS,
   UNAUTHORIZED_STATUS,
 } from "../../../util/HttpStatus.js";
-import AccountStore from "../../../model/Account/Store/InMemmoryAccountStore.js";
+// import InMemmoryAccountStore from "../../../model/Account/Store/InMemmoryAccountStore.js";
 import MysqlAccountStore from "../../../model/Account/Store/MysqlAccountStore.js";
 
-const accountStore = new AccountStore();
-const mysqlAccountStore = new MysqlAccountStore();
+// const accountStore = new AccountStore();
+const accountStore = new MysqlAccountStore();
+// const accountStore = new InMemmoryAccountStore();
 
 const router = express.Router();
 
 router.get("/me", async (req, res) => {
   if (req.session["username"]) {
-    const account = await mysqlAccountStore.getAccount(req.session.username);
+    const account = await accountStore.getAccount(req.session.username);
     res.json({ isAuth: true, account });
   } else {
     res.json({ isAuth: false });
@@ -32,8 +33,17 @@ router.post("/me/location", async (req, res) => {
     if (originLocation) {
       res.status(SUCCESS_STATUS).json({ success: true, account });
     } else if (account.locations.length < 2) {
-      const account = await accountStore.addLocation(username, location);
-      res.status(SUCCESS_STATUS).json({ success: true, account });
+      const isAddedLocation = await accountStore.addLocation(
+        username,
+        location
+      );
+      if (!isAddedLocation) {
+        return res
+          .status(INTERNAL_SERVER_ERROR_STATUS)
+          .json({ success: false });
+      }
+      const updatedAccount = await accountStore.getAccount(username);
+      res.status(SUCCESS_STATUS).json({ success: true, updatedAccount });
     } else {
       res.status(BAD_REQUEST).json({
         success: false,
