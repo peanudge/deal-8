@@ -1,0 +1,66 @@
+@import url("./common/global_color.css");
+@import url("./common/basic_header.css");
+@import url("./common/product_list_item.css");
+@import url("./common/chat_list_item.css");
+
+body {
+  background-color: #fff;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.header {
+  border: 0;
+}
+
+.tab-bar {
+  background-color: var(--header-bg-color);
+  height: 50px;
+  position: relative;
+}
+
+.tab-bar--tabs {
+  display: flex;
+  height: 100%;
+}
+
+.tab-bar--tabs li {
+  color: var(--gray-text-color);
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.tab-bar--tabs li.select {
+  color: var(--primary1-color);
+  border-bottom: 1px solid var(--primary1-color);
+}
+
+.slide-wrapper {
+  overflow: hidden;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  width: 100%;
+  height: calc(100% - 106px);
+  position: relative;
+}
+
+.section-wrapper {
+  display: flex;
+  width: 300%;
+  height: 100%;
+  position: absolute;
+  transition: left 0.5s 0s ease;
+}
+
+.section-wrapper > section {
+  width: calc(100% / 3);
+  height: 100%;
+}

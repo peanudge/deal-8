@@ -1,0 +1,100 @@
+@import url('./common/basic_header.css');
+@import url('./common/global_color.css');
+@import url('./common/product_list_item.css');
+
+body {
+  background-color: #fff;
+}
+
+.main-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: inherit;
+  background-color: var(--primary1-color);
+  height: 56px;
+  padding: 0 20px;
+  border-bottom-left-radius: 16px;
+  border-bottom-right-radius: 16px;
+}
+
+.main-header--left {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.main-header--center {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.main-header .location {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.main-header .location > * {
+  margin: 0 3px;
+  width: fit-content;
+  height: 14px;
+  font-size: 16px;
+}
+
+.main-header .location a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.main-header .location > :first-child {
+  margin-left: 0;
+}
+
+.main-header .location > :last-child {
+  margin-right: 0;
+}
+
+.main-header--right {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.main-header--right > * {
+  margin: 0 9.5px;
+}
+
+.main-header--right > :first-child {
+  margin-left: 0;
+}
+
+.main-header--right > :last-child {
+  margin-right: 0;
+}
+
+.content {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  flex: 1;
+  overflow-y: scroll;
+}
+
+.new-product-button {
+  position: fixed;
+  width: 56px;
+  height: 56px;
+  background-color: var(--primary1-color);
+  display: flex;
+  border-radius: 100%;
+  justify-content: center;
+  align-items: center;
+  right: 16px;
+  bottom: 16px;
+}

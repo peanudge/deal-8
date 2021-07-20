@@ -1,0 +1,39 @@
+@import url("./common/basic_header.css");
+@import url("./common/global_color.css");
+
+body {
+  padding: 0px;
+  border: 1px solid #c0c0c0;
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-main {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  background-color: white;
+  flex-grow: 1;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.profile-main--username {
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 34px;
+  margin-bottom: 34px;
+}
+
+.profile-main--logout-btn {
+  text-decoration: none;
+  text-align: center;
+  padding: 10px 16px;
+  background-color: var(--primary1-color);
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  color: white;
+}

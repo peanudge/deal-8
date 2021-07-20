@@ -1,0 +1,161 @@
+@import url("./common/basic_header.css");
+@import url("./common/global_color.css");
+
+.posting-main {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  background-color: white;
+  flex-grow: 1;
+  padding-left: 15px;
+  padding-right: 15px;
+  overflow: scroll;
+}
+
+.posting-main-img-container #img-input {
+  display: none;
+}
+
+.posting-main-img-container {
+  display: flex;
+  align-items: center;
+}
+
+.img-register {
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  justify-content: center;
+  width: 76px;
+  height: 76px;
+  align-items: center;
+  background-color: #f6f6f6;
+  border-radius: 8px;
+  margin-right: 5px;
+}
+
+.img-register > * {
+  pointer-events: none;
+}
+
+.img-register:active {
+  border: 1px solid var(--primary1-color);
+}
+
+.img-register--img {
+  font-size: 12px;
+  font-weight: 400;
+  text-align: center;
+}
+
+.img-container {
+  margin-top: 5px;
+  flex-grow: 1;
+  display: flex;
+  overflow-x: auto;
+}
+
+.img-box {
+  margin-right: 2px;
+}
+.img-box > img {
+  width: 76px;
+  height: 76px;
+  border-radius: 8px;
+  border: 1px solid #f6f6f6;
+}
+
+.posting-main--text-input {
+  font-size: 16px;
+  font-weight: 400;
+  border: none;
+}
+
+.posting-main--text-input.error::placeholder {
+  color: red;
+}
+
+.posting-main--text-input:focus {
+  outline: none;
+}
+
+.posting-main--text-input.subtext {
+  margin-top: 16px;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+.posting-main--category-btn {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.posting-main--category-btn:hover {
+  background-color: var(--header-bg-color);
+}
+
+.posting-main--category-btn > * {
+  pointer-events: none;
+}
+
+.posting-main--category-btn .right-arrow-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.posting-main--textarea {
+  display: block;
+  border: none;
+  overflow: scroll;
+  resize: none;
+  min-height: 40px;
+  max-height: 200px;
+  line-height: 20px;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.posting-main--textarea:focus {
+  outline: none;
+}
+
+.expand-textarea[contenteditable]:empty::before {
+  content: "게시글 내용을 작성해주세요.";
+  color: gray;
+}
+
+.split-line {
+  width: 100%;
+  height: 1px;
+  margin-top: 24px;
+  margin-bottom: 24px;
+  border: 0.5px solid #c0c0c0;
+}
+
+.posting-location {
+  padding-left: 12px;
+  display: flex;
+  align-items: center;
+  background-color: white;
+}
+
+.posting-location--icon {
+  width: 20px;
+}
+.posting-location--name {
+  margin-left: 20px;
+}
+
+.check-icon {
+  width: 20px;
+}
+
+.image-icon {
+  width: 25px;
+}
+
+.category-name.error {
+  border-bottom: 1px solid red;
+}

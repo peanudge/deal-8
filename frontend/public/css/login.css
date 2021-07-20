@@ -1,0 +1,55 @@
+@import url("./common/basic_header.css");
+@import url("./common/global_color.css");
+
+body {
+  padding: 0px;
+  border: 1px solid #c0c0c0;
+  display: flex;
+  flex-direction: column;
+}
+
+.login-main {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  background-color: white;
+  flex-grow: 1;
+  padding-top: 24px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.login-main--text-input {
+  padding-right: 16px;
+  padding-left: 16px;
+  padding-top: 10px;
+  padding-bottom: 8px;
+
+  font-weight: 400;
+  font-size: 16px;
+
+  border: 1px solid var(--input-border-color);
+  border-radius: 8px;
+}
+
+.login-main--submit-btn {
+  text-decoration: none;
+  text-align: center;
+  margin-top: 24px;
+  padding: 10px 16px;
+  background-color: var(--primary1-color);
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+  color: white;
+}
+
+.login-main--link {
+  margin-top: 34px;
+  text-decoration: none;
+  text-align: center;
+  color: black;
+  font-size: 14px;
+  font-weight: 500;
+}

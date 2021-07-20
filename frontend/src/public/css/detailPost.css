@@ -1,0 +1,220 @@
+@import url("./common/basic_header.css");
+@import url("./common/global_color.css");
+
+body {
+  border: 1px solid #c0c0c0;
+}
+
+.header {
+  background-color: transparent;
+  border: none;
+  z-index: 99;
+}
+
+.header--left > svg,
+.header--right > svg {
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+}
+
+main {
+  height: calc(100% - 56px);
+  overflow: scroll;
+}
+
+.post-main {
+  display: flex;
+  position: absolute;
+  flex-direction: column;
+  background-color: white;
+  overflow: scroll;
+  height: calc(100% - 68px);
+}
+
+.post-main--img-container {
+  width: 100%;
+  height: 320px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.post-main--img-container .images {
+  display: flex;
+  height: 100%;
+}
+
+.post-main--img-container .buttons {
+  display: flex;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.post-main--img-container .buttons > button {
+  border: 0;
+  background-color: inherit;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  outline: none;
+}
+
+#sale-info {
+  margin-left: 16px;
+  margin-right: 16px;
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.post-main--sale-status {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: 100px;
+  align-items: center;
+  padding: 10px 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.post-main--sale-status--content {
+  flex-grow: 1;
+  display: flex;
+  justify-content: space-around;
+}
+
+.post-main--sale-status p {
+  font-size: 14px;
+  color: #828282;
+  pointer-events: none;
+}
+
+.post-main--sale-status svg {
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+}
+
+.post-main--title {
+  font-size: 14px;
+  font-weight: 500;
+  margin-top: 24px;
+}
+
+.post-main--sub-title {
+  display: flex;
+  margin-top: 9px;
+  font-size: 12px;
+  font-weight: 400;
+  color: #888888;
+}
+.post-main--sub-title p {
+  margin-right: 2px;
+}
+
+.post-main--content {
+  margin-top: 16px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
+}
+.post-main--info {
+  display: flex;
+  margin-top: 24px;
+  font-size: 12px;
+  font-weight: 400;
+  color: #888888;
+}
+
+.post-main--info p {
+  margin-right: 2px;
+}
+
+.post-main--seller-info {
+  margin-top: 24px;
+  margin-bottom: calc(68px + 32px);
+  display: flex;
+  justify-content: space-between;
+  padding: 16px;
+  background-color: #f6f6f6;
+}
+
+.post-main--seller-info--label {
+  flex-grow: 2;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.post-main--seller-info--username {
+  font-size: 14px;
+  font-weight: 500;
+  margin-right: 8px;
+}
+
+.post-main--seller-info--address {
+  font-size: 12px;
+  font-weight: 400;
+  color: #828282;
+}
+
+footer {
+  display: flex !important;
+  border-top: 1px solid #c0c0c0;
+  background-color: white;
+  position: absolute;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+  height: 68px;
+  bottom: 0px;
+}
+
+footer .move-btn {
+  width: 136px;
+  background-color: var(--primary1-color);
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 8px;
+}
+
+.interest-btn {
+  width: 20px;
+  height: 20px;
+}
+
+#author-menu {
+  cursor: pointer;
+}
+
+#author-menu .dropdown {
+  z-index: 999;
+  position: fixed;
+  left: 100%;
+  transform: translateX(-100%);
+}
+
+.red-color {
+  color: var(--red-text-color);
+}
+
+#sale-status {
+  position: relative;
+}
+
+#sale-status .dropdown {
+  position: absolute;
+  z-index: 999;
+  top: 100%;
+  transform: translateX(-30%);
+}
