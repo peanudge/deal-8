@@ -1,6 +1,7 @@
 import AbstractCategoryStore from "../AbstractCategoryStore.js";
 import mysqlConnection from "../../../config/mysql.js";
 import Category from "../Category.js";
+import { compile } from "morgan";
 
 export default class MySQLCategoryStore extends AbstractCategoryStore {
   async getCategories() {
@@ -9,6 +10,24 @@ export default class MySQLCategoryStore extends AbstractCategoryStore {
       const result = await mysqlConnection.promise().query(query);
       const rows = result[0];
       return rows.map((row) => new Category(row.id, row.name));
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  }
+
+  async getCategory(id) {
+    const query = "SELECT id, name FROM category WHERE id = ?";
+    const params = [id];
+    try {
+      const result = await mysqlConnection.promise().query(query, params);
+      const rows = result[0];
+
+      if (rows.length > 0) {
+        return new Category(rows[0].id, rows[0].name);
+      } else {
+        return null;
+      }
     } catch (err) {
       throw err;
     }

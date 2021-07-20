@@ -1,7 +1,11 @@
 import { navigateTo } from "@/router";
 
 import { getChatRoomAsync } from "@/api/chat";
-import { getProductDetailAsync, updateProductStatusAsync } from "@/api/product";
+import {
+  getCategoryAsync,
+  getProductDetailAsync,
+  updateProductStatusAsync,
+} from "@/api/product";
 import {
   getProfileAsync,
   removeInterestProductAsync,
@@ -55,16 +59,20 @@ export default class Controller {
     this.productDetailHeaderView.on("@modifyPost", () => {
       navigateTo(`/product-edit/${this.store.productId}`);
     });
+
     this.productDetailHeaderView.on("@deletePost", () => {
       navigateTo(`/product-edit/${this.store.productId}`);
     });
 
     this.productDetailView.on("@change-status", (e) => {
       const status = e.detail.value;
-
-      updateProductStatusAsync(this.store.productId, status).then((result) => {
-        this.fetchProductDetailData();
-      });
+      updateProductStatusAsync(this.store.productId, status).then(
+        ({ success }) => {
+          if (success) {
+            this.fetchProductDetailData();
+          }
+        }
+      );
     });
   }
 
@@ -84,6 +92,17 @@ export default class Controller {
     if (this.productId === undefined) {
       navigateTo("/");
     }
+
+    getCategoryAsync(this.store.productId).then(({ success, category }) => {
+      if (success) {
+        this.store.categoryName = category.name;
+      } else {
+        this.store.categoryName = category.id;
+      }
+
+      this.render();
+    });
+
     getProfileAsync().then(({ isAuth, account }) => {
       this.store.user = account;
       this.fetchProductDetailData();
@@ -102,10 +121,10 @@ export default class Controller {
   }
 
   render() {
-    const { productDetail, user } = this.store;
+    const { productDetail, user, categoryName } = this.store;
     this.productDetailHeaderView.show(user, productDetail);
     this.productImageListView.show(productDetail.images);
-    this.productDetailView.show(user, productDetail);
+    this.productDetailView.show(user, productDetail, categoryName);
     this.productDetailFooterView.show(user, productDetail);
   }
 }

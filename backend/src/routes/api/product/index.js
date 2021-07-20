@@ -6,7 +6,7 @@ import { upload } from "../../../app.js";
 import { ProductStatus } from "../../../model/Product/ProductStatus.js";
 
 import ProductStore from "../../../model/Product/Store/MySQLProductStore.js";
-import CategoryStore from "../../../model/Category/Store/MySQLCategoryStore.js";
+
 import Product from "../../../model/Product/Product.js";
 import {
   SUCCESS_STATUS,
@@ -17,9 +17,7 @@ import {
 } from "../../../util/HttpStatus.js";
 
 const router = express.Router();
-
-export const productStore = new ProductStore();
-export const categoryStore = new CategoryStore();
+const productStore = new ProductStore();
 
 router.get("/detail", async (req, res) => {
   const { id } = req.query;
@@ -31,19 +29,6 @@ router.get("/detail", async (req, res) => {
       .json({ success: false, error: "상품을 찾을 수 없습니다." });
   } else {
     return res.status(SUCCESS_STATUS).json({ success: true, product });
-  }
-});
-
-router.get("/category", async (req, res) => {
-  try {
-    const categories = await categoryStore.getCategories();
-    return res.status(SUCCESS_STATUS).json({
-      category: categories,
-    });
-  } catch (err) {
-    return res
-      .status(INTERNAL_SERVER_ERROR_STATUS)
-      .json({ error: "unexpect error occured" });
   }
 });
 

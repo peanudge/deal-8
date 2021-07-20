@@ -84,7 +84,7 @@ export const createProductAsync = ({
 
 export const getCategoriesAsync = () =>
   new Promise((resolve, reject) => {
-    const request = fetch("/api/product/category", {
+    const request = fetch("/api/category", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -92,6 +92,19 @@ export const getCategoriesAsync = () =>
     }).then((response) => response.json());
     resolve(request);
   });
+
+export const getCategoryAsync = (id) => {
+  return new Promise((resolve, reject) => {
+    const request = fetch(`/api/category/${id}`, {
+      method: "GET",
+
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => response.json());
+    resolve(request);
+  });
+};
 
 export const updateProductStatusAsync = (productId, status) => {
   return new Promise((resolve, _) => {
