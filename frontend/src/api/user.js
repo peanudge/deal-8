@@ -36,3 +36,27 @@ export const removeLocationAsync = (location) => {
     resolve(request);
   });
 };
+
+export const addInterestProductAsync = (productId) => {
+  return new Promise((resolve, _) => {
+    const request = fetch(`/api/account/me/interest?productId=${productId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((resposne) => resposne.json());
+    resolve(request);
+  });
+};
+
+export const removeInterestProductAsync = (productId) => {
+  return new Promise((resolve, _) => {
+    const request = fetch(`/api/account/me/interest?productId=${productId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((resposne) => resposne.json());
+    resolve(request);
+  });
+};
