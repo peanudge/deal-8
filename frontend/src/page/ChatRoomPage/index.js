@@ -16,7 +16,7 @@ export default class ChatRoomPage extends AbstractPage {
   constructor(params) {
     super(params);
     this.setTitle("Chat Room");
-    this.productId = params.productId;
+    this.roomId = params.roomId;
   }
 
   async render() {
@@ -54,6 +54,6 @@ export default class ChatRoomPage extends AbstractPage {
       chatRoomMainContentView: new ChatRoomMainContentView(),
     };
     const store = new Store();
-    new Controller(store, this.productId, views);
+    new Controller(store, this.roomId, views);
   }
 }

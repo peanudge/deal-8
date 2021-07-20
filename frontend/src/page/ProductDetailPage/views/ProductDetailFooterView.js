@@ -18,6 +18,9 @@ export default class ProductDetailFooterView extends View {
     delegate(this.element, "click", "#interest-btn", (e) => {
       this.handleClickInterestEvent(e);
     });
+    delegate(this.element, "click", "#getChatRoom", (e) => {
+      this.handleClickGetChatRoom(e);
+    });
   }
 
   handleClickInterestEvent(event) {
@@ -28,7 +31,9 @@ export default class ProductDetailFooterView extends View {
       value: { id, isInterested: !currentInterestStatus },
     });
   }
-
+  handleClickGetChatRoom(event) {
+    this.emit("@make-chat-room");
+  }
   show(user, productDetail) {
     this.element.innerHTML = this.template.getFooter(user, productDetail);
     super.show();
@@ -49,12 +54,12 @@ class Template {
           user?.username === author
             ? `
                 <a href="/chatList/${id}" data-link>
-                    <div class="move-btn">채팅 목록 보기 (2)</div>
+                    <div class="move-btn">채팅 목록 보기 (2)</div> <!-- chatList/:productId -->
                 </a>`
             : `
-                <a href="/chat/${id}" data-link>
-                    <div class="move-btn">문의하기</div>
-                </a>`
+                <div>
+                    <div class="move-btn" id="getChatRoom">문의하기</div> <!-- chat/:roomId --> 
+                <div>`
         }
             
       `;

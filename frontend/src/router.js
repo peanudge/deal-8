@@ -41,7 +41,7 @@ export const router = async () => {
     { path: "/createPost", view: CreatePostPage },
     { path: "/location", view: LocationPage },
     { path: "/chatList/:productId", view: ChatRoomListPage },
-    { path: "/chat/:productId", view: ChatRoomPage },
+    { path: "/chat/:roomId", view: ChatRoomPage },
   ];
 
   const potentialMatches = routes.map((route) => {

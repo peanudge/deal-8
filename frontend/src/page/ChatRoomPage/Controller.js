@@ -4,7 +4,7 @@ import { navigateTo } from "@/router";
 export default class Controller {
   constructor(
     store,
-    productId,
+    roomId,
     {
       chatRoomHeaderView,
       chatRoomAlertModalView,
@@ -18,7 +18,7 @@ export default class Controller {
     this.chatRoomMainContentView = chatRoomMainContentView;
 
     this.store = store;
-    this.productId = productId;
+    this.roomId = roomId;
     this.subscribeViewEvents();
 
     this.init();
@@ -26,7 +26,7 @@ export default class Controller {
 
   subscribeViewEvents() {
     this.chatRoomAlertModalView.on("@exit-room", () => {
-      exitChatRoomAsync(this.productId).then((result) => {
+      exitChatRoomAsync(this.roomId).then((result) => {
         if (result.success) {
           navigateTo("/");
         }
@@ -35,10 +35,10 @@ export default class Controller {
   }
 
   init() {
-    getChatRoomAsync(this.productId).then((roomInfo) => {
+    getChatRoomAsync(this.roomId).then((roomInfo) => {
       this.store.roomKey = roomInfo?.key;
       this.store.targetUser = roomInfo?.targetUser;
-      this.store.productId = roomInfo?.productId;
+      this.store.roomId = roomInfo?.roomId;
       this.store.productTitle = roomInfo?.productTitle;
       this.store.productThumbnail = roomInfo?.productThumbnail;
       this.store.productCost = roomInfo?.productCost;

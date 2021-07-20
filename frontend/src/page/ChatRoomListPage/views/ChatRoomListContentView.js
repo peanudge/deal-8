@@ -2,11 +2,25 @@ import View from "@/page/View";
 import { qs } from "@/helper/selectHelpers.js";
 
 import "@/public/css/common/product_list_item.css";
+import { delegate } from "@/helper/eventHelpers";
+import { navigateTo } from "@/router";
 
 export default class ChatRoomListContentView extends View {
   constructor(element = qs(".content")) {
     super(element);
+    this.bindingEvents();
   }
+
+  bindingEvents() {
+    delegate(this.element, "click", ".content--chat-item", (event) => {
+      this.handleChatRoomClick(event);
+    });
+  }
+
+  handleChatRoomClick = (event) => {
+    const roomKey = event.target.dataset.roomKey;
+    navigateTo(`/chat/${roomKey}`);
+  };
 
   show(roomInfos) {
     roomInfos.forEach((roomInfo) => {
@@ -14,8 +28,7 @@ export default class ChatRoomListContentView extends View {
       $newChatArticle.className = `content--chat-item ${
         roomInfo.unReadCount <= 0 ? "" : "unread"
       }`;
-
-      $newChatArticle.dataset.roomKey = roomInfo.roomKey;
+      $newChatArticle.dataset.roomKey = roomInfo.key;
       this.element.appendChild($newChatArticle);
       $newChatArticle.innerHTML = this.getChatArticle(roomInfo);
     });

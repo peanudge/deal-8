@@ -118,3 +118,11 @@
   text-align: center;
   color: var(--gray-text-color);
 }
+
+.content--chat-item {
+  cursor: pointer;
+}
+
+.content--chat-item * {
+  pointer-events: none;
+}
