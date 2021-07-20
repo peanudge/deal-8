@@ -77,19 +77,26 @@ class Template {
   imagesToElements(images = []) {
     const elementArray = images.map(
       (image) => `
-      <img src=${image} />
+      <img class="detail-product-image" src=${image} />
     `
     );
     return elementArray.join("");
   }
-  getImages(images) {
+  getImages(images = []) {
     return `
         <div class="images">
           ${this.imagesToElements(images)}
         </div>
         <div class="buttons">
-          <button data-move=-1>${chevronLeftSvg}</button>
-          <button data-move=1>${chevronRightSvg}</button>
+        ${
+          images.length > 1
+            ? /*html */ `
+              <button data-move=-1>${chevronLeftSvg}</button>
+              <button data-move=1>${chevronRightSvg}</button>
+              `
+            : ""
+        }
+        
         </div>
     `;
   }

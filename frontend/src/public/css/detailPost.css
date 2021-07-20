@@ -219,3 +219,7 @@ footer .move-btn {
   top: 100%;
   transform: translateX(-30%);
 }
+
+.detail-product-image {
+  width: 100%;
+}

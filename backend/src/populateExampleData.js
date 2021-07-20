@@ -67,6 +67,21 @@ const example_product_insert_query_result = await mysqlConnection
   .promise()
   .query(example_product_insert_query);
 
+// Insert example product_image
+const example_product_image_insert_query = `
+INSERT INTO product_image(id, image) VALUES 
+(1, "${testImageURL}"),
+(2, "${testImageURL}"),
+(3, "${testImageURL}"),
+(4, "${testImageURL}"),
+(5, "${testImageURL}"),
+(6, "${testImageURL}"),
+(7, "${testImageURL}");
+`;
+const example_product_image_insert_query_result = await mysqlConnection
+  .promise()
+  .query(example_product_image_insert_query);
+
 // Insert example interest_product;
 const example_interest_product_insert_query = `
 INSERT INTO interest_product(username, id)

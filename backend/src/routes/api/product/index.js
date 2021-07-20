@@ -1,4 +1,6 @@
 import express from "express";
+import authMiddleware from "../../../middlewares/auth.js";
+
 import { upload } from "../../../app.js";
 
 import { ProductStatus } from "../../../model/Product/ProductStatus.js";
@@ -19,43 +21,16 @@ const router = express.Router();
 export const productStore = new ProductStore();
 export const categoryStore = new CategoryStore();
 
-router.get("/", async (req, res) => {
-  const username = req.session["username"];
-
-  const { location, category } = req.query;
-  const categoryId = category ? Number(category) : null;
-
-  try {
-    const products = await productStore.getProducts({
-      location,
-      category: categoryId,
-      username,
-    });
-    return res.status(SUCCESS_STATUS).json(products);
-  } catch (err) {
-    console.log(err);
-    return res
-      .status(INTERNAL_SERVER_ERROR_STATUS)
-      .json({ error: "unexpect error occured" });
-  }
-});
-
 router.get("/detail", async (req, res) => {
   const { id } = req.query;
   const username = req.session["username"];
-  try {
-    const product = await productStore.getProductById(id, username);
-    if (product === null) {
-      return res
-        .status(NOT_FOUND_STATUS)
-        .json({ success: false, error: "상품을 찾을 수 없습니다." });
-    } else {
-      return res.status(SUCCESS_STATUS).json({ success: true, product });
-    }
-  } catch (err) {
+  const product = await productStore.getProductById(id, username);
+  if (product === null) {
     return res
-      .status(INTERNAL_SERVER_ERROR_STATUS)
-      .json({ success: false, error: "unexpect error occured" });
+      .status(NOT_FOUND_STATUS)
+      .json({ success: false, error: "상품을 찾을 수 없습니다." });
+  } else {
+    return res.status(SUCCESS_STATUS).json({ success: true, product });
   }
 });
 
@@ -118,10 +93,30 @@ router.put("/:id/status", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.get("/", async (req, res) => {
+  const username = req.session["username"];
+
+  const { location, category } = req.query;
+  const categoryId = category ? Number(category) : null;
+
+  try {
+    const products = await productStore.getProducts({
+      location,
+      category: categoryId,
+      username,
+    });
+    return res.status(SUCCESS_STATUS).json(products);
+  } catch (err) {
+    console.log(err);
+    return res
+      .status(INTERNAL_SERVER_ERROR_STATUS)
+      .json({ error: "unexpect error occured" });
+  }
+});
+
+router.post("/", authMiddleware, async (req, res) => {
   const { category, title, content, cost, location, images } = req.body;
 
-  // TODO auth middleware
   const author = req.session.username;
   try {
     const tmpProduct = new Product({
@@ -130,9 +125,11 @@ router.post("/", async (req, res) => {
       content,
       cost,
       location,
+      thumbnail: images[0],
       images,
       author,
     });
+
     const newProduct = await productStore.createProduct(tmpProduct);
     return res.status(SUCCESS_STATUS).json(newProduct);
   } catch (err) {

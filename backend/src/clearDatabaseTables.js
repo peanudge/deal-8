@@ -4,6 +4,15 @@ mysqlConnection.connect(function (err) {
   if (err) throw err;
 });
 
+// drop product_image table;
+const product_image_table_drop_query = `
+  DROP TABLE product_image;
+`;
+
+const product_image_table_drop_query_result = await mysqlConnection
+  .promise()
+  .query(product_image_table_drop_query);
+
 // drop interest product table;
 const interest_prodcut_table_drop_query = `
     DROP TABLE interest_product;
@@ -12,8 +21,6 @@ const interest_prodcut_table_drop_query = `
 const interestProductTableDropResult = await mysqlConnection
   .promise()
   .query(interest_prodcut_table_drop_query);
-
-// console.log(interestProductTableDropResult[0]);
 
 // drop  product table;
 const product_table_drop_query = `
