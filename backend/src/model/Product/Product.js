@@ -16,7 +16,7 @@ export default class Product {
     createdAt = new Date(),
     countOfView = 0,
     countOfChat = 0,
-    countOfInterested = 0,
+    countOfInterest = 0,
     isInterested = false,
   }) {
     this.id = id;
@@ -35,6 +35,6 @@ export default class Product {
     this.countOfView = countOfView;
     this.countOfChat = countOfChat;
 
-    this.countOfInterested = countOfInterested;
+    this.countOfInterest = countOfInterest;
   }
 }
