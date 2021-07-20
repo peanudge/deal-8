@@ -15,7 +15,7 @@
       // client-side
       socket.on("connect", () => {});
 
-      socket.on("chatting", (msg) => {
+      socket.on("message", (msg) => {
         console.log(msg);
       });
 
@@ -24,7 +24,7 @@
       });
 
       const emitHelloMessage = () => {
-        socket.emit("chatting", "hello message");
+        socket.emit("message", "hello message");
       };
       const joinARoom = () => {
         socket.emit("request joinRoom", "A");

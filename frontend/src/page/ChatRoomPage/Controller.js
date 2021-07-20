@@ -1,4 +1,5 @@
 import { exitChatRoomAsync, getChatRoomAsync } from "@/api/chat.js";
+import { getProfileAsync } from "@/api/user";
 import { navigateTo } from "@/router";
 
 export default class Controller {
@@ -34,10 +35,29 @@ export default class Controller {
         }
       });
     });
+
+    this.chatRoomInputContainerView.on("@message-receive", (data) => {
+      const { socketId } = data.detail;
+      this.chatRoomMainContentView.addMessage(data.detail, socketId);
+    });
   }
 
   init() {
-    getChatRoomAsync(this.roomId).then((roomInfo) => {
+    const getChatRoom = getChatRoomAsync(this.roomId);
+    const getProfile = getProfileAsync();
+
+    Promise.all([getChatRoom, getProfile]).then((values) => {
+      const [roomInfo, { isAuth, account }] = values;
+
+      if (isAuth) {
+        this.store.isAuth = isAuth;
+        this.store.user = account;
+        this.store.currentLocation =
+          account.locations.length > 0 ? account.locations[0] : "";
+      } else {
+        this.store.currentLocation = "";
+      }
+
       this.store.roomKey = roomInfo?.key;
       this.store.targetUser = roomInfo?.targetUser;
       this.store.roomId = roomInfo?.roomId;
@@ -59,12 +79,12 @@ export default class Controller {
       productThumbnail: this.store.productThumbnail,
     };
     const messages = this.store.messages;
-    const targetUser = this.store.targetUser;
+    const { username } = this.store.user;
 
     this.chatRoomHeaderView.show();
     this.chatRoomAlertModalView.show();
     this.chatRoomMainHeaderView.show(productInfo);
-    this.chatRoomMainContentView.addMessages(messages, targetUser);
-    this.chatRoomInputContainerView.socketConnect();
+    this.chatRoomMainContentView.loadMessages(messages, username);
+    this.chatRoomInputContainerView.socketConnect(this.roomId);
   }
 }

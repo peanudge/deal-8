@@ -23,9 +23,17 @@ export default class ChatRoomInputContainerView extends View {
   handleSubmitChatting() {
     const message = this.chatInput.value; // 채팅 메시지
     this.chatInput.value = ""; // 채팅 초기화
+    this.sendMessage(message);
   }
-  socketConnect() {
-    const socket = this.socket; // TODO: fix cors and work
-    socket.emit("request joinRoom", "A");
+  socketConnect(roomId) {
+    const socket = this.socket;
+    socket.emit("request joinRoom", roomId);
+    socket.on("message", (data) => {
+      data.socketId = socket.id;
+      this.emit("@message-receive", data);
+    });
+  }
+  sendMessage(message) {
+    this.socket.emit("message", message);
   }
 }

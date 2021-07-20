@@ -7,11 +7,16 @@ const setSocketConnection = (io) => {
       socket.join(roomKey);
     });
 
-    socket.on("chatting", (message) => {
+    socket.on("message", (message) => {
       // client의 메시지를 client가 속한 방으로 emit
       const roomKey = socket.currentRoom;
       // TODO: log comment to database
-      io.to(roomKey).emit("chatting", message);
+      const data = {
+        message,
+        writter: socket.id,
+        createdAt: new Date(),
+      };
+      io.to(roomKey).emit("message", data);
     });
   });
 };
