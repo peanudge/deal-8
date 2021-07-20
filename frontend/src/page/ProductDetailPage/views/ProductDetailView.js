@@ -3,24 +3,14 @@ import { qs, qsAll } from "@/helper/selectHelpers";
 import { delegate } from "@/helper/eventHelpers";
 
 import chevronDownSvg from "@/public/svg/chevron-down.svg";
-
-const tag = "[ProductDetailView]";
-
-export const STATUS_TYPE = {
-  SALE: "SALE",
-  SOLD: "SOLD",
-  RESERVE: "RESERVE",
-};
-
-const STATUS_TEXT = {
-  [STATUS_TYPE.SALE]: "판매 중",
-  [STATUS_TYPE.SOLD]: "판매 완료",
-  [STATUS_TYPE.RESERVE]: "예약 중",
-};
+import {
+  ProductStatusList,
+  ProductStatusMap,
+  PRODUCT_STATUS_SAIL,
+} from "@/util/productStatus";
 
 export default class ProductDetailView extends View {
   constructor(element = qs("#sale-info"), template = new Template()) {
-    console.log(tag, "constructor");
     super(element);
     this.template = template;
     this.bindingEvents();
@@ -45,6 +35,9 @@ export default class ProductDetailView extends View {
         if ($menu) {
           this.toggleDropDownMenu(false);
         }
+      } else {
+        const status = e.target.dataset.status;
+        this.emit("@change-status", { value: status });
       }
     });
   }
@@ -58,6 +51,7 @@ export default class ProductDetailView extends View {
 
   show(user, productDetail) {
     this.element.innerHTML = this.template.getDetail(user, productDetail);
+    super.show();
   }
 }
 
@@ -71,16 +65,17 @@ class Template {
       countOfChat,
       countOfInterest,
       countOfView,
+      createdAt,
       author,
       location,
     } = productDetail;
     return `
-      ${user.username === author ? this.getStatusSelector(status) : ""}
+      ${user?.username === author ? this._getStatusSelector(status) : ""}
       
       <div class="post-main--title">${title}</div>
       <div class="post-main--sub-title">
-          <p>${category.name}</p>
-          <p>3분 전</p> 
+          <p>${category}</p>
+          <p>${createdAt}</p> 
       </div>
       <div class="post-main--content">
         ${content}
@@ -98,32 +93,32 @@ class Template {
     `;
   }
 
-  getStatusSelector(status = STATUS_TYPE.SOLD) {
-    const statusList = Object.values(STATUS_TYPE);
-
+  _getStatusSelector(status = PRODUCT_STATUS_SAIL) {
     return `
-        <div  id="sale-status">
-            ${this._getSaleStatusDropDown(statusList)}
+        <div id="sale-status">
+            ${this._getSaleStatusDropDown(status)}
         </div>
       `;
   }
 
-  _getSaleStatusDropDown(statusList = []) {
+  _getSaleStatusDropDown(currentStatus) {
     return /*html*/ `
         <div class="post-main--sale-status" class="dropdown-wrapper">
             <div class="dropdown-wrapper--toggle post-main--sale-status--content">
-                <p>판매 중</p>
+                <p>${ProductStatusMap[currentStatus]}</p>
                 <div class="location-icon"> ${chevronDownSvg}</div>
             </div>
             <div class="dropdown-wrapper--menu small" aria-expanded="false">
-                ${statusList
-                  .map((status) => this._getSaleStatusItem(status))
-                  .join("")}
+                ${ProductStatusList.map((status) =>
+                  this._getSaleStatusItem(status)
+                ).join("")}
             </div>
         </div>`;
   }
 
   _getSaleStatusItem(status) {
-    return /* html */ `<div class="dropdown-wrapper--menu--item center post-main--sale-status--menu-item" data-status="${status}">${STATUS_TEXT[status]}</div>`;
+    return /* html */ `
+    <div class="dropdown-wrapper--menu--item center post-main--sale-status--menu-item" 
+                              data-status="${status}">${ProductStatusMap[status]}</div>`;
   }
 }

@@ -48,18 +48,18 @@ export default class ProductDetailHeaderView extends View {
   }
 
   show(user, product) {
-    this.element.innerHTML = this.template.getHeadaer({ user, product });
+    this.element.innerHTML = this.template.getHeadaer(user, product);
     super.show();
   }
 }
 
 class Template {
-  getHeadaer({ user, product }) {
+  getHeadaer(user, product) {
     return /*html*/ `
         <a class="header--left" href="/" data-link>
           ${chevronLeftSvg}
         </a>
-      ${user.username === product.author ? this._getSettingButton() : ""}`;
+      ${user?.username === product.author ? this._getSettingButton() : ""}`;
   }
 
   _getSettingButton() {

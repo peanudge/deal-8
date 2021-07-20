@@ -31,33 +31,15 @@ export const getMySalingProductsAsync = () => {
   return getProductsAsync();
 };
 
-export const getProductDetail = ({ id }) => {
+export const getProductDetailAsync = ({ id }) => {
   return new Promise((resolve, reject) => {
-    const result = {
-      id: id,
-      images: [
-        "http://img.danawa.com/prod_img/500000/281/013/img/4013281_1.jpg?shrink=500:500&_v=20210129094708",
-        "http://img.danawa.com/prod_img/500000/281/013/img/4013281_1.jpg?shrink=500:500&_v=20210129094708",
-        "http://img.danawa.com/prod_img/500000/281/013/img/4013281_1.jpg?shrink=500:500&_v=20210129094708",
-      ],
-      status: "SOLD",
-      title: "빈티지 롤러 스케이트",
-      category: {
-        id: 1,
-        name: "디지털 기기",
-        icon: "",
+    const request = fetch(`/api/product/detail?id=${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
       },
-      updateAt: new Date(),
-      content: "싸게 팝니다~",
-      countOfView: 10,
-      countOfChat: 2,
-      countOfInterest: 10,
-      author: "Woowahan",
-      location: "역삼동",
-      isInterested: true,
-    };
-
-    resolve(result);
+    }).then((response) => response.json());
+    resolve(request);
   });
 };
 
@@ -86,3 +68,15 @@ export const getCategoriesAsync = () =>
     }).then((response) => response.json());
     resolve(request);
   });
+
+export const updateProductStatusAsync = (productId, status) => {
+  return new Promise((resolve, _) => {
+    const request = fetch(`/api/product/${productId}/status?status=${status}`, {
+      method: "PUT",
+      headers: {
+        "Contents-Type": "application/json",
+      },
+    }).then((response) => response.json());
+    resolve(request);
+  });
+};
