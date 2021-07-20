@@ -6,7 +6,6 @@ export const getProfileAsync = () =>
         "Content-Type": "application/json",
       },
     }).then((response) => response.json());
-
     resolve(request);
   });
 
@@ -20,8 +19,7 @@ export const addLocationAsync = (location) => {
       body: JSON.stringify({
         location: location,
       }),
-    }).then((response) => response.json());
-    resolve(request);
+    }).then((response) => resolve(response.json()));
   });
 };
 
@@ -32,8 +30,7 @@ export const removeLocationAsync = (location) => {
       headers: {
         "Content-Type": "application/json",
       },
-    }).then((response) => response.json());
-    resolve(request);
+    }).then((response) => resolve(response.json()));
   });
 };
 

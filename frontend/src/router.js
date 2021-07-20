@@ -7,6 +7,7 @@ import ProductDetailPage from "./page/ProductDetailPage";
 import CreatePostPage from "./page/CreatePostPage";
 import LocationPage from "./page/LocationPage/index";
 import ChatRoomPage from "./page/ChatRoomPage/index";
+import ChatRoomListPage from "./page/ChatRoomListPage";
 
 const pathToRegex = (path) =>
   new RegExp("^" + path.replace(/\//g, "\\/").replace(/:\w+/g, "(.+)") + "$");
@@ -39,6 +40,7 @@ export const router = async () => {
     { path: "/product/:productId", view: ProductDetailPage },
     { path: "/createPost", view: CreatePostPage },
     { path: "/location", view: LocationPage },
+    { path: "/chatList/:productId", view: ChatRoomListPage },
     { path: "/chat/:productId", view: ChatRoomPage },
   ];
 
