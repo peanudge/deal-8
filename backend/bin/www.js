@@ -25,9 +25,7 @@ app.set("port", port);
 const server = http.createServer(app);
 
 /* socket.io setting */
-const io = new Server(server, {
-  // ...
-});
+const io = new Server(server);
 
 setSocketConnection(io);
 

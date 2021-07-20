@@ -10,12 +10,14 @@ export default class Controller {
       chatRoomAlertModalView,
       chatRoomMainHeaderView,
       chatRoomMainContentView,
+      chatRoomInputContainerView,
     }
   ) {
     this.chatRoomHeaderView = chatRoomHeaderView;
     this.chatRoomAlertModalView = chatRoomAlertModalView;
     this.chatRoomMainHeaderView = chatRoomMainHeaderView;
     this.chatRoomMainContentView = chatRoomMainContentView;
+    this.chatRoomInputContainerView = chatRoomInputContainerView;
 
     this.store = store;
     this.roomId = roomId;
@@ -59,11 +61,10 @@ export default class Controller {
     const messages = this.store.messages;
     const targetUser = this.store.targetUser;
 
-    console.log(productInfo);
-
     this.chatRoomHeaderView.show();
     this.chatRoomAlertModalView.show();
     this.chatRoomMainHeaderView.show(productInfo);
     this.chatRoomMainContentView.addMessages(messages, targetUser);
+    this.chatRoomInputContainerView.socketConnect();
   }
 }

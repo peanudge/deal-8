@@ -12,6 +12,7 @@ module.exports = {
     proxy: {
       "/api": "http://localhost:3000",
       "/upload": "http://localhost:3000",
+      "/socket.io": "http://localhost:3000",
     },
   },
   resolve: {
