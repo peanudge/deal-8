@@ -25,7 +25,6 @@ export default class ChatRoomMainContentView extends View {
   }
 
   addMessage(message, thisUser) {
-    console.log(message, thisUser);
     const $newMessage = this.makeMessage(message, thisUser);
     this.element.insertBefore($newMessage, this.element.firstChild);
   }
