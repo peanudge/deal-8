@@ -22,7 +22,7 @@ export default class ProductDetailPage extends AbstractPage {
   async render() {
     return /*html*/ `
     <header class="header"></header>
-    <main>
+    <main class="post-main">
       <div class="post-main--img-container">
       </div>
       <section id="sale-info">

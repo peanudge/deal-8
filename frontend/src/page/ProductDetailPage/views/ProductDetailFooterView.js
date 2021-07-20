@@ -43,7 +43,7 @@ export default class ProductDetailFooterView extends View {
 class Template {
   getFooter(user, { id, cost, isInterested, author }) {
     return `
-        <button id="interest-btn" class="content--product--info--top--interest ${
+        <button id="interest-btn" class="interest-btn ${
           isInterested ? "on" : "off"
         }" data-id=${id}>
         ${interestSvg}

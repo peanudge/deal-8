@@ -2,6 +2,7 @@ import View from "@/page/View";
 
 import { qs } from "@/helper/selectHelpers";
 import { delegate } from "@/helper/eventHelpers";
+import { timeForToday } from "@/util/time";
 
 import exampleCooler from "@/public/image/example-cooler.svg";
 import interestSVG from "@/public/svg/interest.svg";
@@ -73,7 +74,7 @@ class Template {
       title,
       cost,
       location,
-      updatedAt,
+      createdAt,
       thumbnail,
       countOfChat,
       countOfInterest,
@@ -86,7 +87,7 @@ class Template {
           <div class="content--product--info">
             <div class="content--product--info--top">
               <div>
-              <a href="/product/${id}" data-link><h1>${title}</h1></a>
+              <a class="content--product--info--top--title" href="/product/${id}" data-link><h1>${title}</h1></a>
                 ${
                   option.showInterestBtn
                     ? this._getInterestBtn(isInterested, id)
@@ -96,7 +97,7 @@ class Template {
               </div>
               <div>
                 <span class="location">${location}</span>
-                <span class="time">2시간 전</span>
+                <span class="time">${timeForToday(createdAt)}</span>
               </div>
               <div>
                 <strong> ${cost ? cost : "-"} 원 </strong>

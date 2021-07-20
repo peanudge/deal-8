@@ -8,6 +8,7 @@ import {
   ProductStatusMap,
   PRODUCT_STATUS_SAIL,
 } from "@/util/productStatus";
+import { timeForToday } from "@/util/time";
 
 export default class ProductDetailView extends View {
   constructor(element = qs("#sale-info"), template = new Template()) {
@@ -74,16 +75,16 @@ class Template {
       
       <div class="post-main--title">${title}</div>
       <div class="post-main--sub-title">
-          <p>${category}</p>
-          <p>${createdAt}</p> 
+          <p class="category-name-label">${category}</p>
+          <p class="create-time-label">${timeForToday(createdAt)}</p> 
       </div>
       <div class="post-main--content">
         ${content}
       </div>
       <div class="post-main--info">
-        <p>채팅 <span>${countOfChat}</span></p>
-        <p>관심 <span>${countOfInterest}</span></p>
-        <p>조회 <span>${countOfView}</span></p>
+        <p class="post-main--info--chat-count">채팅 <span>${countOfChat}</span></p>
+        <p class="post-main--info--interest-count">관심 <span>${countOfInterest}</span></p>
+        <p class="post-main--info--view-count">조회 <span>${countOfView}</span></p>
       </div>
       <div class="post-main--seller-info">
         <p class="post-main--seller-info--label">판매자 정보</p>
