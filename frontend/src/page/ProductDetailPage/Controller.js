@@ -8,8 +8,6 @@ import {
   addInterestProductAsync,
 } from "@/api/user";
 
-const tag = "[ProductDetail Controller]";
-
 export default class Controller {
   constructor(
     store,

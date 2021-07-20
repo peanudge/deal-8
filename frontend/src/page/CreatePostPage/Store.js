@@ -4,7 +4,7 @@ export default class Store {
     this.category = null;
     this.cost = null;
     this.title = "";
-    this.comment = "";
+    this.content = "";
     this.location = "";
   }
 }

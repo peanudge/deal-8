@@ -80,7 +80,7 @@ export default class CreatePostPage extends AbstractPage {
         </div>
         <span class="split-line"></span>
         <span
-            id="comment-textarea"
+            id="content-textarea"
             class="posting-main--textarea expand-textarea"
             role="textbox"
             contenteditable

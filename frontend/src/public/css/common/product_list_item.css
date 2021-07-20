@@ -34,6 +34,13 @@
   margin: 2px 0;
   align-items: center;
 }
+.content--product--info--top--title {
+  display: inline-block;
+  width: 120px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
 
 .content--product--info--top > div:first-child {
   margin-top: 0;
@@ -45,6 +52,7 @@
 }
 
 .content--product--info--top--interest {
+  align-self: flex-start;
   border: none;
   background-color: transparent;
   cursor: pointer;
@@ -63,6 +71,7 @@
 }
 
 .content--product--info--top--menu {
+  align-self: flex-start;
   border: none;
   background-color: transparent;
   cursor: pointer;
@@ -125,6 +134,7 @@
 .content--product--thumbnail {
   width: 106px;
   height: 106px;
+  object-fit: contain;
 }
 
 .chat-icon > svg {

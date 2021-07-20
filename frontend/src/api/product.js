@@ -58,7 +58,7 @@ export const uploadProductImagesAsync = (files) => {
 export const createProductAsync = ({
   title,
   cost,
-  comment,
+  content,
   location,
   category,
   images = [],
@@ -72,7 +72,7 @@ export const createProductAsync = ({
       body: JSON.stringify({
         title,
         cost,
-        comment,
+        content,
         images,
         location,
         category,

@@ -18,18 +18,12 @@ body {
   height: 20px;
 }
 
-main {
-  height: calc(100% - 56px);
-  overflow: scroll;
-}
-
 .post-main {
-  display: flex;
   position: absolute;
   flex-direction: column;
   background-color: white;
   overflow: scroll;
-  height: calc(100% - 68px);
+  height: calc(100% - 126px);
 }
 
 .post-main--img-container {
@@ -117,8 +111,22 @@ main {
   font-weight: 400;
   color: #888888;
 }
-.post-main--sub-title p {
+
+.post-main--sub-title .category-name-label {
   margin-right: 2px;
+  font-size: 12px;
+  font-weight: 500;
+}
+.post-main--sub-title .category-name-label::after {
+  content: "∙";
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.post-main--sub-title .create-time-label {
+  margin-right: 2px;
+  font-size: 12px;
+  font-weight: 500;
 }
 
 .post-main--content {
@@ -141,7 +149,6 @@ main {
 
 .post-main--seller-info {
   margin-top: 24px;
-  margin-bottom: calc(68px + 32px);
   display: flex;
   justify-content: space-between;
   padding: 16px;
@@ -188,10 +195,18 @@ footer .move-btn {
   border-radius: 8px;
   cursor: pointer;
 }
+footer .interest-btn {
+  border: none;
+  background-color: transparent;
+}
 
-.interest-btn {
+footer .interest-btn > svg {
   width: 20px;
   height: 20px;
+}
+
+footer .interest-btn.on > svg {
+  fill: var(--primary1-color);
 }
 
 #author-menu {
@@ -221,5 +236,13 @@ footer .move-btn {
 }
 
 .detail-product-image {
+  object-fit: contain;
   width: 100%;
+}
+
+.post-main--info--chat-count::after,
+.post-main--info--interest-count::after {
+  content: "∙";
+  font-size: 12px;
+  font-weight: 500;
 }
