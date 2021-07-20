@@ -11,8 +11,6 @@ export default class ChatRoomMainContentView extends View {
       .sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1))
       .forEach((message) => {
         const $newMessage = document.createElement("div");
-        console.log(targetUser);
-        console.log(message.writter);
         $newMessage.className = `chat-main--content--message ${
           message.writter !== targetUser ? "my" : ""
         }`;
