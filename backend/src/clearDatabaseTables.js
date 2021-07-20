@@ -49,3 +49,4 @@ const category_table_drop_query_result = await mysqlConnection
   .query(category_table_drop_query);
 
 console.log("Complete Clear Tables");
+process.exit(1);

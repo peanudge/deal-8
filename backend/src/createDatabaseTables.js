@@ -90,3 +90,4 @@ const interest_product_query_result = await mysqlConnection
 // console.log(category_table_create_query_result[0]);
 
 console.log("Complete Creating Tables");
+process.exit(1);

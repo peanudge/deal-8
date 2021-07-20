@@ -75,3 +75,4 @@ const example_interest_product_insert_query_result = await mysqlConnection
   .promise()
   .query(example_interest_product_insert_query);
 console.log("Complete Insert Example Products!");
+process.exit(1);

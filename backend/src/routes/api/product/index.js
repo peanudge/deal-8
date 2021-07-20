@@ -16,12 +16,16 @@ export const productStore = new ProductStore();
 export const categoryStore = new CategoryStore();
 
 router.get("/", async (req, res) => {
+  const username = req.session["username"];
+
   const { location, category } = req.query;
   const categoryId = category ? Number(category) : null;
+
   try {
     const products = await productStore.getProducts({
       location,
       category: categoryId,
+      username,
     });
     return res.status(SUCCESS_STATUS).json(products);
   } catch (err) {

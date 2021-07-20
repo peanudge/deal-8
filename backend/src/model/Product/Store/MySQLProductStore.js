@@ -53,7 +53,6 @@ export default class MySQLProductStore extends AbstractProductStore {
   }
 
   async getProducts({ location = null, category = null, username = null }) {
-    console.log("DEBUG", category);
     const isLocationCondition = location && location !== "";
     const isCategoryCondition = category !== null;
     const params = [];
@@ -99,7 +98,7 @@ export default class MySQLProductStore extends AbstractProductStore {
             createdAt: row.createdAt,
             updatedAt: row.updatedAt,
             countOfView: row.countOfView,
-            isInterested: row.isInterested,
+            isInterested: !!row.isInterested,
           })
       );
     } catch (err) {
