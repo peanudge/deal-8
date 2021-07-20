@@ -37,6 +37,11 @@ export const getChatRoomsAsync = () => {
   });
 };
 
+export const getChatRoomsByProductAsync = (productId) => {
+  // TODO: productId 별로 채팅리스트를 가져와야함 (판매자만 가능)
+  return getChatRoomsAsync();
+};
+
 export const getChatRoomAsync = (productId) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {

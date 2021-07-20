@@ -1,4 +1,4 @@
-import { getChatRoomsAsync } from "@/api/chat";
+import { getChatRoomsByProductAsync } from "@/api/chat";
 
 export default class Controller {
   constructor(
@@ -14,7 +14,7 @@ export default class Controller {
   }
 
   init() {
-    getChatRoomsAsync().then((roomInfos) => {
+    getChatRoomsByProductAsync(this.productId).then((roomInfos) => {
       this.store.roomInfos = roomInfos;
       this.render();
     });
@@ -22,7 +22,6 @@ export default class Controller {
 
   render() {
     const { roomInfos } = this.store;
-    console.log(roomInfos);
     this.chatRoomListHeaderView.show(this.productId);
     this.chatRoomListContentView.show(roomInfos);
   }
