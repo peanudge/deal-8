@@ -51,10 +51,9 @@ export default class ChatRoomListContentView extends View {
               unReadCount <= 0
                 ? ""
                 : `
-              <div class="un-read-count">${unReadCount}</div>
-            `
+                  <div class="un-read-count">${unReadCount}</div>
+                `
             }
-            
           </div>
         </div>
         <a class="content--chat-item--right--right">

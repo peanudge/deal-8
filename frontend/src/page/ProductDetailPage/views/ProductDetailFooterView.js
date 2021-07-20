@@ -18,7 +18,7 @@ export default class ProductDetailFooterView extends View {
     delegate(this.element, "click", "#interest-btn", (e) => {
       this.handleClickInterestEvent(e);
     });
-    delegate(this.element, "click", "#getChatRoom", (e) => {
+    delegate(this.element, "click", "#get-chatRoom", (e) => {
       this.handleClickGetChatRoom(e);
     });
   }
@@ -54,11 +54,11 @@ class Template {
           user?.username === author
             ? `
                 <a href="/chatList/${id}" data-link>
-                    <div class="move-btn">채팅 목록 보기 (2)</div> <!-- chatList/:productId -->
+                    <div class="move-btn">채팅 목록 보기 (2)</div> 
                 </a>`
             : `
                 <div>
-                    <div class="move-btn" id="getChatRoom">문의하기</div> <!-- chat/:roomId --> 
+                    <div class="move-btn" id="get-chatRoom">문의하기</div> 
                 <div>`
         }
             
