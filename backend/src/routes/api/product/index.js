@@ -54,7 +54,7 @@ router.post("/media", async (req, res) => {
         .status(INTERNAL_SERVER_ERROR_STATUS)
         .json({ success: false, error: "Image Upload Fail!" });
     } else {
-      const pathList = req.files.map((file) => file.filename);
+      const pathList = req.files.map((file) => "/upload/" + file.filename);
       res.json({
         success: true,
         images: pathList,
@@ -131,6 +131,7 @@ router.post("/", authMiddleware, async (req, res) => {
     const product = await productStore.createProduct(tmpProduct);
     return res.status(SUCCESS_STATUS).json({ success: true, product });
   } catch (err) {
+    console.log(err);
     return res
       .status(INTERNAL_SERVER_ERROR_STATUS)
       .json({ error: "unexpect error occured" });

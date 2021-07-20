@@ -44,12 +44,22 @@ export default class MySQLProductStore extends AbstractProductStore {
       const isSuccess = result[0]?.affectedRows === 1;
       if (isSuccess) {
         product.id = result[0].insertId;
+        await this.createProductImages(product.id, images);
         return product;
       } else {
         return null;
       }
     } catch (err) {
       throw err;
+    }
+  }
+
+  async createProductImages(id, images = []) {
+    const createImageQuery = `
+      INSERT INTO product_image(id, image) VALUES (?, ?)
+    `;
+    for (const image of images) {
+      await mysqlConnection.promise().query(createImageQuery, [id, image]);
     }
   }
 

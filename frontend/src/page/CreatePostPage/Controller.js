@@ -115,7 +115,6 @@ export default class Controller {
             navigateTo("/product/" + result.product.id);
           } else {
             //TODO: Update Fail fallback
-            console.log(result);
           }
         });
     });
