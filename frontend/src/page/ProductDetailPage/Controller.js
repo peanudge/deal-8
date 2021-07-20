@@ -1,6 +1,6 @@
 import { navigateTo } from "@/router";
 
-import { getProductDetailAsync } from "@/api/product";
+import { getProductDetailAsync, updateProductStatusAsync } from "@/api/product";
 import {
   getProfileAsync,
   removeInterestProductAsync,
@@ -41,6 +41,14 @@ export default class Controller {
     });
     this.productDetailHeaderView.on("@deletePost", () => {
       navigateTo(`/product-edit/${this.store.productId}`);
+    });
+
+    this.productDetailView.on("@change-status", (e) => {
+      const status = e.detail.value;
+
+      updateProductStatusAsync(this.store.productId, status).then((result) => {
+        this.fetchProductDetailData();
+      });
     });
   }
 

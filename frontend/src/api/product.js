@@ -68,3 +68,15 @@ export const getCategoriesAsync = () =>
     }).then((response) => response.json());
     resolve(request);
   });
+
+export const updateProductStatusAsync = (productId, status) => {
+  return new Promise((resolve, _) => {
+    const request = fetch(`/api/product/${productId}/status?status=${status}`, {
+      method: "PUT",
+      headers: {
+        "Contents-Type": "application/json",
+      },
+    }).then((response) => response.json());
+    resolve(request);
+  });
+};
