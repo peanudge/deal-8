@@ -3,7 +3,12 @@ import {
   getProductsAsync,
   getCategoriesAsync,
 } from "@/api/product";
-import { getProfileAsync } from "@/api/user";
+import {
+  addInterestProductAsync,
+  getProfileAsync,
+  removeInterestProductAsync,
+} from "@/api/user";
+import { navigateTo } from "@/router";
 
 export default class Controller {
   constructor(
@@ -108,7 +113,19 @@ export default class Controller {
   }
 
   changeInterest(productId, isInterested) {
-    // TODO: add interest Product
+    if (this.store.isAuth) {
+      if (isInterested) {
+        addInterestProductAsync(productId).then((result) => {
+          this.fetchProductData();
+        });
+      } else {
+        removeInterestProductAsync(productId).then((result) => {
+          this.fetchProductData();
+        });
+      }
+    } else {
+      navigateTo("/login");
+    }
   }
 
   render() {

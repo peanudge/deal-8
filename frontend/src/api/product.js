@@ -31,11 +31,6 @@ export const getMySalingProductsAsync = () => {
   return getProductsAsync();
 };
 
-export const getMyInterestProductsAsync = () => {
-  // GET /account/me/interest
-  return getProductsAsync();
-};
-
 export const getProductDetail = ({ id }) => {
   return new Promise((resolve, reject) => {
     const result = {

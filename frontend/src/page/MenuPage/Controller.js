@@ -1,8 +1,11 @@
 import { getChatRoomsAsync } from "@/api/chat";
+import { getMySalingProductsAsync } from "@/api/product";
 import {
-  getMyInterestProductsAsync,
-  getMySalingProductsAsync,
-} from "@/api/product";
+  getInterestProductsAsync,
+  addInterestProductAsync,
+  removeInterestProductAsync,
+  getOwnProductsAsync,
+} from "@/api/user";
 import { TabType } from "./views/TabView";
 
 const tag = "[Controller]";
@@ -26,7 +29,7 @@ export default class Controller {
 
     this.subscribeViewEvents();
     this.render();
-    this.fetchData();
+    this.changeTab(TabType.SAIL_PRODUCT);
   }
 
   subscribeViewEvents() {
@@ -39,31 +42,38 @@ export default class Controller {
 
   changeInterest(productId, isInterested) {
     if (isInterested) {
-      console.log("Interest ON " + productId);
+      addInterestProductAsync(productId).then((result) => {
+        this.fetchInterestProductData();
+      });
     } else {
-      console.log("Interest OFF " + productId);
+      removeInterestProductAsync(productId).then((result) => {
+        this.fetchInterestProductData();
+      });
     }
   }
 
   changeTab(tab) {
     this.store.selectedTab = tab;
-    this.fetchData();
+    if (tab === TabType.INTEREST_PRODUCT) {
+      this.fetchInterestProductData();
+    } else if (tab === TabType.SAIL_PRODUCT) {
+      this.fetchOwnProductData();
+    } else if (tab === TabType.CHAT) {
+      // TODO: fetch chat Room List.
+    }
     this.render();
   }
 
-  fetchData() {
-    const requestChatRoom = getChatRoomsAsync();
-    const requestInterestProducts = getMyInterestProductsAsync();
-    const requestSalingProducts = getMySalingProductsAsync();
+  fetchOwnProductData() {
+    getOwnProductsAsync().then(({ products }) => {
+      this.store.salingProducts = products;
+      this.render();
+    });
+  }
 
-    Promise.all([
-      requestChatRoom,
-      requestInterestProducts,
-      requestSalingProducts,
-    ]).then(([chatRooms, interestProducts, salingProducts]) => {
-      this.store.chatRooms = chatRooms;
-      this.store.interestProducts = interestProducts;
-      this.store.salingProducts = salingProducts;
+  fetchInterestProductData() {
+    getInterestProductsAsync().then(({ products }) => {
+      this.store.interestProducts = products;
       this.render();
     });
   }

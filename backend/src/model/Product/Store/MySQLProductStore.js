@@ -62,8 +62,11 @@ export default class MySQLProductStore extends AbstractProductStore {
     p.id AS id,p.category AS category, p.author AS author, p.title AS title, 
     p.content AS content, p.cost AS cost, p.status AS status, p.location AS location,
     p.thumbnail AS thumbnail, p.createdAt AS createdAt, p.updatedAt AS updatedAt, p.countOfView AS countOfView,
-    CASE WHEN ip.username IS NULL THEN FALSE ELSE TRUE END as isInterested
-    FROM product AS p LEFT JOIN (SELECT username, id FROM interest_product WHERE username = ?) AS ip ON ip.id = p.id
+    CASE WHEN my_ip.username IS NULL THEN FALSE ELSE TRUE END as isInterested,
+    COUNT(p.id) as countOfInterest
+    FROM product AS p 
+    LEFT JOIN (SELECT username, id FROM interest_product WHERE username = ?) AS my_ip ON my_ip.id = p.id
+    LEFT JOIN interest_product AS ip ON ip.id = p.id 
     `;
     params.push(username);
 
@@ -77,6 +80,8 @@ export default class MySQLProductStore extends AbstractProductStore {
       retrieveProductsQuery += " WHERE location = ?";
       params.push(location);
     }
+
+    retrieveProductsQuery += "GROUP BY p.id";
 
     try {
       const result = await mysqlConnection
@@ -98,6 +103,7 @@ export default class MySQLProductStore extends AbstractProductStore {
             createdAt: row.createdAt,
             updatedAt: row.updatedAt,
             countOfView: row.countOfView,
+            countOfInterest: row.countOfInterest,
             isInterested: !!row.isInterested,
           })
       );
@@ -146,9 +152,133 @@ export default class MySQLProductStore extends AbstractProductStore {
     }
   }
 
-  async updateProduct(product) {}
-  async deleteProductById(id) {}
-  async getInterestProducts(username) {}
-  async addInterestProduct(username, productId) {}
-  async removeInterestProduct(username, productId) {}
+  async updateProduct(product) {
+    // TODO: Implement
+  }
+  async deleteProductById(id) {
+    // TODO: Implement
+  }
+
+  async getInterestProducts(username) {
+    const interestProductQuery = `
+    SELECT 
+    p.id AS id,p.category AS category, p.author AS author, p.title AS title, 
+    p.content AS content, p.cost AS cost, p.status AS status, p.location AS location,
+    p.thumbnail AS thumbnail, p.createdAt AS createdAt, p.updatedAt AS updatedAt, p.countOfView AS countOfView,
+    CASE WHEN ip.username IS NULL THEN FALSE ELSE TRUE END as isInterested
+    FROM product AS p LEFT JOIN interest_product AS ip ON ip.id = p.id WHERE ip.username = ?
+    `;
+    const params = [username];
+    try {
+      const result = await mysqlConnection
+        .promise()
+        .query(interestProductQuery, params);
+
+      const rows = result[0];
+      return rows.map(
+        (row) =>
+          new Product({
+            id: row.id,
+            category: row.category,
+            author: row.author,
+            title: row.title,
+            content: row.content,
+            cost: row.cost,
+            status: row.status,
+            location: row.location,
+            thumbnail: row.thumbnail,
+            createdAt: row.createdAt,
+            updatedAt: row.updatedAt,
+            countOfView: row.countOfView,
+            isInterested: !!row.isInterested,
+          })
+      );
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async getOwnProducts(username) {
+    const interestProductQuery = `
+    SELECT 
+    p.id AS id,p.category AS category, p.author AS author, p.title AS title, 
+    p.content AS content, p.cost AS cost, p.status AS status, p.location AS location,
+    p.thumbnail AS thumbnail, p.createdAt AS createdAt, p.updatedAt AS updatedAt, p.countOfView AS countOfView,
+    CASE WHEN ip.username IS NULL THEN FALSE ELSE TRUE END as isInterested
+    FROM product AS p LEFT JOIN interest_product AS ip ON ip.id = p.id WHERE p.author = ?
+    `;
+    const params = [username];
+    try {
+      const result = await mysqlConnection
+        .promise()
+        .query(interestProductQuery, params);
+
+      const rows = result[0];
+      return rows.map(
+        (row) =>
+          new Product({
+            id: row.id,
+            category: row.category,
+            author: row.author,
+            title: row.title,
+            content: row.content,
+            cost: row.cost,
+            status: row.status,
+            location: row.location,
+            thumbnail: row.thumbnail,
+            createdAt: row.createdAt,
+            updatedAt: row.updatedAt,
+            countOfView: row.countOfView,
+            isInterested: !!row.isInterested,
+          })
+      );
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async isInterestProduct(username, productId) {
+    const query = `
+      SELECT * FROM interest_product WHERE username = ? AND id = ?
+    `;
+    const params = [username, productId];
+    try {
+      const result = await mysqlConnection.promise().query(query, params);
+      const rows = result[0];
+      return rows.length > 0;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async addInterestProduct(username, productId) {
+    const query = `
+    INSERT INTO interest_product(username, id)
+      VALUES(?, ?);
+    `;
+    const params = [username, productId];
+
+    try {
+      const result = await mysqlConnection.promise().query(query, params);
+      const isSuccess = result[0]?.affectedRows === 1;
+      return isSuccess;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async removeInterestProduct(username, productId) {
+    const query = `
+    DELETE FROM interest_product WHERE username = ? AND id =?;
+    `;
+    const params = [username, productId];
+
+    try {
+      const result = await mysqlConnection.promise().query(query, params);
+      const isSuccess = result[0]?.affectedRows === 1;
+      return isSuccess;
+    } catch (err) {
+      throw err;
+    }
+  }
 }

@@ -10,3 +10,5 @@ INSERT INTO category(id, name) VALUES(8,"가구 인테리어");
 INSERT INTO category(id, name) VALUES(9,"스포츠/레저");
 INSERT INTO category(id, name) VALUES(10,"유아동");
 INSERT INTO category(id, name) VALUES(11,"도서/티켓");
+
+
