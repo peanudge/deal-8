@@ -19,13 +19,11 @@ body {
 }
 
 .post-main {
-  display: flex;
   position: absolute;
   flex-direction: column;
   background-color: white;
   overflow: scroll;
-  height: calc(100% - 58px);
-  overflow: scroll;
+  height: calc(100% - 126px);
 }
 
 .post-main--img-container {
@@ -151,7 +149,6 @@ body {
 
 .post-main--seller-info {
   margin-top: 24px;
-  margin-bottom: calc(68px + 32px);
   display: flex;
   justify-content: space-between;
   padding: 16px;

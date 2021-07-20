@@ -4,8 +4,6 @@ import { createProductAsync, uploadProductImagesAsync } from "@/api/product";
 import { navigateTo } from "@/router";
 import { getProfileAsync } from "@/api/user";
 
-const tag = "[Controller]";
-
 const ERROR_EMPTY_CATEGORY = "(필수) 카테고리는 선택해주세요.";
 const ERROR_EMPTY_TITLE = "글 제목을 입력해주세요.";
 
@@ -78,9 +76,9 @@ export default class Controller {
       this.store.cost = cost;
     });
 
-    this.createPostFormView.on("@change-comment", (e) => {
-      const comment = e.detail.value;
-      this.store.comment = comment;
+    this.createPostFormView.on("@change-content", (e) => {
+      const content = e.detail.value;
+      this.store.content = content;
     });
 
     this.imageUploadView.on("@image-upload", (e) => {
@@ -96,14 +94,14 @@ export default class Controller {
       return;
     }
 
-    const { images, category, cost, title, comment, location } = this.store;
+    const { images, category, cost, title, content, location } = this.store;
     uploadProductImagesAsync(images)
       .then(({ success, images }) => {
         if (success) {
           return createProductAsync({
             title,
             cost,
-            comment,
+            content,
             location,
             images,
             category: category?.id,
@@ -146,7 +144,7 @@ export default class Controller {
   }
 
   render() {
-    const { images, category, comment, title, location, cost } = this.store;
+    const { images, category, content, title, location, cost } = this.store;
 
     if (this.isShowCategorySelectView) {
       this.categorySelectView.show();
@@ -158,7 +156,7 @@ export default class Controller {
       this.createPostFormView.show(
         {
           title,
-          comment,
+          content,
           cost,
           location,
           category: category?.name,

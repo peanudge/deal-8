@@ -8,7 +8,7 @@ export default class CreatePostFormView extends View {
     this.titleInputElement = qs("#title-input", this.element);
     this.categoryMenuBtnElement = qs("#category-btn", this.element);
     this.costInputElement = qs("#cost-input", this.element);
-    this.commentAreaElement = qs("#comment-textarea", this.element);
+    this.contentAreaElement = qs("#content-textarea", this.element);
     this.locationElement = qs("#location-name", this.element);
 
     this.bindingEvents();
@@ -21,8 +21,8 @@ export default class CreatePostFormView extends View {
 
     on(this.titleInputElement, "input", (e) => this.handleTitleChangeEvent(e));
     on(this.costInputElement, "input", (e) => this.handleCostChangeEvent(e));
-    on(this.commentAreaElement, "input", (e) =>
-      this.handleCommentChangeEvent(e)
+    on(this.contentAreaElement, "input", (e) =>
+      this.handleContentChangeEvent(e)
     );
   }
 
@@ -35,16 +35,16 @@ export default class CreatePostFormView extends View {
     this.emit("@change-cost", { value: Number(cost) });
   }
 
-  handleCommentChangeEvent(e) {
-    const comment = e.target.innerText;
-    this.emit("@change-comment", { value: comment });
+  handleContentChangeEvent(e) {
+    const content = e.target.innerText;
+    this.emit("@change-content", { value: content });
   }
 
   handleCategoryMenuBtn() {
     this.emit("@show-select-category");
   }
 
-  show({ title, cost, comment, category, location }, error = {}) {
+  show({ title, cost, content, category, location }, error = {}) {
     this.titleInputElement.value = title;
     if (error["title"]) {
       this.titleInputElement.placeholder = error["title"];
@@ -53,7 +53,7 @@ export default class CreatePostFormView extends View {
       this.titleInputElement.classList.remove("error");
     }
     this.costInputElement.value = cost;
-    this.commentAreaElement.innerText = comment;
+    this.contentAreaElement.innerText = content;
     this.locationElement.innerText = location;
 
     const $textElement = qs(".category-name", this.categoryMenuBtnElement);
