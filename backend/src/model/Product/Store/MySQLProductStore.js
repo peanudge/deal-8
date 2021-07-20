@@ -143,6 +143,7 @@ export default class MySQLProductStore extends AbstractProductStore {
 
       return new Product({
         id: row.id,
+        author: row.author,
         category: row.category,
         title: row.title,
         content: row.content,
@@ -281,6 +282,21 @@ export default class MySQLProductStore extends AbstractProductStore {
     DELETE FROM interest_product WHERE username = ? AND id =?;
     `;
     const params = [username, productId];
+
+    try {
+      const result = await mysqlConnection.promise().query(query, params);
+      const isSuccess = result[0]?.affectedRows === 1;
+      return isSuccess;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async updateProductStatus(id, status) {
+    const params = [status, id];
+    const query = `
+    UPDATE product SET status=? WHERE id = ?;
+    `;
 
     try {
       const result = await mysqlConnection.promise().query(query, params);

@@ -29,10 +29,14 @@ export default class ProductImageListView extends View {
     });
   }
 
-  show(images) {
-    this.element.innerHTML = this.template.getImages(images);
-    this.imageLength = images.length;
-    this.$images = qs(".images", this.element);
+  show(images = []) {
+    if (images.length > 0) {
+      this.element.innerHTML = this.template.getImages(images);
+      this.imageLength = images.length;
+      this.$images = qs(".images", this.element);
+    } else {
+      this.element.innerHTML = "<h1>등록된 이미지가 없습니다.</h2>";
+    }
     super.show();
   }
 
@@ -70,7 +74,7 @@ export default class ProductImageListView extends View {
 }
 
 class Template {
-  imagesToElements(images) {
+  imagesToElements(images = []) {
     const elementArray = images.map(
       (image) => `
       <img src=${image} />

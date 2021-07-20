@@ -71,6 +71,7 @@ class Template {
       countOfChat,
       countOfInterest,
       countOfView,
+      createdAt,
       author,
       location,
     } = productDetail;
@@ -79,8 +80,8 @@ class Template {
       
       <div class="post-main--title">${title}</div>
       <div class="post-main--sub-title">
-          <p>${category.name}</p>
-          <p>3분 전</p> 
+          <p>${category}</p>
+          <p>${createdAt}</p> 
       </div>
       <div class="post-main--content">
         ${content}

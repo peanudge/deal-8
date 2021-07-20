@@ -1,7 +1,11 @@
 import { navigateTo } from "@/router";
 
-import { getProductDetail } from "@/api/product";
-import { getProfileAsync } from "@/api/user";
+import { getProductDetailAsync } from "@/api/product";
+import {
+  getProfileAsync,
+  removeInterestProductAsync,
+  addInterestProductAsync,
+} from "@/api/user";
 
 const tag = "[ProductDetail Controller]";
 
@@ -13,7 +17,7 @@ export default class Controller {
       productImageListView,
       productDetailView,
       productDetailFooterView,
-    },
+    }
   ) {
     this.store = store;
     this.productId = store.productId;
@@ -42,9 +46,13 @@ export default class Controller {
 
   changeInterest(productId, isInterested) {
     if (isInterested) {
-      console.log("Interest ON " + productId);
+      addInterestProductAsync(productId).then((result) => {
+        this.fetchProductDetailData();
+      });
     } else {
-      console.log("Interest OFF " + productId);
+      removeInterestProductAsync(productId).then((result) => {
+        this.fetchProductDetailData();
+      });
     }
   }
 
@@ -52,22 +60,25 @@ export default class Controller {
     if (this.productId === undefined) {
       navigateTo("/");
     }
+    getProfileAsync().then(({ isAuth, account }) => {
+      this.store.user = account;
+      this.fetchProductDetailData();
+    });
+  }
 
-    const getUserRequest = getProfileAsync();
-    const getProductRequest = getProductDetail({ id: this.productId });
-
-    Promise.all([getUserRequest, getProductRequest]).then(
-      ([user, productDetail]) => {
-        this.store.user = user;
-        this.store.productDetail = productDetail;
-        this.render();
-      },
+  fetchProductDetailData() {
+    getProductDetailAsync({ id: this.productId }).then(
+      ({ success, product }) => {
+        if (success) {
+          this.store.productDetail = product;
+          this.render();
+        }
+      }
     );
   }
 
   render() {
-    const productDetail = this.store.productDetail;
-    const user = this.store.user;
+    const { productDetail, user } = this.store;
     this.productDetailHeaderView.show(user, productDetail);
     this.productImageListView.show(productDetail.images);
     this.productDetailView.show(user, productDetail);

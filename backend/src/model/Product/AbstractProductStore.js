@@ -3,6 +3,7 @@ export default class AbstractProductStore {
   getProducts({ location, category }) {}
   getProductById(id) {}
   updateProduct({ id, category, title, content, cost, location, images }) {}
+  updateProductStatus(status) {}
   deleteProductById(id) {}
   getInterestProducts(username) {}
   isInterestProduct(username, productId) {}

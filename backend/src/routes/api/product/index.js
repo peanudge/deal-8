@@ -1,6 +1,8 @@
 import express from "express";
 import { upload } from "../../../app.js";
-// import ProductStore from "../../../model/Product/Store/InMemoryProductStore.js";
+
+import { ProductStatus } from "../../../model/Product/ProductStatus.js";
+
 import ProductStore from "../../../model/Product/Store/MySQLProductStore.js";
 import CategoryStore from "../../../model/Category/Store/MySQLCategoryStore.js";
 import Product from "../../../model/Product/Product.js";
@@ -8,6 +10,8 @@ import {
   SUCCESS_STATUS,
   NOT_FOUND_STATUS,
   INTERNAL_SERVER_ERROR_STATUS,
+  UNAUTHORIZED_STATUS,
+  BAD_REQUEST,
 } from "../../../util/HttpStatus.js";
 
 const router = express.Router();
@@ -44,14 +48,14 @@ router.get("/detail", async (req, res) => {
     if (product === null) {
       return res
         .status(NOT_FOUND_STATUS)
-        .json({ error: "상품을 찾을 수 없습니다." });
+        .json({ success: false, error: "상품을 찾을 수 없습니다." });
     } else {
-      return res.status(SUCCESS_STATUS).json(product);
+      return res.status(SUCCESS_STATUS).json({ success: true, product });
     }
   } catch (err) {
     return res
       .status(INTERNAL_SERVER_ERROR_STATUS)
-      .json({ error: "unexpect error occured" });
+      .json({ success: false, error: "unexpect error occured" });
   }
 });
 
@@ -83,6 +87,35 @@ router.post("/media", async (req, res) => {
       });
     }
   });
+});
+
+router.put("/:id/status", async (req, res) => {
+  if (!req.session["username"]) {
+    res
+      .status(UNAUTHORIZED_STATUS)
+      .json({ success: false, error: "해당 기능에 대한 권한이 없습니다." });
+    return;
+  }
+
+  const { status } = req.query;
+  const { id } = req.params;
+
+  const isExistStatus = ProductStatus.includes(status);
+  if (!isExistStatus) {
+    res
+      .status(BAD_REQUEST)
+      .json({ success: false, error: "올바르지않은 상태값입니다." });
+    return;
+  }
+
+  const isSuccess = await productStore.updateProductStatus(id, status);
+  if (isSuccess) {
+    res.status(SUCCESS_STATUS).json({ success: true });
+  } else {
+    res
+      .status(INTERNAL_SERVER_ERROR_STATUS)
+      .json({ success: false, error: "서버 내부 에러입니다." });
+  }
 });
 
 router.post("/", async (req, res) => {
