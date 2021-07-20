@@ -25,10 +25,28 @@ export default class Controller {
     this.newProductButtonView = newProductButtonView;
 
     this.subscribeViewEvents();
-    this.fetchData();
-
     this.isShowCategoryView = false;
+
+    this.init();
     this.render();
+  }
+
+  init() {
+    this.fetchUserData();
+  }
+
+  fetchUserData() {
+    getProfileAsync().then(({ isAuth, account }) => {
+      if (isAuth) {
+        this.store.isAuth = isAuth;
+        this.store.user = account;
+        this.store.currentLocation =
+          account.locations.length > 0 ? account.locations[0] : "";
+      } else {
+        this.store.currentLocation = "";
+      }
+      this.fetchProductData();
+    });
   }
 
   subscribeViewEvents() {
@@ -52,41 +70,20 @@ export default class Controller {
     });
   }
 
-  fetchData() {
-    const requestUserProfile = getProfileAsync();
-
-    requestUserProfile
-      .then(({ isAuth, account }) => {
-        if (isAuth) {
-          this.store.isAuth = isAuth;
-          this.store.user = account;
-          this.store.currentLocation =
-            account.locations.length > 0 ? account.locations[0] : "";
-        } else {
-          this.store.currentLocation = "";
-        }
-        return getProductsAsync({
-          location: this.store.currentLocation,
-          categoryId: this.store.currentCategoryId,
-        });
-      })
-      .then((products) => {
-        this.store.products = products;
-        this.render();
-      });
+  fetchProductData() {
+    getProductsAsync({
+      location: this.store.currentLocation,
+      categoryId: this.store.currentCategoryId,
+    }).then((products) => {
+      this.store.products = products;
+      this.render();
+    });
   }
 
   changeLocation(location) {
     if (location) {
       this.store.currentLocation = location;
-      this.render();
-
-      getProductsAsync({
-        location,
-      }).then((data) => {
-        this.store.products = data;
-        this.render();
-      });
+      this.fetchProductData();
     }
   }
 
@@ -107,7 +104,7 @@ export default class Controller {
     this.store.currentCategoryId = categoryId;
     this.store.currentCategoryName = categoryName;
     this.isShowCategoryView = false;
-    this.fetchData();
+    this.fetchProductData();
   }
 
   changeInterest(productId, isInterested) {
