@@ -16,6 +16,7 @@ router.get("/rooms", authMiddleware, (req, res) => {
 
 router.get("/product/rooms", authMiddleware, (req, res) => {
   // example product/rooms?productid=1
+  const { productId } = req.query;
 });
 
 export default router;
