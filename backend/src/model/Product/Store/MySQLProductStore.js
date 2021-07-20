@@ -190,8 +190,48 @@ export default class MySQLProductStore extends AbstractProductStore {
       throw err;
     }
   }
-  async addInterestProduct(username, productId) {
-    // TODO: Implement
+
+  async isInterestProduct(username, productId) {
+    const query = `
+      SELECT * FROM interest_product WHERE username = ? AND id = ?
+    `;
+    const params = [username, productId];
+    try {
+      const result = await mysqlConnection.promise().query(query, params);
+      const rows = result[0];
+      return rows.length > 0;
+    } catch (err) {
+      throw err;
+    }
   }
-  async removeInterestProduct(username, productId) {}
+
+  async addInterestProduct(username, productId) {
+    const query = `
+    INSERT INTO interest_product(username, id)
+      VALUES(?, ?);
+    `;
+    const params = [username, productId];
+
+    try {
+      const result = await mysqlConnection.promise().query(query, params);
+      const isSuccess = result[0]?.affectedRows === 1;
+      return isSuccess;
+    } catch (err) {
+      throw err;
+    }
+  }
+  async removeInterestProduct(username, productId) {
+    const query = `
+    DELETE FROM interest_product WHERE username = ? AND id =?;
+    `;
+    const params = [username, productId];
+
+    try {
+      const result = await mysqlConnection.promise().query(query, params);
+      const isSuccess = result[0]?.affectedRows === 1;
+      return isSuccess;
+    } catch (err) {
+      throw err;
+    }
+  }
 }

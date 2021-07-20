@@ -96,8 +96,28 @@ router.get("/me/interest", async (req, res) => {
 });
 
 router.post("/me/interest", async (req, res) => {
-  const { username, productId } = req.query;
-  const result = await productStore.addInterestProduct(username, productId);
+  const username = req.session["username"];
+  const { productId } = req.query;
+  if (!productId) {
+    res.status(BAD_REQUEST).json({
+      success: false,
+      error: "productId 값이 필요합니다.",
+    });
+  }
+
+  const isDuplicate = await productStore.isInterestProduct(username, productId);
+  if (isDuplicate) {
+    res
+      .status(BAD_REQUEST)
+      .json({ success: false, error: "이미 관심 목록에 추가되어있습니다." });
+    return;
+  }
+
+  const productIdAsNumber = Number(productId);
+  const result = await productStore.addInterestProduct(
+    username,
+    productIdAsNumber
+  );
   if (result) {
     res.status(SUCCESS_STATUS).json({ success: true });
   } else {
@@ -106,8 +126,20 @@ router.post("/me/interest", async (req, res) => {
 });
 
 router.delete("/me/interest", async (req, res) => {
-  const { username, productId } = req.query;
-  const result = await productStore.removeInterestProduct(username, productId);
+  const username = req.session["username"];
+  const { productId } = req.query;
+
+  if (!productId) {
+    res.status(BAD_REQUEST).json({
+      success: false,
+      error: "productId 값이 필요합니다.",
+    });
+  }
+  const productIdAsNumber = Number(productId);
+  const result = await productStore.removeInterestProduct(
+    username,
+    productIdAsNumber
+  );
   if (result) {
     res.status(SUCCESS_STATUS).json({ success: true });
   } else {
