@@ -1,7 +1,7 @@
 import View from "@/page/View";
 import { qs } from "@/helper/selectHelpers";
 
-// import { io } from "socket.io-client";
+import { io } from "socket.io-client";
 import { on } from "@/helper/eventHelpers";
 
 export default class ChatRoomInputContainerView extends View {
@@ -9,9 +9,9 @@ export default class ChatRoomInputContainerView extends View {
     super(element);
     this.bindingEvents();
     this.chatInput = qs(".chat-main--input-container--input", this.element);
-    // this.socket = io.connect("http://localhost:3000", {
-    //   reconnectionDelayMax: 10000,
-    // });
+    this.socket = io.connect("http://localhost:3000", {
+      reconnectionDelayMax: 10000,
+    });
   }
 
   bindingEvents() {
@@ -25,6 +25,7 @@ export default class ChatRoomInputContainerView extends View {
     this.chatInput.value = ""; // 채팅 초기화
   }
   socketConnect() {
-    // const socket = this.socket; // TODO: fix cors and work
+    const socket = this.socket; // TODO: fix cors and work
+    socket.emit("request joinRoom", "A");
   }
 }

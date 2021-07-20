@@ -5,7 +5,6 @@ import cookieParser from "cookie-parser";
 import logger from "morgan";
 import session from "express-session";
 import multer from "multer";
-
 import mysqlConnection from "./config/mysql.js";
 import indexRouter from "./routes/index.js";
 
