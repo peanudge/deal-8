@@ -146,9 +146,52 @@ export default class MySQLProductStore extends AbstractProductStore {
     }
   }
 
-  async updateProduct(product) {}
-  async deleteProductById(id) {}
-  async getInterestProducts(username) {}
-  async addInterestProduct(username, productId) {}
+  async updateProduct(product) {
+    // TODO: Implement
+  }
+  async deleteProductById(id) {
+    // TODO: Implement
+  }
+  async getInterestProducts(username) {
+    const interestProductQuery = `
+    SELECT 
+    p.id AS id,p.category AS category, p.author AS author, p.title AS title, 
+    p.content AS content, p.cost AS cost, p.status AS status, p.location AS location,
+    p.thumbnail AS thumbnail, p.createdAt AS createdAt, p.updatedAt AS updatedAt, p.countOfView AS countOfView,
+    CASE WHEN ip.username IS NULL THEN FALSE ELSE TRUE END as isInterested
+    FROM product AS p LEFT JOIN interest_product AS ip ON ip.id = p.id WHERE ip.username = ?
+    `;
+    const params = [username];
+    try {
+      const result = await mysqlConnection
+        .promise()
+        .query(interestProductQuery, params);
+
+      const rows = result[0];
+      return rows.map(
+        (row) =>
+          new Product({
+            id: row.id,
+            category: row.category,
+            author: row.author,
+            title: row.title,
+            content: row.content,
+            cost: row.cost,
+            status: row.status,
+            location: row.location,
+            thumbnail: row.thumbnail,
+            createdAt: row.createdAt,
+            updatedAt: row.updatedAt,
+            countOfView: row.countOfView,
+            isInterested: !!row.isInterested,
+          })
+      );
+    } catch (err) {
+      throw err;
+    }
+  }
+  async addInterestProduct(username, productId) {
+    // TODO: Implement
+  }
   async removeInterestProduct(username, productId) {}
 }

@@ -6,10 +6,11 @@ import {
 } from "../../../util/HttpStatus.js";
 
 import authMiddleware from "../../../middlewares/auth.js";
-import MysqlAccountStore from "../../../model/Account/Store/MysqlAccountStore.js";
-import ProductStore from "../../../model/Product/Store/InMemoryProductStore.js";
 
-const accountStore = new MysqlAccountStore();
+import AccountStore from "../../../model/Account/Store/MysqlAccountStore.js";
+import ProductStore from "../../../model/Product/Store/MySQLProductStore.js";
+
+const accountStore = new AccountStore();
 const productStore = new ProductStore();
 
 const router = express.Router();
@@ -88,14 +89,13 @@ router.get("/me/interest", async (req, res) => {
 
   const username = req.session["username"];
   const products = await productStore.getInterestProducts(username);
-  products.forEach((product) => (product.isInterested = true));
   res.status(SUCCESS_STATUS).json({
     success: true,
     products,
   });
 });
 
-router.put("/me/interest", async (req, res) => {
+router.post("/me/interest", async (req, res) => {
   const { username, productId } = req.query;
   const result = await productStore.addInterestProduct(username, productId);
   if (result) {
