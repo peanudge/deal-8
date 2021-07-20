@@ -5,10 +5,7 @@ export const getProfileAsync = () =>
       headers: {
         "Content-Type": "application/json",
       },
-    }).then((response) => {
-      console.log(response.status);
-      response.json();
-    });
+    }).then((response) => response.json());
 
     resolve(request);
   });
