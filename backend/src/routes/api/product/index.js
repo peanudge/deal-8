@@ -38,8 +38,9 @@ router.get("/", async (req, res) => {
 
 router.get("/detail", async (req, res) => {
   const { id } = req.query;
+  const username = req.session["username"];
   try {
-    const product = await productStore.getProductById(id);
+    const product = await productStore.getProductById(id, username);
     if (product === null) {
       return res
         .status(NOT_FOUND_STATUS)
@@ -110,12 +111,11 @@ router.post("/", async (req, res) => {
 
 router.put("/", async (req, res) => {
   const { id, category, title, content, cost, location, images } = req.body;
-  // TODO auth middleware
-  const author = req.session.username;
+  const username = req.session["username"];
 
   try {
-    const targetProduct = await productStore.getProductById(id);
-    if (targetProduct.author !== author) {
+    const targetProduct = await productStore.getProductById(id, username);
+    if (targetProduct.author !== username) {
       return res.status(FORBIDDEN_STATUS).json({ success: false });
     }
   } catch (err) {
@@ -144,7 +144,7 @@ router.delete("/", async (req, res) => {
   const { id } = req.query;
   const username = req.session.username;
   try {
-    const oldProduct = await productStore.getProductById(id);
+    const oldProduct = await productStore.getProductById(id, username);
     if (oldProduct.author !== username) {
       return res.status(402).json({ success: false });
     }
