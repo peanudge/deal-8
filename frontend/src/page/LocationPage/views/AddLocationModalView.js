@@ -19,6 +19,11 @@ export default class AddLocationModalView extends View {
     on(this.acceptBtnElement, "click", (e) =>
       this.handleAcceptButtonClickEvent()
     );
+    on(this.locationInputElement, "keydown", (e) => {
+      if (e.keyCode == 13) {
+        this.handleAcceptButtonClickEvent();
+      }
+    });
   }
 
   handleCancelButtonClickEvent() {

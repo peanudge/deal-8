@@ -144,8 +144,8 @@ export default class MySQLProductStore extends AbstractProductStore {
       const rows = retrieveQueryResult[0];
       if (rows.length >= 1) {
         const row = rows[0];
+        await this._addCountOfViewProduct(row.id, row.countOfView);
 
-        await this._addCountOfViewProduct(row.countOfView, row.id);
         const images = await this._getProductImages(row.id);
         return new Product({
           id: row.id,
@@ -173,10 +173,13 @@ export default class MySQLProductStore extends AbstractProductStore {
   }
   async _addCountOfViewProduct(id, previsousCount) {
     const updateCountOfViewQuery = `
-    UPDATE product SET countOfView= ? WHERE id=?;
+    UPDATE product SET countOfView=? WHERE id=?;
     `;
     const params = [previsousCount + 1, id];
-    await mysqlConnection.promise().query(updateCountOfViewQuery, params);
+    const result = await mysqlConnection
+      .promise()
+      .query(updateCountOfViewQuery, params);
+    return result[0].affectedRows.length > 0;
   }
 
   async _getProductImages(id) {
