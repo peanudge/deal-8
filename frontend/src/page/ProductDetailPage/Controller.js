@@ -1,5 +1,6 @@
 import { navigateTo } from "@/router";
 
+import { getChatRoomAsync } from "@/api/chat";
 import { getProductDetailAsync, updateProductStatusAsync } from "@/api/product";
 import {
   getProfileAsync,
@@ -34,6 +35,23 @@ export default class Controller {
     this.productDetailFooterView.on("@interest", (e) => {
       const { id, isInterested } = e.detail.value;
       this.changeInterest(id, isInterested);
+    });
+
+    this.productDetailFooterView.on("@make-chat-room", () => {
+      const isAuthed = this.store.user !== undefined;
+      getChatRoomAsync()
+        .then((roomInfo) => {
+          const { key } = roomInfo;
+          if (key) {
+            navigateTo(`/chat/${key}`);
+            return;
+          }
+          throw "key of roomInfo is not returned!";
+        })
+        .catch((err) => {
+          navigateTo("/");
+          throw err;
+        });
     });
 
     this.productDetailHeaderView.on("@modifyPost", () => {

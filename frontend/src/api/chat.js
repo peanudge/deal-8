@@ -5,7 +5,8 @@ export const getChatRoomsAsync = () => {
         {
           key: "550e8400-e29b-41d4-a716-446655440000",
           targetUser: "UserA",
-          product: 4002,
+          productId: 0,
+          unReadCount: 1,
           productThumbnail:
             "http://img.danawa.com/prod_img/500000/281/013/img/4013281_1.jpg?shrink=500:500&_v=20210129094708",
           lastChat: {
@@ -19,7 +20,8 @@ export const getChatRoomsAsync = () => {
         {
           key: "550e8400-e29b-41d4-a716-446655440000",
           targetUser: "UserC",
-          product: 4002,
+          productId: 0,
+          unReadCount: 0,
           productThumbnail:
             "http://img.danawa.com/prod_img/500000/281/013/img/4013281_1.jpg?shrink=500:500&_v=20210129094708",
           lastChat: {
@@ -33,6 +35,11 @@ export const getChatRoomsAsync = () => {
       ]);
     }, 500);
   });
+};
+
+export const getChatRoomsByProductAsync = (productId) => {
+  // TODO: productId 별로 채팅리스트를 가져와야함 (판매자만 가능)
+  return getChatRoomsAsync();
 };
 
 export const getChatRoomAsync = (productId) => {

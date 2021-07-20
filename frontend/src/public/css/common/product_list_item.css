@@ -152,3 +152,7 @@
   text-align: center;
   color: var(--gray-text-color);
 }
+
+.content--chat-item--right--right > img {
+  width: 100%;
+}

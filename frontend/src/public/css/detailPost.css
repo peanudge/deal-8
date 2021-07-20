@@ -186,6 +186,7 @@ footer .move-btn {
   font-weight: 500;
   padding: 8px 16px;
   border-radius: 8px;
+  cursor: pointer;
 }
 
 .interest-btn {

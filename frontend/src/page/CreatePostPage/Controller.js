@@ -101,8 +101,11 @@ export default class Controller {
         comment,
         location,
         category: category.id,
-      }).then((id) => {
-        navigateTo("/product/" + id);
+      }).then((result) => {
+        if (result.success) {
+          const { id } = result;
+          navigateTo("/product/" + id);
+        }
       });
 
       // TODO: add image upload api

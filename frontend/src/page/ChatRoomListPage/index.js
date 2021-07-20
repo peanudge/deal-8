@@ -1,0 +1,32 @@
+import AbstractPage from "../AbstractPage";
+
+import Controller from "./Controller";
+import Store from "./Store";
+
+import ChatRoomListHeaderView from "./views/ChatRoomListHeaderView";
+import ChatroomListContentView from "./views/ChatroomListContentView";
+
+export default class ChatRoomListPage extends AbstractPage {
+  constructor(params) {
+    super(params);
+    this.productId = params.productId;
+  }
+  async render() {
+    return /*html*/ `
+      <header class="header">
+      
+      </header>
+      <div class="content">
+      </div>  
+    `;
+  }
+
+  after_render() {
+    const views = {
+      chatRoomListHeaderView: new ChatRoomListHeaderView(),
+      chatRoomListContentView: new ChatroomListContentView(),
+    };
+    const store = new Store();
+    new Controller(store, this.productId, views);
+  }
+}
