@@ -52,24 +52,44 @@ export default class MySQLProductStore extends AbstractProductStore {
     }
   }
 
-  async getProducts(location, category) {
-    const retrieveProductsQuery = `
-    SELECT id, author, category, title, content, cost, status, location, thumbnail, createdAt, updatedAt, countOfView 
-    FROM product;
-    `;
+  async getProducts({ location = null, category = null, username = null }) {
+    console.log("DEBUG", category);
+    const isLocationCondition = location && location !== "";
+    const isCategoryCondition = category !== null;
+    const params = [];
 
-    // TODO: location, category filter
+    let retrieveProductsQuery = `
+    SELECT 
+    p.id AS id,p.category AS category, p.author AS author, p.title AS title, 
+    p.content AS content, p.cost AS cost, p.status AS status, p.location AS location,
+    p.thumbnail AS thumbnail, p.createdAt AS createdAt, p.updatedAt AS updatedAt, p.countOfView AS countOfView,
+    CASE WHEN ip.username IS NULL THEN FALSE ELSE TRUE END as isInterested
+    FROM product AS p LEFT JOIN (SELECT username, id FROM interest_product WHERE username = ?) AS ip ON ip.id = p.id
+    `;
+    params.push(username);
+
+    if (isLocationCondition && isCategoryCondition) {
+      retrieveProductsQuery += " WHERE category = ? AND location = ?";
+      params.push(category, location);
+    } else if (isCategoryCondition && !isLocationCondition) {
+      retrieveProductsQuery += " WHERE category = ?";
+      params.push(category);
+    } else if (isLocationCondition && !isCategoryCondition) {
+      retrieveProductsQuery += " WHERE location = ?";
+      params.push(location);
+    }
 
     try {
       const result = await mysqlConnection
         .promise()
-        .query(retrieveProductsQuery);
+        .query(retrieveProductsQuery, params);
       const rows = result[0];
       return rows.map(
         (row) =>
           new Product({
             id: row.id,
             category: row.category,
+            author: row.author,
             title: row.title,
             content: row.content,
             cost: row.cost,
@@ -79,6 +99,7 @@ export default class MySQLProductStore extends AbstractProductStore {
             createdAt: row.createdAt,
             updatedAt: row.updatedAt,
             countOfView: row.countOfView,
+            isInterested: row.isInterested,
           })
       );
     } catch (err) {

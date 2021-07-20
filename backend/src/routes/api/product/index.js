@@ -17,10 +17,11 @@ export const categoryStore = new CategoryStore();
 
 router.get("/", async (req, res) => {
   const { location, category } = req.query;
+  const categoryId = category ? Number(category) : null;
   try {
     const products = await productStore.getProducts({
       location,
-      category,
+      category: categoryId,
     });
     return res.status(SUCCESS_STATUS).json(products);
   } catch (err) {
