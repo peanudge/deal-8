@@ -60,3 +60,15 @@ export const removeInterestProductAsync = (productId) => {
     resolve(request);
   });
 };
+
+export const getInterestProductsAsync = () => {
+  return new Promise((resolve, _) => {
+    const request = fetch(`/api/account/me/interest`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => response.json());
+    resolve(request);
+  });
+};
