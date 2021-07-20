@@ -6,6 +6,7 @@ export default class AbstractProductStore {
   deleteProductById(id) {}
   getInterestProducts(username) {}
   isInterestProduct(username, productId) {}
+  getOwnProducts(username) {}
   addInterestProduct(username, productId) {}
   removeInterestProduct(username, productId) {}
 }

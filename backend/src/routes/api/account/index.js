@@ -147,4 +147,19 @@ router.delete("/me/interest", async (req, res) => {
   }
 });
 
+router.get("/me/product", async (req, res) => {
+  if (!req.session["username"]) {
+    res
+      .status(UNAUTHORIZED_STATUS)
+      .json({ success: false, error: "로그인이 필요합니다." });
+    return;
+  }
+
+  const username = req.session["username"];
+  const products = await productStore.getOwnProducts(username);
+  res.status(SUCCESS_STATUS).json({
+    success: true,
+    products,
+  });
+});
 export default router;

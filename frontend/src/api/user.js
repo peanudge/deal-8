@@ -72,3 +72,15 @@ export const getInterestProductsAsync = () => {
     resolve(request);
   });
 };
+
+export const getOwnProductsAsync = () => {
+  return new Promise((resolve, _) => {
+    const request = fetch(`/api/account/me/product`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((resposne) => resposne.json());
+    resolve(request);
+  });
+};

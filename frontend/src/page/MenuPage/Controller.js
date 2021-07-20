@@ -4,6 +4,7 @@ import {
   getInterestProductsAsync,
   addInterestProductAsync,
   removeInterestProductAsync,
+  getOwnProductsAsync,
 } from "@/api/user";
 import { TabType } from "./views/TabView";
 
@@ -28,8 +29,7 @@ export default class Controller {
 
     this.subscribeViewEvents();
     this.render();
-    // this.fetchData();
-    this.fetchInterestProductData();
+    this.changeTab(TabType.SAIL_PRODUCT);
   }
 
   subscribeViewEvents() {
@@ -54,25 +54,25 @@ export default class Controller {
 
   changeTab(tab) {
     this.store.selectedTab = tab;
-    this.fetchData();
+    if (tab === TabType.INTEREST_PRODUCT) {
+      this.fetchInterestProductData();
+    } else if (tab === TabType.SAIL_PRODUCT) {
+      this.fetchOwnProductData();
+    } else if (tab === TabType.CHAT) {
+      // TODO: fetch chat Room List.
+    }
     this.render();
   }
 
-  fetchData() {
-    const requestChatRoom = getChatRoomsAsync();
-    const requestSalingProducts = getMySalingProductsAsync();
-
-    Promise.all([requestChatRoom, requestSalingProducts]).then(
-      ([chatRooms, salingProducts]) => {
-        this.store.chatRooms = chatRooms;
-        this.store.salingProducts = salingProducts;
-        this.render();
-      }
-    );
+  fetchOwnProductData() {
+    getOwnProductsAsync().then(({ products }) => {
+      this.store.salingProducts = products;
+      this.render();
+    });
   }
 
   fetchInterestProductData() {
-    getInterestProductsAsync().then(({ success, products }) => {
+    getInterestProductsAsync().then(({ products }) => {
       this.store.interestProducts = products;
       this.render();
     });
