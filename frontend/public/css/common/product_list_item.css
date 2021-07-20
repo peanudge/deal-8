@@ -97,3 +97,7 @@
 .content--product--info--bottom > div:last-child {
   margin-right: 0;
 }
+
+.content--chat-item--right--right > img {
+  width: 100%;
+}

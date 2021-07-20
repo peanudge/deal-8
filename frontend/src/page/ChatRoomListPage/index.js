@@ -1,12 +1,15 @@
 import AbstractPage from "../AbstractPage";
 
 import Controller from "./Controller";
+import Store from "./Store";
 
-import ChatRoomListHeaderView from "./view/ChatRoomListHeaderView.js";
+import ChatRoomListHeaderView from "./views/ChatRoomListHeaderView";
+import ChatroomListContentView from "./views/ChatroomListContentView";
 
 export default class ChatRoomListPage extends AbstractPage {
   constructor(params) {
     super(params);
+    this.productId = params.productId;
   }
   async render() {
     return /*html*/ `
@@ -14,51 +17,6 @@ export default class ChatRoomListPage extends AbstractPage {
       
       </header>
       <div class="content">
-        <article class="content--chat-item unread">
-          <div class="content--chat-item--left">
-            <strong class="username">UserC</strong>
-            <span class="current-message">혹시 팔렸나요?</span>
-          </div>
-          <div class="content--chat-item--right">
-            <div class="content--chat-item--right--left">
-              <div><span class="current-chat-time">15분전</span></div>
-              <div><div class="un-read-count">1</div></div>
-            </div>
-            <a class="content--chat-item--right--right">
-              <img src="/image/example-cooler.svg" alt="상품 썸네일 사진" />
-            </a>
-          </div>
-        </article>
-        <article class="content--chat-item unread">
-          <div class="content--chat-item--left">
-            <strong class="username">UserC</strong>
-            <span class="current-message">혹시 팔렸나요?</span>
-          </div>
-          <div class="content--chat-item--right">
-            <div class="content--chat-item--right--left">
-              <div><span class="current-chat-time">15분전</span></div>
-              <div><div class="un-read-count">1</div></div>
-            </div>
-            <a class="content--chat-item--right--right">
-              <img src="/image/example-cooler.svg" alt="상품 썸네일 사진" />
-            </a>
-          </div>
-        </article>
-        <article class="content--chat-item">
-          <div class="content--chat-item--left">
-            <strong class="username">UserC</strong>
-            <span class="current-message">혹시 팔렸나요?</span>
-          </div>
-          <div class="content--chat-item--right">
-            <div class="content--chat-item--right--left">
-              <div><span class="current-chat-time">15분전</span></div>
-              <div></div>
-            </div>
-            <a class="content--chat-item--right--right">
-              <img src="/image/example-cooler.svg" alt="상품 썸네일 사진" />
-            </a>
-          </div>
-        </article>
       </div>  
     `;
   }
@@ -66,7 +24,9 @@ export default class ChatRoomListPage extends AbstractPage {
   after_render() {
     const views = {
       chatRoomListHeaderView: new ChatRoomListHeaderView(),
+      chatRoomListContentView: new ChatroomListContentView(),
     };
-    new Controller(views);
+    const store = new Store();
+    new Controller(store, this.productId, views);
   }
 }
