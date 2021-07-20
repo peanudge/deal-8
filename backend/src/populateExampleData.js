@@ -56,7 +56,9 @@ const example_product_insert_query = `
 INSERT INTO product
     (author, category, title, content, cost, status, location, thumbnail, createdAt, updatedAt) 
     VALUES ("UserA", 1, "팝니다. 싸게", "내용입니다.",30000, "SAIL", "A", "${testImageURL}", CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-    ("UserB", 1, "Category 1, A TEST", "내용입니다.",30000, "SAIL", "A", "${testImageURL}", CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    ("UserB", 1, "Category 1, A 배고픈 TEST", "내용입니다.",30000, "SAIL", "A", "${testImageURL}", CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    ("UserB", 1, "Category 1, A 사람 TEST", "내용입니다.",30000, "SAIL", "A", "${testImageURL}", CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+    ("UserB", 1, "Category 1, A 구합니다. TEST", "내용입니다.",30000, "SAIL", "A", "${testImageURL}", CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
     ("UserB", 2, "Category 2, B TEST", "내용입니다.",30000, "SAIL", "B", "${testImageURL}", CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
     ("UserB", 0, "Category 0, B TEST", "내용입니다.",30000, "SAIL", "B", "${testImageURL}", CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
     ("UserB", 0, "Category 0, B", "내용입니다.",30000, "SAIL", "B", "${testImageURL}", CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
