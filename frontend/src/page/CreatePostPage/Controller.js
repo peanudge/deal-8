@@ -1,6 +1,6 @@
 import { categoryItems } from "@/util/category";
 
-import { createProductAsync } from "@/api/product";
+import { createProductAsync, uploadProductImagesAsync } from "@/api/product";
 import { navigateTo } from "@/router";
 import { getProfileAsync } from "@/api/user";
 
@@ -87,29 +87,38 @@ export default class Controller {
       this.uploadImagesFromFileSystem(e.detail.value);
     });
 
-    this.createPostHeaderView.on("@create-post", (e) => {
-      if (!this.validateStoreForSubmit(this.store)) {
-        this.render();
-        return;
-      }
+    this.createPostHeaderView.on("@create-post", (e) => this.createPost());
+  }
 
-      const { images, category, cost, title, comment, location } = this.store;
+  createPost() {
+    if (!this.validateStoreForSubmit(this.store)) {
+      this.render();
+      return;
+    }
 
-      createProductAsync({
-        title,
-        cost,
-        comment,
-        location,
-        category: category.id,
-      }).then((result) => {
+    const { images, category, cost, title, comment, location } = this.store;
+    uploadProductImagesAsync(images)
+      .then(({ success, images }) => {
+        if (success) {
+          return createProductAsync({
+            title,
+            cost,
+            comment,
+            location,
+            images,
+            category: category?.id,
+          });
+        } else {
+          console.err("Image Upload Fail.");
+        }
+      })
+      .then((result) => {
         if (result.success) {
-          const { id } = result;
-          navigateTo("/product/" + id);
+          navigateTo("/product/" + result.product.id);
+        } else {
+          //TODO: Update Fail fallback
         }
       });
-
-      // TODO: add image upload api
-    });
   }
 
   validateStoreForSubmit() {

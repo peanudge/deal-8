@@ -7,7 +7,7 @@ import {
 
 import authMiddleware from "../../../middlewares/auth.js";
 
-import AccountStore from "../../../model/Account/Store/MysqlAccountStore.js";
+import AccountStore from "../../../model/Account/Store/MySQLAccountStore.js";
 import ProductStore from "../../../model/Product/Store/MySQLProductStore.js";
 
 const accountStore = new AccountStore();

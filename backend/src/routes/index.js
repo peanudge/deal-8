@@ -11,7 +11,7 @@ router.get("/", function (req, res, next) {
 });
 
 router.get("/file", function (req, res, next) {
-  res.render("file", { images: pathList });
+  res.render("file");
 });
 
 router.post("/upload", function (req, res, next) {
@@ -20,7 +20,8 @@ router.post("/upload", function (req, res, next) {
       res.render("file");
     } else {
       const pathList = req.files.map((file) => file.path);
-      res.render("file", { images: pathList });
+
+      res.json(pathList);
     }
   });
 });

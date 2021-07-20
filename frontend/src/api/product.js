@@ -43,18 +43,42 @@ export const getProductDetailAsync = ({ id }) => {
   });
 };
 
+export const uploadProductImagesAsync = (files) => {
+  return new Promise((resolve, _) => {
+    const formData = new FormData();
+    Array.from(files).forEach((file) => formData.append("product_image", file));
+    const request = fetch("/api/product/media", {
+      method: "POST",
+      body: formData,
+    }).then((response) => response.json());
+    resolve(request);
+  });
+};
+
 export const createProductAsync = ({
   title,
   cost,
   comment,
   location,
   category,
+  images = [],
 }) => {
   return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      console.log("Create Product Post -", title);
-      resolve({ success: true, id: 1 });
-    }, 500);
+    const request = fetch("/api/product/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        title,
+        cost,
+        comment,
+        images,
+        location,
+        category,
+      }),
+    }).then((response) => response.json());
+    resolve(request);
   });
 };
 
@@ -74,7 +98,7 @@ export const updateProductStatusAsync = (productId, status) => {
     const request = fetch(`/api/product/${productId}/status?status=${status}`, {
       method: "PUT",
       headers: {
-        "Contents-Type": "application/json",
+        "Content-Type": "application/json",
       },
     }).then((response) => response.json());
     resolve(request);

@@ -12,6 +12,7 @@ export default class MySQLProductStore extends AbstractProductStore {
       cost,
       status,
       location,
+      thumbnail,
       images,
       createdAt,
       updatedAt,
@@ -31,7 +32,7 @@ export default class MySQLProductStore extends AbstractProductStore {
       cost,
       status,
       location,
-      images[0],
+      thumbnail,
       createdAt,
       updatedAt,
     ];
@@ -43,12 +44,22 @@ export default class MySQLProductStore extends AbstractProductStore {
       const isSuccess = result[0]?.affectedRows === 1;
       if (isSuccess) {
         product.id = result[0].insertId;
+        await this.createProductImages(product.id, images);
         return product;
       } else {
         return null;
       }
     } catch (err) {
       throw err;
+    }
+  }
+
+  async createProductImages(id, images = []) {
+    const createImageQuery = `
+      INSERT INTO product_image(id, image) VALUES (?, ?)
+    `;
+    for (const image of images) {
+      await mysqlConnection.promise().query(createImageQuery, [id, image]);
     }
   }
 
@@ -63,7 +74,7 @@ export default class MySQLProductStore extends AbstractProductStore {
     p.content AS content, p.cost AS cost, p.status AS status, p.location AS location,
     p.thumbnail AS thumbnail, p.createdAt AS createdAt, p.updatedAt AS updatedAt, p.countOfView AS countOfView,
     CASE WHEN my_ip.username IS NULL THEN FALSE ELSE TRUE END as isInterested,
-    COUNT(p.id) as countOfInterest
+    COUNT(ip.username) as countOfInterest
     FROM product AS p 
     LEFT JOIN (SELECT username, id FROM interest_product WHERE username = ?) AS my_ip ON my_ip.id = p.id
     LEFT JOIN interest_product AS ip ON ip.id = p.id 
@@ -120,51 +131,69 @@ export default class MySQLProductStore extends AbstractProductStore {
     p.content AS content, p.cost AS cost, p.status AS status, p.location AS location,
     p.thumbnail AS thumbnail, p.createdAt AS createdAt, p.updatedAt AS updatedAt, p.countOfView AS countOfView,
     CASE WHEN my_ip.username IS NULL THEN FALSE ELSE TRUE END as isInterested,
-    COUNT(p.id) as countOfInterest
+    COUNT(ip.username) as countOfInterest
     FROM product AS p 
     LEFT JOIN (SELECT username, id FROM interest_product WHERE username = ?) AS my_ip ON my_ip.id = p.id
     LEFT JOIN interest_product AS ip ON ip.id = p.id WHERE p.id = ?
     `;
-
-    const retrieveQueryResult = await mysqlConnection
-      .promise()
-      .query(retrieveProductQuery, params);
-
-    const rows = retrieveQueryResult[0];
-    if (rows.length >= 1) {
-      const row = rows[0];
-      const updateCountOfViewQuery = `
-      UPDATE product SET countOfView=? WHERE id=?;
-      `;
-
-      await mysqlConnection
+    try {
+      const retrieveQueryResult = await mysqlConnection
         .promise()
-        .query(updateCountOfViewQuery, [row.countOfView + 1, row.id]);
+        .query(retrieveProductQuery, params);
 
-      return new Product({
-        id: row.id,
-        author: row.author,
-        category: row.category,
-        title: row.title,
-        content: row.content,
-        cost: row.cost,
-        status: row.status,
-        location: row.location,
-        thumbnail: row.thumbnail,
-        createdAt: row.createdAt,
-        updatedAt: row.updatedAt,
-        countOfView: row.countOfView,
-        isInterested: !!row.isInterested,
-        countOfInterest: row.countOfInterest,
-      });
-    } else {
-      return null;
+      const rows = retrieveQueryResult[0];
+      if (rows.length >= 1) {
+        const row = rows[0];
+
+        await this._addCountOfViewProduct(row.countOfView, row.id);
+        const images = await this._getProductImages(row.id);
+        return new Product({
+          id: row.id,
+          author: row.author,
+          category: row.category,
+          title: row.title,
+          content: row.content,
+          cost: row.cost,
+          status: row.status,
+          location: row.location,
+          thumbnail: row.thumbnail,
+          createdAt: row.createdAt,
+          updatedAt: row.updatedAt,
+          countOfView: row.countOfView,
+          isInterested: !!row.isInterested,
+          countOfInterest: row.countOfInterest,
+          images: images,
+        });
+      } else {
+        return null;
+      }
+    } catch (err) {
+      throw err;
     }
+  }
+  async _addCountOfViewProduct(id, previsousCount) {
+    const updateCountOfViewQuery = `
+    UPDATE product SET countOfView= ? WHERE id=?;
+    `;
+    const params = [previsousCount + 1, id];
+    await mysqlConnection.promise().query(updateCountOfViewQuery, params);
+  }
+
+  async _getProductImages(id) {
+    const retrieveProductImage = `
+      SELECT id, image FROM product_image WHERE id = ?
+    `;
+    const result = await mysqlConnection
+      .promise()
+      .query(retrieveProductImage, [id]);
+    const rows = result[0];
+    return rows.map((row) => row.image);
   }
 
   async updateProduct(product) {
     // TODO: Implement
   }
+
   async deleteProductById(id) {
     // TODO: Implement
   }

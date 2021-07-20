@@ -99,7 +99,7 @@ class Template {
                 <span class="time">2시간 전</span>
               </div>
               <div>
-                <strong> ${cost} 원 </strong>
+                <strong> ${cost ? cost : "-"} 원 </strong>
               </div>
             </div>
             <div class="content--product--info--bottom">

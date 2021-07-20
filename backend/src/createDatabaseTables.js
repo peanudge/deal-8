@@ -67,7 +67,19 @@ CREATE TABLE IF NOT EXISTS product (
 const product_table_create_query_result = await mysqlConnection
   .promise()
   .query(product_table_create_query);
-// console.log(product_table_create_query_result[0]);
+
+// CREATE product_image Table;
+
+const product_image_table_create_query = `
+  CREATE TABLE IF NOT EXISTS product_image (
+    id INT(10),
+    image VARCHAR(255),
+    FOREIGN KEY (id) REFERENCES product (id) ON DELETE CASCADE
+  )
+`;
+const product_image_table_create_query_result = await mysqlConnection
+  .promise()
+  .query(product_image_table_create_query);
 
 // CREATE interest_prodcut Table;
 

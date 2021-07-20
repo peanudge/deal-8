@@ -10,4 +10,5 @@ export default class AbstractProductStore {
   getOwnProducts(username) {}
   addInterestProduct(username, productId) {}
   removeInterestProduct(username, productId) {}
+  addCountOfViewProduct(id) {}
 }

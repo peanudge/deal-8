@@ -11,6 +11,7 @@ module.exports = {
     historyApiFallback: true,
     proxy: {
       "/api": "http://localhost:3000",
+      "/upload": "http://localhost:3000",
     },
   },
   resolve: {
