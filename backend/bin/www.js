@@ -7,6 +7,8 @@
 import DEBUG from "debug";
 import http from "http";
 import app from "../src/app.js";
+import { Server } from "socket.io";
+import setSocketConnection from "../src/setSocketConnection.js";
 
 const debug = DEBUG("backend:server");
 /**
@@ -21,6 +23,13 @@ app.set("port", port);
  */
 
 const server = http.createServer(app);
+
+/* socket.io setting */
+const io = new Server(server, {
+  // ...
+});
+
+setSocketConnection(io);
 
 /**
  * Listen on provided port, on all network interfaces.
