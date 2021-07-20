@@ -54,7 +54,6 @@ router.post("/media", async (req, res) => {
         .status(INTERNAL_SERVER_ERROR_STATUS)
         .json({ success: false, error: "Image Upload Fail!" });
     } else {
-      console.log(req.files);
       const pathList = req.files.map((file) => file.filename);
       res.json({
         success: true,
@@ -116,7 +115,6 @@ router.get("/", async (req, res) => {
 
 router.post("/", authMiddleware, async (req, res) => {
   const { category, title, content, cost, location, images } = req.body;
-
   const author = req.session.username;
   try {
     const tmpProduct = new Product({
@@ -125,13 +123,13 @@ router.post("/", authMiddleware, async (req, res) => {
       content,
       cost,
       location,
-      thumbnail: images[0],
+      thumbnail: images && images.length > 0 ? images[0] : "",
       images,
       author,
     });
 
-    const newProduct = await productStore.createProduct(tmpProduct);
-    return res.status(SUCCESS_STATUS).json(newProduct);
+    const product = await productStore.createProduct(tmpProduct);
+    return res.status(SUCCESS_STATUS).json({ success: true, product });
   } catch (err) {
     return res
       .status(INTERNAL_SERVER_ERROR_STATUS)

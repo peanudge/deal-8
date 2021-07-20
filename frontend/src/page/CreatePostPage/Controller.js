@@ -1,6 +1,6 @@
 import { categoryItems } from "@/util/category";
 
-import { createProductAsync } from "@/api/product";
+import { createProductAsync, uploadProductImagesAsync } from "@/api/product";
 import { navigateTo } from "@/router";
 import { getProfileAsync } from "@/api/user";
 
@@ -95,20 +95,29 @@ export default class Controller {
 
       const { images, category, cost, title, comment, location } = this.store;
 
-      createProductAsync({
-        title,
-        cost,
-        comment,
-        location,
-        category: category.id,
-      }).then((result) => {
-        if (result.success) {
-          const { id } = result;
-          navigateTo("/product/" + id);
-        }
-      });
-
-      // TODO: add image upload api
+      uploadProductImagesAsync(images)
+        .then(({ success, images }) => {
+          if (success) {
+            return createProductAsync({
+              title,
+              cost,
+              comment,
+              location,
+              images,
+              category: category?.id,
+            });
+          } else {
+            console.err("Image Upload Fail.");
+          }
+        })
+        .then((result) => {
+          if (result.success) {
+            navigateTo("/product/" + result.product.id);
+          } else {
+            //TODO: Update Fail fallback
+            console.log(result);
+          }
+        });
     });
   }
 
