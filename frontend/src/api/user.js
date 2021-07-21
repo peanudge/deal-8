@@ -81,3 +81,7 @@ export const getOwnProductsAsync = () => {
     resolve(request);
   });
 };
+
+export const getMyChatRoomsAsync = () => {
+  // TODO: GET /api/account/me/chatroom
+};

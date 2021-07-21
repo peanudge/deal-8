@@ -56,7 +56,7 @@ class Template {
           user?.username === author
             ? `
                 <a href="/chatList/${id}" data-link>
-                    <div class="move-btn">채팅 목록 보기 (2)</div> 
+                    <div class="move-btn">채팅 목록 보기</div> 
                 </a>`
             : `
                 <div>

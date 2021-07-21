@@ -1,5 +1,5 @@
 export default class Store {
-  constructor() {
+  constructor(productId) {
     this.roomsInfos = [];
     /*
         this.roomKey = undefined;

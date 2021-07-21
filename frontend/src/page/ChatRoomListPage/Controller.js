@@ -1,15 +1,10 @@
 import { getChatRoomsByProductAsync } from "@/api/chat";
 
 export default class Controller {
-  constructor(
-    store,
-    productId,
-    { chatRoomListHeaderView, chatRoomListContentView }
-  ) {
+  constructor(store, { chatRoomListHeaderView, chatRoomListContentView }) {
     this.chatRoomListHeaderView = chatRoomListHeaderView;
     this.chatRoomListContentView = chatRoomListContentView;
     this.store = store;
-    this.productId = productId;
     this.init();
   }
 
