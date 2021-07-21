@@ -1,6 +1,6 @@
 import { navigateTo } from "@/router";
 
-import { getChatRoomAsync } from "@/api/chat";
+import { getChatRoomAsync, attendChatRoomAsync } from "@/api/chat";
 import {
   getCategoryAsync,
   getProductDetailAsync,
@@ -39,23 +39,6 @@ export default class Controller {
       this.changeInterest(id, isInterested);
     });
 
-    this.productDetailFooterView.on("@make-chat-room", () => {
-      const isAuthed = this.store.user !== undefined;
-      getChatRoomAsync()
-        .then((roomInfo) => {
-          const { key } = roomInfo;
-          if (key) {
-            navigateTo(`/chat/${key}`);
-            return;
-          }
-          throw "key of roomInfo is not returned!";
-        })
-        .catch((err) => {
-          navigateTo("/");
-          throw err;
-        });
-    });
-
     this.productDetailHeaderView.on("@modifyPost", () => {
       navigateTo(`/product-edit/${this.store.productId}`);
     });
@@ -73,6 +56,19 @@ export default class Controller {
           }
         }
       );
+    });
+
+    this.productDetailFooterView.on("@attend-chat-room", (e) => {
+      // TODO: get Room Key API
+      // TODO: with Room Key, Navigate To ChatRoom Page.
+      const { productId } = this.store;
+      attendChatRoomAsync(productId).then(({ success, roomId }) => {
+        if (success) {
+          navigateTo("/chat/" + roomId);
+        } else {
+          console.err("채팅방 정보가져오는데 실패");
+        }
+      });
     });
   }
 
@@ -110,14 +106,12 @@ export default class Controller {
   }
 
   fetchProductDetailData() {
-    getProductDetailAsync({ id: this.productId }).then(
-      ({ success, product }) => {
-        if (success) {
-          this.store.productDetail = product;
-          this.render();
-        }
+    getProductDetailAsync(this.productId).then(({ success, product }) => {
+      if (success) {
+        this.store.productDetail = product;
+        this.render();
       }
-    );
+    });
   }
 
   render() {

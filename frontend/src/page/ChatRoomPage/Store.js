@@ -1,9 +1,8 @@
 export default class Store {
-  constructor() {
-    this.roomKey = undefined;
-    this.targetUser = undefined;
-    this.roomId = undefined;
-    this.productThumbnail = undefined;
+  constructor(roomId) {
+    this.account = null;
+    this.roomId = roomId;
+    this.product = null;
     this.chatLogs = [];
     this.totalMessageCount = 0;
   }

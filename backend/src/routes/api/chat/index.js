@@ -3,7 +3,7 @@ import authMiddleware from "../../../middlewares/auth.js";
 
 import MySQLAccountStore from "../../../model/Account/Store/MySQLAccountStore.js";
 import MySQLProductStore from "../../../model/Product/Store/MySQLProductStore.js";
-import InMemmoryChatStore from "../../../model/Chat/InMemmoryChatStore.js";
+import InMemmoryChatStore from "../../../model/Chat/Store/InMemmoryChatStore.js";
 
 import { INTERNAL_SERVER_ERROR_STATUS } from "../../../util/HttpStatus.js";
 

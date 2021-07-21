@@ -18,7 +18,7 @@ export default class ProductDetailFooterView extends View {
     delegate(this.element, "click", "#interest-btn", (e) => {
       this.handleClickInterestEvent(e);
     });
-    delegate(this.element, "click", "#get-chatRoom", (e) => {
+    delegate(this.element, "click", "#attend-chat-btn", (e) => {
       this.handleClickGetChatRoom(e);
     });
   }
@@ -31,9 +31,11 @@ export default class ProductDetailFooterView extends View {
       value: { id, isInterested: !currentInterestStatus },
     });
   }
+
   handleClickGetChatRoom(event) {
-    this.emit("@make-chat-room");
+    this.emit("@attend-chat-room");
   }
+
   show(user, productDetail) {
     this.element.innerHTML = this.template.getFooter(user, productDetail);
     super.show();
@@ -58,7 +60,7 @@ class Template {
                 </a>`
             : `
                 <div>
-                    <div class="move-btn" id="get-chatRoom">문의하기</div> 
+                    <div class="move-btn" id="attend-chat-btn">문의하기</div> 
                 <div>`
         }
             

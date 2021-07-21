@@ -1,4 +1,4 @@
-import AbstractChatStore from "../AbstractChatStore";
+import AbstractChatStore from "../AbstractChatStore.js";
 
 const rooms = [
   {

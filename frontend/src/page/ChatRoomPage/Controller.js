@@ -1,11 +1,15 @@
-import { exitChatRoomAsync, getChatRoomAsync } from "@/api/chat.js";
+import {
+  exitChatRoomAsync,
+  getChatRoomAsync,
+  getChatLogsAsync,
+} from "@/api/chat.js";
+import { getProductDetailAsync } from "@/api/product";
 import { getProfileAsync } from "@/api/user";
 import { navigateTo } from "@/router";
 
 export default class Controller {
   constructor(
     store,
-    roomId,
     {
       chatRoomHeaderView,
       chatRoomAlertModalView,
@@ -21,9 +25,7 @@ export default class Controller {
     this.chatRoomInputContainerView = chatRoomInputContainerView;
 
     this.store = store;
-    this.roomId = roomId;
     this.subscribeViewEvents();
-
     this.init();
   }
 
@@ -40,51 +42,66 @@ export default class Controller {
       const { socketId } = data.detail;
       this.chatRoomMainContentView.addMessage(data.detail, socketId);
     });
+
+    this.chatRoomHeaderView.on("@back", () => {
+      const { id } = this.store.product;
+      navigateTo("/product/" + id);
+    });
   }
 
   init() {
-    const getChatRoom = getChatRoomAsync(this.roomId);
-    const getProfile = getProfileAsync();
-
-    Promise.all([getChatRoom, getProfile]).then((values) => {
-      const [roomInfo, { isAuth, account }] = values;
-
-      if (isAuth) {
-        this.store.isAuth = isAuth;
-        this.store.user = account;
-        this.store.currentLocation =
-          account.locations.length > 0 ? account.locations[0] : "";
+    getProfileAsync()
+      .then(({ isAuth, account }) => {
+        if (!isAuth) {
+          navigateTo("/login");
+        } else {
+          this.store.account = account;
+        }
+      })
+      .then(() => {
+        getChatRoomAsync(this.store.roomId).then(({ success, room }) => {
+          if (success) {
+            const { productId, roomId } = room;
+            this.fetchProductData(productId);
+            this.fetchChatLogData(roomId);
+          } else {
+            console.err("채팅방 정보를 가져오는데 실패했습니다.");
+            navigateTo("/");
+          }
+        });
+      });
+  }
+  fetchChatLogData(roomdId) {
+    // TODO: 채팅방안에서 있는 chat log 가져오기
+    getChatLogsAsync(roomdId).then(({ success, chats }) => {
+      if (success) {
+        this.store.chatLogs = chats;
+        this.render();
       } else {
-        this.store.currentLocation = "";
+        console.err("채팅 정보를 불러오는데 실패했습니다.");
       }
-
-      this.store.roomKey = roomInfo?.key;
-      this.store.targetUser = roomInfo?.targetUser;
-      this.store.roomId = roomInfo?.roomId;
-      this.store.productTitle = roomInfo?.productTitle;
-      this.store.productThumbnail = roomInfo?.productThumbnail;
-      this.store.productCost = roomInfo?.productCost;
-      this.store.chatLogs = roomInfo?.chatLogs;
-      this.store.totalMessageCount = roomInfo?.totalMessageCount;
-      this.store.messages = roomInfo?.messages;
-
-      this.render();
+    });
+  }
+  fetchProductData(productId) {
+    getProductDetailAsync(productId).then(({ success, product }) => {
+      if (success) {
+        this.store.product = product;
+        this.render();
+      } else {
+        console.err("상품정보를 불러오는데 실패했습니다.");
+      }
     });
   }
 
   render() {
-    const productInfo = {
-      productTitle: this.store.productTitle,
-      productCost: this.store.productCost,
-      productThumbnail: this.store.productThumbnail,
-    };
-    const messages = this.store.messages;
-    const { username } = this.store.user;
+    const { account, product, chatLogs } = this.store;
 
-    this.chatRoomHeaderView.show();
+    const username = account?.username;
+
+    this.chatRoomHeaderView.show(username);
     this.chatRoomAlertModalView.show();
-    this.chatRoomMainHeaderView.show(productInfo);
-    this.chatRoomMainContentView.loadMessages(messages, username);
+    this.chatRoomMainHeaderView.show(product);
+    this.chatRoomMainContentView.loadMessages(chatLogs, username);
     this.chatRoomInputContainerView.socketConnect(this.roomId);
   }
 }

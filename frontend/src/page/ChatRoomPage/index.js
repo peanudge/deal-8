@@ -21,20 +21,13 @@ export default class ChatRoomPage extends AbstractPage {
 
   async render() {
     return /* html */ `
-    <header class="header" id="header">
-        
-    </header>
+    <header class="header" id="header"></header>
 
     <main class="chat-main">
         <div class="chat-main--header">
-            
         </div>
-    
-
         <div class="chat-main--content">
         </div>
-
-
         <form class="chat-main--input-container">
           <input class="chat-main--input-container--input" type="text" />
           <button type="submit" id="chat-btn" class="chat-main--input-container--submit-btn"> ${sendSvg} </button>
@@ -54,7 +47,7 @@ export default class ChatRoomPage extends AbstractPage {
       chatRoomMainContentView: new ChatRoomMainContentView(),
       chatRoomInputContainerView: new ChatRoomInputContainerView(),
     };
-    const store = new Store();
-    new Controller(store, this.roomId, views);
+    const store = new Store(this.roomId);
+    new Controller(store, views);
   }
 }
