@@ -1,15 +1,12 @@
-export const getChatRoomAsync = (roomdId) => {
-  // GET /api/chatroom/[roomId]
+export const getChatRoomAsync = (roomId) => {
   return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve({
-        success: true,
-        room: {
-          roomId: "TESTROOM1",
-          productId: 1,
-        },
-      });
-    }, 300);
+    const request = fetch(`/api/chatroom/${roomId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => response.json());
+    resolve(request);
   });
 };
 
@@ -20,18 +17,9 @@ export const attendChatRoomAsync = (productId) => {
       headers: {
         "Content-Type": "application/json",
       },
-    }).then((response) => resolve(response.json()));
+    }).then((response) => response.json());
+    resolve(request);
   });
-
-  // POST /api/chatroom?productId=[id]
-  // return new Promise((resolve, reject) => {
-  //   setTimeout(() => {
-  //     resolve({
-  //       success: true,
-  //       roomId: "TESTROOM1",
-  //     });
-  //   }, 300);
-  // });
 };
 
 export const getChatLogsAsync = (roomId, limitCount) => {

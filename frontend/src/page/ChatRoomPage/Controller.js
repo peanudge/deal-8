@@ -77,9 +77,9 @@ export default class Controller {
         }
       })
       .then(() => {
-        getChatRoomAsync(this.store.roomId).then(({ success, room }) => {
+        getChatRoomAsync(this.store.roomId).then(({ success, chatRoom }) => {
           if (success) {
-            const { productId, roomId } = room;
+            const { productId, roomId } = chatRoom;
             this.fetchProductData(productId);
             this.fetchChatLogData(roomId);
           } else {
