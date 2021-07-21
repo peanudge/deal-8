@@ -26,7 +26,7 @@ export default class Controller {
     this.chatRoomInputContainerView = chatRoomInputContainerView;
 
     this.store = store;
-    this.socket = io.connect("http://localhost:3000", {
+    this.socket = io.connect("/", {
       reconnectionDelayMax: 10000,
     });
 

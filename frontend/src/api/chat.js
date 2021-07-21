@@ -39,7 +39,14 @@ export const getChatRoomsAsync = () => {
 
 export const getChatRoomsByProductAsync = (productId) => {
   // TODO: productId 별로 채팅리스트를 가져와야함 (판매자만 가능)
-  return getChatRoomsAsync();
+  return new Promise((resolve, reject) => {
+    const request = fetch(`/api/chatroom/product?productId=${productId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => resolve(response.json()));
+  });
 };
 
 //제거
@@ -69,15 +76,24 @@ export const getChatRoomAsync = (roomdId) => {
 };
 
 export const attendChatRoomAsync = (productId) => {
-  // POST /api/chatroom?productId=[id]
   return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve({
-        success: true,
-        roomId: "TESTROOM1",
-      });
-    }, 300);
+    const request = fetch(`/api/chatroom/attend?productId=${productId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => resolve(response.json()));
   });
+
+  // POST /api/chatroom?productId=[id]
+  // return new Promise((resolve, reject) => {
+  //   setTimeout(() => {
+  //     resolve({
+  //       success: true,
+  //       roomId: "TESTROOM1",
+  //     });
+  //   }, 300);
+  // });
 };
 
 export const getChatLogsAsync = (roomId, limitCount) => {
