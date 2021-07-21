@@ -24,6 +24,7 @@ body {
   background-color: white;
   overflow: scroll;
   height: calc(100% - 126px);
+  width: 100%;
 }
 
 .post-main--img-container {

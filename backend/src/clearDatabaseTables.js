@@ -4,6 +4,31 @@ mysqlConnection.connect(function (err) {
   if (err) throw err;
 });
 
+// drop chat table
+const chat_drop_query = `
+DROP TABLE chat;
+`;
+const chat_drop_query_result = await mysqlConnection
+  .promise()
+  .query(chat_drop_query);
+
+// drop chatroom_attend table
+const chatroom_attend_drop_query = `
+DROP TABLE chatroom_attend;
+`;
+const chatroom_attend_drop_query_result = await mysqlConnection
+  .promise()
+  .query(chatroom_attend_drop_query);
+
+// drop chatroom table
+const chatroom_drop_query = `
+DROP TABLE chatroom;
+`;
+
+const chatroom_drop_query_result = await mysqlConnection
+  .promise()
+  .query(chatroom_drop_query);
+
 // drop product_image table;
 const product_image_table_drop_query = `
   DROP TABLE product_image;

@@ -97,9 +97,46 @@ const interest_product_query_result = await mysqlConnection
   .promise()
   .query(interest_product_query);
 
-// console.log(interest_product_query_result[0]);
+// CREATE chatroom Table
 
-// console.log(category_table_create_query_result[0]);
+const chatroom_query = `
+CREATE TABLE chatroom (
+  roomId INT PRIMARY KEY AUTO_INCREMENT,
+  productId INT,
+  FOREIGN KEY(productId) REFERENCES product(id)
+)
+`;
+const chatroom_query_result = await mysqlConnection
+  .promise()
+  .query(chatroom_query);
+
+// CREATE chatroom_attend Table
+const chatroom_attend_query = `
+CREATE TABLE chatroom_attend (
+  roomId INT,
+  username VARCHAR(255),
+  isAttend BOOLEAN NOT NULL DEFAULT TRUE,
+  FOREIGN KEY(roomId) REFERENCES chatroom(roomId)
+)
+`;
+const chatroom_attend_query_result = await mysqlConnection
+  .promise()
+  .query(chatroom_attend_query);
+
+// CREATE chat Table
+
+const chat_query = `
+CREATE TABLE chat (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  roomId INT,
+  content VARCHAR(255),
+  writer VARCHAR(255),
+  createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY(roomId) REFERENCES chatroom(roomId),
+  FOREIGN KEY(writer) REFERENCES account(username)
+)
+`;
+const chat_query_result = await mysqlConnection.promise().query(chat_query);
 
 console.log("Complete Creating Tables");
 process.exit(1);

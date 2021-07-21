@@ -14,6 +14,10 @@ router.get("/file", function (req, res, next) {
   res.render("file");
 });
 
+router.get("/socket", (req, res) => {
+  res.render("socket");
+});
+
 router.post("/upload", function (req, res, next) {
   upload(req, res, (err) => {
     if (err) {

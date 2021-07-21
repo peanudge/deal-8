@@ -31,7 +31,7 @@ export const getMySalingProductsAsync = () => {
   return getProductsAsync();
 };
 
-export const getProductDetailAsync = ({ id }) => {
+export const getProductDetailAsync = (id) => {
   return new Promise((resolve, reject) => {
     const request = fetch(`/api/product/detail?id=${id}`, {
       method: "GET",
