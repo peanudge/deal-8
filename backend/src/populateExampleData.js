@@ -92,4 +92,34 @@ const example_interest_product_insert_query_result = await mysqlConnection
   .promise()
   .query(example_interest_product_insert_query);
 console.log("Complete Insert Example Products!");
+
+// INSERT example chatroom;
+
+const example_chatroom_insert_qeury = `
+INSERT INTO chatroom(productId) VALUES(1),(2);
+`;
+const example_chatroom_insert_qeury_result = await mysqlConnection
+  .promise()
+  .query(example_chatroom_insert_qeury);
+
+const example_chatroom_attend_insert_qeury = `
+INSERT INTO chatroom_attend(roomId, username) VALUES 
+(1, "testuser"),(1, "woowahan"),
+(2, "testuser"),(2, "UserA")
+`;
+const example_chatroom_attend_insert_qeury_result = await mysqlConnection
+  .promise()
+  .query(example_chatroom_attend_insert_qeury);
+
+const example_chat_insert_query = `
+INSERT INTO chat(roomId, content, writer) VALUES
+(1, "THIS IS TEST1", "testuser"),
+(1, "THIS IS TEST2", "woowahan")
+`;
+const example_chat_insert_query_result = await mysqlConnection
+  .promise()
+  .query(example_chat_insert_query);
+
+console.log("Complete Insert Example ChatRoom!");
+
 process.exit(1);
