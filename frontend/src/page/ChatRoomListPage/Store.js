@@ -1,6 +1,7 @@
 export default class Store {
-  constructor() {
-    this.roomsInfos = [];
+  constructor(productId) {
+    this.productId = productId;
+    this.chatRoomListItems = [];
     /*
         this.roomKey = undefined;
         this.targetUser = undefined;

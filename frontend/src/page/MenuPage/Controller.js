@@ -1,11 +1,11 @@
-import { getChatRoomsAsync } from "@/api/chat";
-import { getMySalingProductsAsync } from "@/api/product";
 import {
   getInterestProductsAsync,
   addInterestProductAsync,
   removeInterestProductAsync,
   getOwnProductsAsync,
+  getMyChatRoomsAsync,
 } from "@/api/user";
+import { navigateTo } from "@/router";
 import { TabType } from "./views/TabView";
 
 const tag = "[Controller]";
@@ -19,7 +19,6 @@ export default class Controller {
       chatRoomListView,
     }
   ) {
-    console.log(tag, "constructor");
     this.store = store;
 
     this.tabView = tabView;
@@ -33,11 +32,19 @@ export default class Controller {
   }
 
   subscribeViewEvents() {
+    this.chatRoomListView.on("@move-to-chat", (e) =>
+      this.moveToChatRoom(e.detail.value)
+    );
     this.tabView.on("@change-tab", (e) => this.changeTab(e.detail.value));
     this.interestProductListView.on("@interest", (e) => {
       const { id, isInterested } = e.detail.value;
       this.changeInterest(id, isInterested);
     });
+  }
+
+  moveToChatRoom(roomId) {
+    console.log(roomId);
+    navigateTo("/chat/" + roomId);
   }
 
   changeInterest(productId, isInterested) {
@@ -59,9 +66,16 @@ export default class Controller {
     } else if (tab === TabType.SAIL_PRODUCT) {
       this.fetchOwnProductData();
     } else if (tab === TabType.CHAT) {
-      // TODO: fetch chat Room List.
+      this.fetchMyChatData();
     }
     this.render();
+  }
+
+  fetchMyChatData() {
+    getMyChatRoomsAsync().then(({ chatRoomListItems }) => {
+      this.store.chatRoomListItems = chatRoomListItems;
+      this.render();
+    });
   }
 
   fetchOwnProductData() {
@@ -79,7 +93,7 @@ export default class Controller {
   }
 
   render() {
-    const { selectedTab, chatRooms, salingProducts, interestProducts } =
+    const { selectedTab, chatRoomListItems, salingProducts, interestProducts } =
       this.store;
 
     this.tabView.show(selectedTab);
@@ -87,7 +101,7 @@ export default class Controller {
     if (selectedTab === TabType.SAIL_PRODUCT) {
       this.salingProductListView.show(salingProducts);
     } else if (selectedTab === TabType.CHAT) {
-      this.chatRoomListView.show(chatRooms);
+      this.chatRoomListView.show(chatRoomListItems);
     } else if (selectedTab === TabType.INTEREST_PRODUCT) {
       this.interestProductListView.show(interestProducts);
     } else {

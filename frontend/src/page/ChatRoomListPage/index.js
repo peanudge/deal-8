@@ -26,7 +26,7 @@ export default class ChatRoomListPage extends AbstractPage {
       chatRoomListHeaderView: new ChatRoomListHeaderView(),
       chatRoomListContentView: new ChatroomListContentView(),
     };
-    const store = new Store();
-    new Controller(store, this.productId, views);
+    const store = new Store(this.productId);
+    new Controller(store, views);
   }
 }

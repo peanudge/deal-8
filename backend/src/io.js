@@ -1,3 +1,7 @@
+import ChatStore from "./model/Chat/Store/MySQLChatStore.js";
+
+const chatStore = new ChatStore();
+
 const setSocketConnection = (io) => {
   io.on("connection", async (socket) => {
     socket.on("join", (roomKey) => {
@@ -10,12 +14,13 @@ const setSocketConnection = (io) => {
       // client의 메시지를 client가 속한 방으로 emit
       const roomId = socket.currentRoom;
       const username = socket.handshake.session.username;
-      // TODO: log comment to database
+
+      chatStore.addChat(Number(roomId), message, username);
+
       const data = {
-        id: 0,
         room: roomId,
         content: message,
-        writer: "testuser",
+        writer: username,
         createdAt: new Date(),
       };
       io.to(roomId).emit("server-message", data);

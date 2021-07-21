@@ -3,7 +3,11 @@ import authMiddleware from "../../../middlewares/auth.js";
 
 import ChatStore from "../../../model/Chat/Store/MySQLChatStore.js";
 import ProductStore from "../../../model/Product/Store/MySQLProductStore.js";
-import { BAD_REQUEST, SUCCESS_STATUS } from "../../../util/HttpStatus.js";
+import {
+  BAD_REQUEST,
+  INTERNAL_SERVER_ERROR_STATUS,
+  SUCCESS_STATUS,
+} from "../../../util/HttpStatus.js";
 
 const productStore = new ProductStore();
 const chatStore = new ChatStore();
@@ -18,16 +22,26 @@ router.use("", authMiddleware);
 router.get("/", async (req, res) => {
   // TODO: productId 값을 받아서 해당 product를 id로 가지고 있는 room들의 정보를 return해야 합니다.
   const { productId } = req.query;
+
+  const id = Number(productId);
+  if (!id || isNaN(id)) {
+    return res
+      .status(BAD_REQUEST)
+      .json({ success: false, error: "잘못된 파라미터입니다." });
+  }
+
   const username = req.session.username;
 
   try {
-    const chattingRoomList = await chatStore.getRoomsByProductId({
-      productId,
-      username,
-    });
-    return res.json(chattingRoomList);
+    const chatRoomListItems = await chatStore.getChatRoomsByProductId(
+      id,
+      username
+    );
+    return res
+      .status(SUCCESS_STATUS)
+      .json({ success: true, chatRoomListItems });
   } catch (err) {
-    return res.status(500).json({ success: false });
+    return res.status(INTERNAL_SERVER_ERROR_STATUS).json({ success: false });
   }
 });
 
@@ -89,7 +103,6 @@ router.post("/attend", async (req, res) => {
       return res.json({ success: true, roomId: newRoomId });
     }
   } catch (err) {
-    console.log(err);
     return res.status(500).json({ success: false });
   }
 });

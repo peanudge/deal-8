@@ -91,7 +91,6 @@ router.get("/", async (req, res) => {
     });
     return res.status(SUCCESS_STATUS).json(products);
   } catch (err) {
-    console.log(err);
     return res
       .status(INTERNAL_SERVER_ERROR_STATUS)
       .json({ error: "unexpect error occured" });
@@ -116,7 +115,6 @@ router.post("/", authMiddleware, async (req, res) => {
     const product = await productStore.createProduct(tmpProduct);
     return res.status(SUCCESS_STATUS).json({ success: true, product });
   } catch (err) {
-    console.log(err);
     return res
       .status(INTERNAL_SERVER_ERROR_STATUS)
       .json({ error: "unexpect error occured" });

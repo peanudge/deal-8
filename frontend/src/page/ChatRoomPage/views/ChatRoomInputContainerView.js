@@ -19,7 +19,9 @@ export default class ChatRoomInputContainerView extends View {
 
   handleSubmitChatting() {
     const message = this.chatInput.value; // 채팅 메시지
-    this.chatInput.value = ""; // 채팅 초기화
-    this.emit("@send-message", { value: message });
+    if (message !== "") {
+      this.chatInput.value = ""; // 채팅 초기화
+      this.emit("@send-message", { value: message });
+    }
   }
 }

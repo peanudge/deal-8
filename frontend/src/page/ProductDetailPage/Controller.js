@@ -66,7 +66,7 @@ export default class Controller {
         if (success) {
           navigateTo("/chat/" + roomId);
         } else {
-          console.err("채팅방 정보가져오는데 실패");
+          console.error("채팅방 정보가져오는데 실패");
         }
       });
     });
@@ -95,13 +95,16 @@ export default class Controller {
       } else {
         this.store.categoryName = category.id;
       }
-
       this.render();
     });
 
     getProfileAsync().then(({ isAuth, account }) => {
-      this.store.user = account;
-      this.fetchProductDetailData();
+      if (isAuth) {
+        this.store.user = account;
+        this.fetchProductDetailData();
+      } else {
+        navigateTo("/login");
+      }
     });
   }
 

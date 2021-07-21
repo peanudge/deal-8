@@ -1,28 +1,25 @@
 import { getChatRoomsByProductAsync } from "@/api/chat";
 
 export default class Controller {
-  constructor(
-    store,
-    productId,
-    { chatRoomListHeaderView, chatRoomListContentView }
-  ) {
+  constructor(store, { chatRoomListHeaderView, chatRoomListContentView }) {
     this.chatRoomListHeaderView = chatRoomListHeaderView;
     this.chatRoomListContentView = chatRoomListContentView;
     this.store = store;
-    this.productId = productId;
     this.init();
   }
 
   init() {
-    getChatRoomsByProductAsync(this.productId).then((roomInfos) => {
-      this.store.roomInfos = roomInfos;
-      this.render();
-    });
+    getChatRoomsByProductAsync(this.store.productId).then(
+      ({ result, chatRoomListItems }) => {
+        this.store.chatRoomListItems = chatRoomListItems;
+        this.render();
+      }
+    );
   }
 
   render() {
-    const { roomInfos } = this.store;
-    this.chatRoomListHeaderView.show(this.productId);
-    this.chatRoomListContentView.show(roomInfos);
+    const { chatRoomListItems, productId } = this.store;
+    this.chatRoomListHeaderView.show(productId);
+    this.chatRoomListContentView.show(chatRoomListItems);
   }
 }

@@ -11,7 +11,6 @@ const tag = "[ProfilePage]";
 
 export default class ProfilePage extends AbstractPage {
   constructor(params) {
-    console.log(tag, "contructor");
     super(params);
   }
 

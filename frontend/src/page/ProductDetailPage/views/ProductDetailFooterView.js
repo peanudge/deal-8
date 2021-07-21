@@ -8,7 +8,6 @@ const tag = "[ProductDetailFooterView]";
 
 export default class ProductDetailFooterView extends View {
   constructor(element = qs("footer"), template = new Template()) {
-    console.log(tag, "constructor");
     super(element);
     this.template = template;
     this.bindingEvents();
@@ -56,7 +55,7 @@ class Template {
           user?.username === author
             ? `
                 <a href="/chatList/${id}" data-link>
-                    <div class="move-btn">채팅 목록 보기 (2)</div> 
+                    <div class="move-btn">채팅 목록 보기</div> 
                 </a>`
             : `
                 <div>

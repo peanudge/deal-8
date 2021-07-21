@@ -21,23 +21,10 @@ export default class ChatRoomMainContentView extends View {
   }
 
   loadMessages(chats = [], username) {
-    chats.forEach((chat) => {
+    chats.reverse().forEach((chat) => {
       const { writer } = chat;
       const isMine = username === writer;
       this.addMessage(chat, isMine);
     });
   }
-  // loadMessages(messages = [], currentUsername) {
-  //   messages
-  //     .sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1))
-  //     .forEach((message) => {
-  //       const $newMessage = this.makeMessage(message, currentUsername);
-  //       this.element.appendChild($newMessage);
-  //     });
-  // }
-
-  // addMessage(message, currentUsername) {
-  //   const $newMessage = this.makeMessage(message, currentUsername);
-  //   this.element.insertBefore($newMessage, this.element.firstChild);
-  // }
 }
