@@ -9,6 +9,7 @@ const setSocketConnection = (io) => {
     socket.on("client-message", (message) => {
       // client의 메시지를 client가 속한 방으로 emit
       const roomId = socket.currentRoom;
+      const username = socket.handshake.session.username;
       // TODO: log comment to database
       const data = {
         id: 0,

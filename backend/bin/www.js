@@ -6,9 +6,10 @@
 
 import DEBUG from "debug";
 import http from "http";
-import app from "../src/app.js";
+import app, { appSession } from "../src/app.js";
 import { Server } from "socket.io";
 import setSocketIO from "../src/io.js";
+import sharedSession from "express-socket.io-session";
 
 const debug = DEBUG("backend:server");
 /**
@@ -30,7 +31,7 @@ const io = new Server(server, {
 });
 
 setSocketIO(io);
-
+io.use(sharedSession(appSession, { autoSave: true }));
 /**
  * Listen on provided port, on all network interfaces.
  */

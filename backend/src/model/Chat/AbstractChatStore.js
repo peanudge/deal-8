@@ -1,8 +1,8 @@
 export default class AbstractChatStore {
-  createRoom(buyer, seller, producId) {}
-  createChat(roomKey, message, writter) {}
-  getChats(roomKey) {}
-  getRoomByRoomKey(roomKey) {}
-  getRoomsByProductId(productId) {}
-  deleteChatRoom(roomKey) {}
+  getRoomsByUsername(username) {}
+  getRoomsByProductId(usernaem, productId) {}
+  createAttendUser(roomId, username) {}
+  createChat(roomId, message, writter) {}
+  getChats(roomId) {}
+  getRoomByRoomId(roomId) {}
 }
