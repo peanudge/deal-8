@@ -6,6 +6,7 @@ import {
 import { getProductDetailAsync } from "@/api/product";
 import { getProfileAsync } from "@/api/user";
 import { navigateTo } from "@/router";
+import { io } from "socket.io-client";
 
 export default class Controller {
   constructor(
@@ -25,8 +26,33 @@ export default class Controller {
     this.chatRoomInputContainerView = chatRoomInputContainerView;
 
     this.store = store;
+    this.socket = io.connect("http://localhost:3000", {
+      reconnectionDelayMax: 10000,
+    });
+
+    this.subscribeSocketEvents();
     this.subscribeViewEvents();
     this.init();
+  }
+
+  subscribeSocketEvents() {
+    this.socket.on("connect", () => {
+      this.socket.emit("join", this.store.roomId);
+    });
+
+    this.socket.on("server-message", (message) => {
+      const { id, room, content, writer, createdAt } = message;
+      this.chatRoomMainContentView.addMessage(
+        {
+          id,
+          room,
+          content,
+          writer,
+          createdAt,
+        },
+        writer === this.store.account?.username
+      );
+    });
   }
 
   subscribeViewEvents() {
@@ -38,14 +64,14 @@ export default class Controller {
       });
     });
 
-    this.chatRoomInputContainerView.on("@message-receive", (data) => {
-      const { socketId } = data.detail;
-      this.chatRoomMainContentView.addMessage(data.detail, socketId);
-    });
-
     this.chatRoomHeaderView.on("@back", () => {
       const { id } = this.store.product;
       navigateTo("/product/" + id);
+    });
+
+    this.chatRoomInputContainerView.on("@send-message", (event) => {
+      const content = event.detail.value;
+      this.socket.emit("client-message", content);
     });
   }
 
@@ -71,6 +97,7 @@ export default class Controller {
         });
       });
   }
+
   fetchChatLogData(roomdId) {
     // TODO: 채팅방안에서 있는 chat log 가져오기
     getChatLogsAsync(roomdId).then(({ success, chats }) => {
@@ -101,7 +128,7 @@ export default class Controller {
     this.chatRoomHeaderView.show(username);
     this.chatRoomAlertModalView.show();
     this.chatRoomMainHeaderView.show(product);
-    this.chatRoomMainContentView.loadMessages(chatLogs, username);
-    this.chatRoomInputContainerView.socketConnect(this.roomId);
+
+    // this.chatRoomMainContentView.loadMessages(chatLogs, username);
   }
 }

@@ -8,7 +8,7 @@ import DEBUG from "debug";
 import http from "http";
 import app from "../src/app.js";
 import { Server } from "socket.io";
-import setSocketConnection from "../src/setSocketConnection.js";
+import setSocketIO from "../src/io.js";
 
 const debug = DEBUG("backend:server");
 /**
@@ -29,7 +29,7 @@ const io = new Server(server, {
   cors: { origin: "*" },
 });
 
-setSocketConnection(io);
+setSocketIO(io);
 
 /**
  * Listen on provided port, on all network interfaces.

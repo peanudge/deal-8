@@ -89,14 +89,14 @@ export const getChatLogsAsync = (roomId, limitCount) => {
           {
             id: 0,
             room: 0,
-            message: "테스트1",
+            content: "테스트1",
             writer: "A",
             createdAt: new Date(),
           },
           {
             id: 2,
             room: 0,
-            message: "테스트2",
+            content: "테스트2",
             writer: "A",
             createdAt: new Date(),
           },
