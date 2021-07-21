@@ -1,4 +1,4 @@
-import { getChatRoomAsync, getChatLogsAsync } from "@/api/chat.js";
+import { getChatRoomAsync, getChatsAsync } from "@/api/chat.js";
 import { getProductDetailAsync } from "@/api/product";
 import { getProfileAsync } from "@/api/user";
 import { navigateTo } from "@/router";
@@ -79,9 +79,9 @@ export default class Controller {
       .then(() => {
         getChatRoomAsync(this.store.roomId).then(({ success, chatRoom }) => {
           if (success) {
-            const { productId, roomId } = chatRoom;
-            this.fetchProductData(productId);
-            this.fetchChatLogData(roomId);
+            const { productId } = chatRoom;
+            this.store.productId = productId;
+            this.fetchData();
           } else {
             console.err("채팅방 정보를 가져오는데 실패했습니다.");
             navigateTo("/");
@@ -90,30 +90,26 @@ export default class Controller {
       });
   }
 
-  fetchChatLogData(roomdId) {
-    // TODO: 채팅방안에서 있는 chat log 가져오기
-    getChatLogsAsync(roomdId).then(({ success, chats }) => {
-      if (success) {
-        this.store.chatLogs = chats;
+  fetchData() {
+    const { productId, roomId } = this.store;
+    const productRequest = getProductDetailAsync(productId);
+    const chatsReqeust = getChatsAsync(roomId);
+
+    Promise.all([productRequest, chatsReqeust]).then(
+      ([productResult, chatsResult]) => {
+        if (productResult.success) {
+          this.store.product = productResult.product;
+        }
+        if (chatsResult.success) {
+          this.store.chats = chatsResult.chats;
+        }
         this.render();
-      } else {
-        console.err("채팅 정보를 불러오는데 실패했습니다.");
       }
-    });
-  }
-  fetchProductData(productId) {
-    getProductDetailAsync(productId).then(({ success, product }) => {
-      if (success) {
-        this.store.product = product;
-        this.render();
-      } else {
-        console.err("상품정보를 불러오는데 실패했습니다.");
-      }
-    });
+    );
   }
 
   render() {
-    const { account, product, chatLogs } = this.store;
+    const { account, product, chats } = this.store;
 
     const username = account?.username;
 
@@ -121,6 +117,6 @@ export default class Controller {
     this.chatRoomAlertModalView.show();
     this.chatRoomMainHeaderView.show(product);
 
-    // this.chatRoomMainContentView.loadMessages(chatLogs, username);
+    this.chatRoomMainContentView.loadMessages(chats, username);
   }
 }

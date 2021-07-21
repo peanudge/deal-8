@@ -1,5 +1,6 @@
 import mysqlConnection from "../../../config/mysql.js";
 import ChatRoom from "../ChatRoom.js";
+import Chat from "../Chat.js";
 
 export default class MySQLChatStore {
   async getChatRoomAttend(username, productId) {
@@ -76,6 +77,24 @@ export default class MySQLChatStore {
       } else {
         return null;
       }
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async getChats(roomId, count = 20) {
+    const query = `
+      SELECT id, roomId, content, writer, createdAt FROM chat WHERE roomId= ? ORDER BY createdAt DESC LIMIT ?;
+    `;
+    const params = [roomId, count];
+
+    try {
+      const result = await mysqlConnection.promise().query(query, params);
+      const rows = result[0];
+      return rows.map(
+        (row) =>
+          new Chat(row.id, row.roomId, row.content, row.writer, row.createdAt)
+      );
     } catch (err) {
       throw err;
     }

@@ -20,6 +20,13 @@ export default class ChatRoomMainContentView extends View {
     }
   }
 
+  loadMessages(chats = [], username) {
+    chats.forEach((chat) => {
+      const { writer } = chat;
+      const isMine = username === writer;
+      this.addMessage(chat, isMine);
+    });
+  }
   // loadMessages(messages = [], currentUsername) {
   //   messages
   //     .sort((a, b) => (a.createdAt < b.createdAt ? 1 : -1))

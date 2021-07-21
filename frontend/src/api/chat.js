@@ -22,29 +22,15 @@ export const attendChatRoomAsync = (productId) => {
   });
 };
 
-export const getChatLogsAsync = (roomId, limitCount) => {
+export const getChatsAsync = (roomId, limitCount = 20) => {
   return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve({
-        success: true,
-        chats: [
-          {
-            id: 0,
-            room: 0,
-            content: "테스트1",
-            writer: "A",
-            createdAt: new Date(),
-          },
-          {
-            id: 2,
-            room: 0,
-            content: "테스트2",
-            writer: "A",
-            createdAt: new Date(),
-          },
-        ],
-      });
-    }, 100);
+    const request = fetch(`/api/chatroom/${roomId}/chat?limit=${limitCount}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => response.json());
+    resolve(request);
   });
 };
 

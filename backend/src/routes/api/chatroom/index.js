@@ -10,6 +10,8 @@ const chatStore = new ChatStore();
 
 const router = express.Router();
 
+const DEFAULT_CHAT_LIMIT_COUNT = 20;
+
 router.use("", authMiddleware);
 
 // GET /api/chatroom?productId=0
@@ -45,6 +47,26 @@ router.get("/:roomId", async (req, res) => {
       chatRoom,
     });
   }
+});
+
+router.get("/:roomId/chat/", async (req, res) => {
+  const { roomId } = req.params;
+  const { limit } = req.query;
+  const id = Number(roomId);
+
+  const limitNumber = limit ? Number(limit) : DEFAULT_CHAT_LIMIT_COUNT;
+
+  if (!id || isNaN(id) || isNaN(limitNumber)) {
+    return res
+      .status(BAD_REQUEST)
+      .json({ success: false, error: "잘못된 파라미터입니다." });
+  }
+
+  const chats = await chatStore.getChats(roomId, limitNumber);
+  return res.status(SUCCESS_STATUS).json({
+    success: true,
+    chats,
+  });
 });
 
 router.post("/attend", async (req, res) => {
