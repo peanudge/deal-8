@@ -45,7 +45,6 @@ export default class ChatRoomListContentView extends View {
       </div>
       <div class="content--chat-item--right">
         <div class="content--chat-item--right--left">
-          <!-- TODO: 시간차이 구하는 함수 구현 및 적용 -->
           <div><span class="current-chat-time">${timeForToday(
             createdAt
           )}</span></div>

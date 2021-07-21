@@ -3,6 +3,7 @@ import View from "@/page/View";
 import { qs } from "@/helper/selectHelpers";
 import { delegate } from "@/helper/eventHelpers";
 import exampleCooler from "@/public/image/example-cooler.svg";
+import { timeForToday } from "@/util/time";
 
 const tag = "[ChatRoomListView]";
 
@@ -13,11 +14,20 @@ export default class ChatRoomListView extends View {
     this.bindEvents();
   }
 
-  bindEvents() {}
+  bindEvents() {
+    delegate(this.element, "click", ".content--chat-item", (e) => {
+      const roomId = e.target.dataset.id;
+      this.handleChatItemClickEvent(roomId);
+    });
+  }
 
-  show(rooms = []) {
-    if (rooms.length > 0) {
-      this.element.innerHTML = this.template.getChatRooms(rooms);
+  handleChatItemClickEvent(roomId) {
+    this.emit("@move-to-chat", { value: roomId });
+  }
+
+  show(chatRoomListItems = []) {
+    if (chatRoomListItems.length > 0) {
+      this.element.innerHTML = this.template.getChatRooms(chatRoomListItems);
     } else {
       this.element.innerHTML = this.template.getEmptyLabel();
     }
@@ -27,37 +37,31 @@ export default class ChatRoomListView extends View {
 }
 
 class Template {
-  getChatRooms(rooms = []) {
+  getChatRooms(chatRoomListItems = []) {
     return `<div class="content">
-      ${rooms.map((room) => this._getChatRoom(room)).join("")}
+      ${chatRoomListItems
+        .map((chatRoomListItem) => this._getChatRoom(chatRoomListItem))
+        .join("")}
     </div>`;
   }
 
-  _getChatRoom(room = {}) {
-    const {
-      key,
-      targetUser,
-      product,
-      productThumbnail,
-      lastChat: { id, message, writer, createAt },
-    } = room;
+  _getChatRoom(chatRoomListItem = {}) {
+    const { roomId, username, thumbnail, content, createdAt } =
+      chatRoomListItem;
 
-    return /*html*/ `<article class="content--chat-item">
+    return /*html*/ `<article class="content--chat-item" data-id = ${roomId}>
       <div class="content--chat-item--left">
-        <strong class="username">${targetUser}</strong>
-        <span class="current-message">${message}</span>
+        <strong class="username">${username}</strong>
+        <span class="current-message">${content}</span>
       </div>
       <div class="content--chat-item--right">
         <div class="content--chat-item--right--left">
           <div>
-            <span class="current-chat-time">15분전</span>
-          </div>
-          <div>
-            <div class="un-read-count">0</div>
+            <span class="current-chat-time">${timeForToday(createdAt)}</span>
           </div>
         </div>
         <div class="content--chat-item--right--right">
-          <img class="product-img" src="${productThumbnail}" />
+          <img class="product-img" src="${thumbnail}" />
         </div>
       </div>
     </article>`;
