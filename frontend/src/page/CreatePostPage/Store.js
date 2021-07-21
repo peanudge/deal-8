@@ -6,5 +6,6 @@ export default class Store {
     this.title = "";
     this.content = "";
     this.location = "";
+    this.categories = [];
   }
 }

@@ -1,6 +1,10 @@
 import { categoryItems } from "@/util/category";
 
-import { createProductAsync, uploadProductImagesAsync } from "@/api/product";
+import {
+  createProductAsync,
+  getCategoriesAsync,
+  uploadProductImagesAsync,
+} from "@/api/product";
 import { navigateTo } from "@/router";
 import { getProfileAsync } from "@/api/user";
 
@@ -31,6 +35,12 @@ export default class Controller {
   }
 
   fetchData() {
+    getCategoriesAsync().then(({ success, categories }) => {
+      if (success) {
+        this.store.categories = categories;
+        this.render();
+      }
+    });
     getProfileAsync().then(({ isAuth, account }) => {
       if (isAuth) {
         const { locations } = account;
@@ -144,10 +154,11 @@ export default class Controller {
   }
 
   render() {
-    const { images, category, content, title, location, cost } = this.store;
+    const { images, category, content, title, location, cost, categories } =
+      this.store;
 
     if (this.isShowCategorySelectView) {
-      this.categorySelectView.show();
+      this.categorySelectView.show(categories);
       this.createPostFormView.hide();
       this.createPostHeaderView.hide();
     } else {

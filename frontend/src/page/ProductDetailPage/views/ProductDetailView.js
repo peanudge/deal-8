@@ -50,14 +50,18 @@ export default class ProductDetailView extends View {
     menu.setAttribute("aria-expanded", expand);
   }
 
-  show(user, productDetail) {
-    this.element.innerHTML = this.template.getDetail(user, productDetail);
+  show(user, productDetail, categoryName) {
+    this.element.innerHTML = this.template.getDetail(
+      user,
+      productDetail,
+      categoryName
+    );
     super.show();
   }
 }
 
 class Template {
-  getDetail(user, productDetail) {
+  getDetail(user, productDetail, categoryName) {
     const {
       status,
       title,
@@ -75,7 +79,7 @@ class Template {
       
       <div class="post-main--title">${title}</div>
       <div class="post-main--sub-title">
-          <p class="category-name-label">${category}</p>
+          <p class="category-name-label">${categoryName}</p>
           <p class="create-time-label">${timeForToday(createdAt)}</p> 
       </div>
       <div class="post-main--content">

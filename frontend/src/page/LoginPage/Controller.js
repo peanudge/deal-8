@@ -13,10 +13,10 @@ export default class Controller {
     this.init();
     this.error = {};
     this.subscribeViewEvents();
-    this.render();
   }
+
   init() {
-    getProfileAsync().then(({ account, isAuth }) => {
+    getProfileAsync().then(({ isAuth }) => {
       if (isAuth) {
         navigateTo("/profile");
       }

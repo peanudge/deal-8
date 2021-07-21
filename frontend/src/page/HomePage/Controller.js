@@ -99,8 +99,8 @@ export default class Controller {
 
   showCategory() {
     this.isShowCategoryView = true;
-    getCategoriesAsync().then(({ category }) => {
-      this.store.categoryList = category;
+    getCategoriesAsync().then(({ categories }) => {
+      this.store.categoryList = categories;
       this.render();
     });
   }

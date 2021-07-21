@@ -35,14 +35,14 @@ export default class CategorySelectView extends View {
     this.emit("@back");
   }
 
-  show() {
-    this.element.innerHTML = this.template.getCategorySeletView();
+  show(categories = []) {
+    this.element.innerHTML = this.template.getCategorySeletView(categories);
     super.show();
   }
 }
 
 class Template {
-  getCategorySeletView() {
+  getCategorySeletView(categories) {
     return /* html */ `
     <header class="header">
         <div class="header--left">
@@ -52,18 +52,18 @@ class Template {
             <span class="header--center--title"> 카테고리 </span>
         </h1>
     </header>
-    <div class="category-list">${this._getCategoryItems()}</div>
+    <div class="category-list">${this._getCategoryItems(categories)}</div>
     `;
   }
 
-  _getCategoryItems() {
-    return categoryItems
-      .map((categoryItem) => this._getCategoryItem(categoryItem))
+  _getCategoryItems(categories) {
+    return categories
+      .map((category) => this._getCategoryItem(category))
       .join("");
   }
 
-  _getCategoryItem(categoryItem) {
-    const { id, name } = categoryItem;
+  _getCategoryItem(category) {
+    const { id, name } = category;
     return `<div class="category-list--item" data-id=${id}>${name}</div>`;
   }
 }
