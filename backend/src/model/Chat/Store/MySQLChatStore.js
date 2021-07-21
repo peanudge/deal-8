@@ -6,10 +6,11 @@ import Chat from "../Chat.js";
 export default class MySQLChatStore {
   async getChatRoomsByProductId(productId, author) {
     const query = `
-    SELECT cr.roomId AS roomId, cra.username AS username, p.thumbnail AS thumbnail, mcr.content AS content
+    SELECT 
+    cr.roomId AS roomId, cra.username AS username, p.thumbnail AS thumbnail, mcr.content AS content, mcr.createdAt AS createdAt
     FROM chatroom AS cr
     INNER JOIN (
-      SELECT cra.roomId AS roomId, c.content AS content
+      SELECT cra.roomId AS roomId, c.content AS content, c.createdAt AS createdAt
       FROM chatroom_attend AS cra 
       LEFT JOIN chat AS c ON c.roomId = cra.roomId
       WHERE username = ? AND (c.roomId, c.id) IN (SELECT roomId, max(id) FROM chat GROUP BY roomId)
@@ -29,7 +30,8 @@ export default class MySQLChatStore {
             row.roomId,
             row.username,
             row.thumbnail,
-            row.content
+            row.content,
+            row.createdAt
           )
       );
     } catch (err) {

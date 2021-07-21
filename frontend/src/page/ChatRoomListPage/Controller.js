@@ -9,15 +9,17 @@ export default class Controller {
   }
 
   init() {
-    getChatRoomsByProductAsync(this.productId).then((roomInfos) => {
-      this.store.roomInfos = roomInfos;
-      this.render();
-    });
+    getChatRoomsByProductAsync(this.store.productId).then(
+      ({ result, chatRoomListItems }) => {
+        this.store.chatRoomListItems = chatRoomListItems;
+        this.render();
+      }
+    );
   }
 
   render() {
-    const { roomInfos } = this.store;
-    this.chatRoomListHeaderView.show(this.productId);
-    this.chatRoomListContentView.show(roomInfos);
+    const { chatRoomListItems, productId } = this.store;
+    this.chatRoomListHeaderView.show(productId);
+    this.chatRoomListContentView.show(chatRoomListItems);
   }
 }

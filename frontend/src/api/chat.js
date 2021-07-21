@@ -42,6 +42,7 @@ export const getChatRoomsByProductAsync = (productId) => {
       headers: {
         "Content-Type": "application/json",
       },
-    }).then((response) => resolve(response.json()));
+    }).then((response) => response.json());
+    resolve(request);
   });
 };

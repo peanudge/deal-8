@@ -4,6 +4,7 @@ import { qs } from "@/helper/selectHelpers.js";
 import "@/public/css/common/product_list_item.css";
 import { delegate } from "@/helper/eventHelpers";
 import { navigateTo } from "@/router";
+import { timeForToday } from "@/util/time";
 
 export default class ChatRoomListContentView extends View {
   constructor(element = qs(".content")) {
@@ -18,46 +19,40 @@ export default class ChatRoomListContentView extends View {
   }
 
   handleChatRoomClick = (event) => {
-    const roomKey = event.target.dataset.roomKey;
-    navigateTo(`/chat/${roomKey}`);
+    const roomId = event.target.dataset.roomId;
+    navigateTo(`/chat/${roomId}`);
   };
 
-  show(roomInfos) {
-    roomInfos.forEach((roomInfo) => {
+  show(chatRoomListItems = []) {
+    chatRoomListItems.forEach((chatRoomListItem) => {
       const $newChatArticle = document.createElement("article");
       $newChatArticle.className = `content--chat-item ${
-        roomInfo.unReadCount <= 0 ? "" : "unread"
+        chatRoomListItem.unReadCount <= 0 ? "" : "unread"
       }`;
-      $newChatArticle.dataset.roomKey = roomInfo.key;
+      $newChatArticle.dataset.roomId = chatRoomListItem.roomId;
       this.element.appendChild($newChatArticle);
-      $newChatArticle.innerHTML = this.getChatArticle(roomInfo);
+      $newChatArticle.innerHTML = this.getChatArticle(chatRoomListItem);
     });
   }
 
-  getChatArticle(roomInfo) {
-    const { targetUser, productThumbnail, unReadCount, lastChat } = roomInfo;
+  getChatArticle(chatRoomListItem) {
+    const { username, thumbnail, content, createdAt } = chatRoomListItem;
 
     return `
       <div class="content--chat-item--left">
-        <strong class="username">${targetUser}</strong>
-        <span class="current-message">${lastChat.message}</span>
+        <strong class="username">${username}</strong>
+        <span class="current-message">${content}</span>
       </div>
       <div class="content--chat-item--right">
         <div class="content--chat-item--right--left">
           <!-- TODO: 시간차이 구하는 함수 구현 및 적용 -->
-          <div><span class="current-chat-time">${"15분전"}</span></div>
-          <div>
-            ${
-              unReadCount <= 0
-                ? ""
-                : `
-                  <div class="un-read-count">${unReadCount}</div>
-                `
-            }
-          </div>
+          <div><span class="current-chat-time">${timeForToday(
+            createdAt
+          )}</span></div>
+          <div> </div>
         </div>
         <a class="content--chat-item--right--right">
-          <img src="${productThumbnail}" alt="상품 썸네일 사진" />
+          <img src="${thumbnail}" alt="상품 썸네일 사진" />
         </a>
       </div>
     `;
