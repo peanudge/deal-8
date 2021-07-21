@@ -41,7 +41,6 @@ router.get("/", async (req, res) => {
       .status(SUCCESS_STATUS)
       .json({ success: true, chatRoomListItems });
   } catch (err) {
-    console.log(err);
     return res.status(INTERNAL_SERVER_ERROR_STATUS).json({ success: false });
   }
 });
@@ -104,7 +103,6 @@ router.post("/attend", async (req, res) => {
       return res.json({ success: true, roomId: newRoomId });
     }
   } catch (err) {
-    console.log(err);
     return res.status(500).json({ success: false });
   }
 });

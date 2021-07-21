@@ -19,7 +19,6 @@ export default class Controller {
       chatRoomListView,
     }
   ) {
-    console.log(tag, "constructor");
     this.store = store;
 
     this.tabView = tabView;

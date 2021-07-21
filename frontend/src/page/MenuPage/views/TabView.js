@@ -25,7 +25,6 @@ const TabSlidingIndex = {
 
 export default class TabView extends View {
   constructor(element = qs("#tab-bar")) {
-    console.log(tag, "constructor");
     super(element);
     this.slideContainer = qs(".section-wrapper");
     this.template = new Template();

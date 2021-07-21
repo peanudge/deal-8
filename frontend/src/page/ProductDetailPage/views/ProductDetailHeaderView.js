@@ -10,7 +10,6 @@ const tag = "[BasicHeaderView]";
 
 export default class ProductDetailHeaderView extends View {
   constructor(element = qs("header.header"), template = new Template()) {
-    console.log(tag, "constructor");
     super(element);
     this.template = template;
     this.bindingEvents();

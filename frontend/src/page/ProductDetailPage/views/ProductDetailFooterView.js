@@ -8,7 +8,6 @@ const tag = "[ProductDetailFooterView]";
 
 export default class ProductDetailFooterView extends View {
   constructor(element = qs("footer"), template = new Template()) {
-    console.log(tag, "constructor");
     super(element);
     this.template = template;
     this.bindingEvents();

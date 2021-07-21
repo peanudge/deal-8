@@ -83,5 +83,13 @@ export const getOwnProductsAsync = () => {
 };
 
 export const getMyChatRoomsAsync = () => {
-  // TODO: GET /api/account/me/chatroom
+  return new Promise((resolve, reject) => {
+    const request = fetch("/api/account/me/chatroom", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((resposne) => resposne.json());
+    resolve(request);
+  });
 };

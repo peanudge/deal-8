@@ -5,7 +5,6 @@ import { navigateTo } from "@/router";
 const tag = "[Login Controller]";
 export default class Controller {
   constructor({ profileView }) {
-    console.log(tag);
     this.profileView = profileView;
 
     this.subscribeViewEvents();
@@ -31,7 +30,6 @@ export default class Controller {
   logout() {
     // TODO: start spinner
     logoutAsync().then((result) => {
-      console.log(result);
       if (result.success) {
         navigateTo("/");
       }

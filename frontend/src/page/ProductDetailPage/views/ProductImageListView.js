@@ -13,7 +13,6 @@ export default class ProductImageListView extends View {
     element = qs("div.post-main--img-container"),
     template = new Template()
   ) {
-    console.log(tag, "constructor");
     super(element);
     this.template = template;
     this.bindingEvents();

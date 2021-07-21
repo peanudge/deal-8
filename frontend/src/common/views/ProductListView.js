@@ -23,7 +23,6 @@ export default class ProductListView extends View {
       emptyMessage: "상품이 존재하지 않습니다.",
     }
   ) {
-    console.log(tag, "constructor");
     super(element);
     this.option = option;
     this.template = new Template();

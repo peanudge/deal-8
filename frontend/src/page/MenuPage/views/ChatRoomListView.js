@@ -8,7 +8,6 @@ const tag = "[ChatRoomListView]";
 
 export default class ChatRoomListView extends View {
   constructor(element = qs("#chat-list-window")) {
-    console.log(tag, "constructor");
     super(element);
     this.template = new Template();
     this.bindEvents();

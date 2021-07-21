@@ -11,7 +11,6 @@ export default class MySQLCategoryStore extends AbstractCategoryStore {
       const rows = result[0];
       return rows.map((row) => new Category(row.id, row.name));
     } catch (err) {
-      console.log(err);
       throw err;
     }
   }

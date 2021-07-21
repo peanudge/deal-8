@@ -35,7 +35,6 @@ export const getChatsAsync = (roomId, limitCount = 20) => {
 };
 
 export const getChatRoomsByProductAsync = (productId) => {
-  // TODO: productId 별로 채팅리스트를 가져와야함 (판매자만 가능)
   return new Promise((resolve, reject) => {
     const request = fetch(`/api/chatroom?productId=${productId}`, {
       method: "GET",

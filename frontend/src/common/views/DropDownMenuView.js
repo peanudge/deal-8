@@ -9,7 +9,6 @@ const tag = "[DropDownMenuView]";
 
 export default class DropDownMenuView extends View {
   constructor(element = qs("#location-dropdown")) {
-    console.log(tag, "constructor");
     super(element);
     this.template = new Template();
     this.bindingEvents();

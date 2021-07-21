@@ -15,7 +15,6 @@ const tag = "[LocationPage]";
 
 export default class LocationPage extends AbstractPage {
   constructor(params) {
-    console.log(tag, "contructor");
     super(params);
   }
 
