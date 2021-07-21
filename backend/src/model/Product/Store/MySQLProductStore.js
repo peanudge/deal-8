@@ -193,14 +193,6 @@ export default class MySQLProductStore extends AbstractProductStore {
     return rows.map((row) => row.image);
   }
 
-  async updateProduct(product) {
-    // TODO: Implement
-  }
-
-  async deleteProductById(id) {
-    // TODO: Implement
-  }
-
   async getInterestProducts(username) {
     const interestProductQuery = `
     SELECT 
@@ -337,5 +329,13 @@ export default class MySQLProductStore extends AbstractProductStore {
     } catch (err) {
       throw err;
     }
+  }
+
+  async updateProduct(product) {
+    // TODO: Implement
+  }
+
+  async deleteProductById(id) {
+    // TODO: Implement
   }
 }

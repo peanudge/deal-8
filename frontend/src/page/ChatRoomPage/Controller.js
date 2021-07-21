@@ -74,6 +74,7 @@ export default class Controller {
           navigateTo("/login");
         } else {
           this.store.account = account;
+          this.render();
         }
       })
       .then(() => {
@@ -115,7 +116,9 @@ export default class Controller {
 
     this.chatRoomHeaderView.show(username);
     this.chatRoomAlertModalView.show();
-    this.chatRoomMainHeaderView.show(product);
+    if (product) {
+      this.chatRoomMainHeaderView.show(product);
+    }
 
     this.chatRoomMainContentView.loadMessages(chats, username);
   }

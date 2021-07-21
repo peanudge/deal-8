@@ -99,4 +99,21 @@ export default class MySQLChatStore {
       throw err;
     }
   }
+
+  async addChat(roomdId, content, writer) {
+    const query = `
+      INSERT INTO chat(roomId, content, writer, createdAt) VALUES(?, ?, ?, CURRENT_TIMESTAMP);
+    `;
+    const params = [roomdId, content, writer];
+    try {
+      const result = await mysqlConnection.promise().query(query, params);
+      if (result[0].affectedRows > 0) {
+        return result[0].insertId;
+      } else {
+        return null;
+      }
+    } catch (err) {
+      throw err;
+    }
+  }
 }
