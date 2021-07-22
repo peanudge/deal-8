@@ -61,7 +61,6 @@ export default class MySQLChatStore {
   }
 
   async createChatRoom(currentUsername, targetUsername, productId) {
-    console.log(currentUsername, targetUsername, productId);
     const createChatroomQuery = `
         INSERT INTO chatroom(productId) VALUES(?)
       `;
