@@ -61,7 +61,7 @@ export default class Controller {
     this.productDetailModalView.on("@delete-post", () => {
       // this.isShowModal = false;
       // this.render();
-      deleteProductById().then(({ success }) => {
+      deleteProductById(this.productId).then(({ success }) => {
         if (success) {
           navigateTo("/");
         } else {
