@@ -140,6 +140,7 @@ router.put("/", async (req, res) => {
     content,
     cost,
     location,
+    thumbnail: images && images.length > 0 ? images[0] : "",
     images,
   });
 
