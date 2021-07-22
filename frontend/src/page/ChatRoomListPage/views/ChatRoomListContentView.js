@@ -26,10 +26,7 @@ export default class ChatRoomListContentView extends View {
   show(chatRoomListItems = []) {
     chatRoomListItems.forEach((chatRoomListItem, chatRoomListItemIndex) => {
       const $newChatArticle = document.createElement("article");
-      $newChatArticle.className = `content--chat-item ${
-        // chatRoomListItem.unReadCount <= 0 ? "" : "unread"
-        ""
-      }`;
+      $newChatArticle.className = `content--chat-item`;
       $newChatArticle.dataset.roomId = chatRoomListItem.roomId;
       $newChatArticle.innerHTML = this.getChatArticle(chatRoomListItem);
 
