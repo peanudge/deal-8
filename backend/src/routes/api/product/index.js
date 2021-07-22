@@ -16,6 +16,11 @@ import {
   BAD_REQUEST,
 } from "../../../util/HttpStatus.js";
 
+import path from "path";
+import fs from "fs";
+
+const __dirname = path.resolve();
+
 const router = express.Router();
 const productStore = new ProductStore();
 
@@ -125,6 +130,7 @@ router.put("/", async (req, res) => {
   const { id, category, title, content, cost, location, images } = req.body;
   const username = req.session["username"];
   let oldImages = [];
+
   try {
     const targetProduct = await productStore.getProductById(id, username);
     if (targetProduct.author !== username) {
@@ -135,11 +141,29 @@ router.put("/", async (req, res) => {
     return res.status(INTERNAL_SERVER_ERROR_STATUS).json({ success: false });
   }
 
-  const filteredImages = oldImages.filter((oldImage) =>
-    images.includes(oldImage)
+  const filteredImages = oldImages.filter(
+    (oldImage) => !images.includes(oldImage)
   );
 
   // filteredImages를 가진 product_image 테이블에서 row 삭제 및 파일 삭제
+
+  try {
+    const isImagesDeleted = await productStore.deleteAllProductImages(id);
+    if (!isImagesDeleted) {
+      throw "image delete error";
+    }
+
+    const uploadPath = path.join(__dirname, "/public");
+    filteredImages.forEach((targetImage) => {
+      fs.unlink(path.join(uploadPath, targetImage), (err) => {
+        if (err) {
+          return;
+        }
+      });
+    });
+  } catch (err) {
+    return res.status(INTERNAL_SERVER_ERROR_STATUS).json({ success: false });
+  }
 
   const product = new Product({
     id,

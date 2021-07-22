@@ -63,6 +63,26 @@ export default class MySQLProductStore extends AbstractProductStore {
     }
   }
 
+  async deleteAllProductImages(id) {
+    const deleteImageQuery = `
+      DELETE FROM product_image WHERE id=?
+    `;
+    const params = [id];
+
+    try {
+      const result = await mysqlConnection
+        .promise()
+        .query(deleteImageQuery, params);
+      const isDeleted = result[0].affectedRows >= 1;
+
+      if (isDeleted) {
+        return true;
+      }
+      return false;
+    } catch (err) {}
+    return true;
+  }
+
   async getProducts({ location = null, category = null, username = null }) {
     const isLocationCondition = location && location !== "";
     const isCategoryCondition = category !== null;
