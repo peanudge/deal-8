@@ -29,6 +29,17 @@ export default class ProductDetailPage extends AbstractPage {
     </main>
     <footer>
     </footer>
+    <div id="post-delete-modal" class="modal">
+        <p>정말 <span id="post-name"></span> 해당 상품를 삭제하시겠습니까?</p>
+        <div class="modal--btn-container">
+            <div id="cancel-btn" class="modal--btn-container--cancel-btn">
+            취소
+            </div>
+            <div id="accept-btn" class="modal--btn-container--accept-btn">
+            삭제
+            </div>
+        </div>
+    </div>
     `;
   }
 

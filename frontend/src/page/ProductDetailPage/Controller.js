@@ -39,12 +39,13 @@ export default class Controller {
       this.changeInterest(id, isInterested);
     });
 
-    this.productDetailHeaderView.on("@modifyPost", () => {
-      navigateTo(`/product-edit/${this.store.productId}`);
+    this.productDetailHeaderView.on("@edit-post", () => {
+      // TODO: Implement
     });
 
-    this.productDetailHeaderView.on("@deletePost", () => {
-      navigateTo(`/product-edit/${this.store.productId}`);
+    this.productDetailHeaderView.on("@delete-post", () => {
+      // TODO: Implement
+      // TODO: Show Modal
     });
 
     this.productDetailView.on("@change-status", (e) => {

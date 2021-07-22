@@ -8,7 +8,7 @@ export default class AddLocationModalView extends View {
     this.cancelBtnElement = qs("#cancel-btn", this.element);
     this.acceptBtnElement = qs("#accept-btn", this.element);
     this.locationInputElement = qs("#edit-location-input", this.element);
-
+    this.blurBgElement = qs("#modal-blur-bg");
     this.eventsBinding();
   }
 
@@ -36,6 +36,12 @@ export default class AddLocationModalView extends View {
   }
 
   show() {
+    this.blurBgElement.style.display = "block";
     super.show();
+  }
+
+  hide() {
+    this.blurBgElement.style.display = "none";
+    super.hide();
   }
 }

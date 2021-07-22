@@ -61,7 +61,7 @@ export default class Controller {
     this.categorySelectView.on("@select-category", (e) => {
       const categoryId = e.detail.value;
 
-      categoryItems.forEach((categoryItem) => {
+      this.store.categories.forEach((categoryItem) => {
         if (categoryItem.id === Number(categoryId)) {
           this.store.category = categoryItem;
         }

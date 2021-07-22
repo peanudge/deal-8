@@ -37,6 +37,21 @@ export default class ProductDetailHeaderView extends View {
         }
       }
     });
+
+    delegate(this.element, "click", "#delete-btn", () =>
+      this.handleDeleteButtonClickEvent()
+    );
+
+    delegate(this.element, "click", "#edit-btn", (e) =>
+      this.handleEditButtonClickEvent()
+    );
+  }
+  handleEditButtonClickEvent() {
+    this.emit("@edit-post");
+  }
+
+  handleDeleteButtonClickEvent() {
+    this.emit("@delete-post");
   }
 
   toggleDropDownMenu(expand = null) {
@@ -77,10 +92,10 @@ class Template {
             </div>
             <div class="dropdown-wrapper--menu right small" aria-expanded="false">
                 <div class="dropdown-wrapper--menu--item center">
-                    <a href="/" data-link>수정</a>
+                    <div id="edit-btn">수정</div>
                 </div>
                 <div class="dropdown-wrapper--menu--item center">
-                    <a href="/" data-link>삭제</a>
+                    <div class="product-delete-btn" id="delete-btn">삭제</a>
                 </div>
             </div>
         </div>`;
