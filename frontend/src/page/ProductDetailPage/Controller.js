@@ -60,8 +60,6 @@ export default class Controller {
     this.productDetailModalView.on("@delete-post", () => {
       this.isShowModal = false;
       this.render();
-
-      // TODO: navigation main.
     });
 
     this.productDetailView.on("@change-status", (e) => {
@@ -140,7 +138,6 @@ export default class Controller {
 
   render() {
     const { productDetail, user, categoryName } = this.store;
-
     if (this.isShowModal) {
       this.productDetailModalView.show();
     } else {
