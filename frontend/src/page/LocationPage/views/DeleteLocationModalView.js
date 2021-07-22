@@ -1,15 +1,14 @@
 import { qs } from "@/helper/selectHelpers";
 import { on } from "@/helper/eventHelpers";
-import View from "@/page/View";
+import ModalView from "@/common/views/ModalView";
 
-export default class DeleteLocationModalView extends View {
+export default class DeleteLocationModalView extends ModalView {
   constructor(element = qs("#location-delete-modal")) {
     super(element);
 
     this.locationNameElement = qs("#location-name", this.element);
     this.cancelBtnElement = qs("#cancel-btn", this.element);
     this.acceptBtnElement = qs("#accept-btn", this.element);
-    this.blurBgElement = qs("#modal-blur-bg");
 
     this.eventsBinding();
   }
@@ -32,13 +31,7 @@ export default class DeleteLocationModalView extends View {
   }
 
   show(location) {
-    this.blurBgElement.style.visibility = "visible";
-    this.locationNameElement.innerText = '"' + location + '"';
     super.show();
-  }
-
-  hide() {
-    this.blurBgElement.style.visibility = "hidden";
-    super.hide();
+    this.locationNameElement.innerText = '"' + location + '"';
   }
 }

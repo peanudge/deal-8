@@ -17,14 +17,16 @@ const chatStore = new ChatStore();
 
 const router = express.Router();
 
-router.use("", authMiddleware);
-
 router.get("/me", async (req, res) => {
-  const account = await accountStore.getAccount(req.session.username);
-  return res.json({ isAuth: true, account });
+  if (req.session.username) {
+    const account = await accountStore.getAccount(req.session.username);
+    return res.json({ isAuth: true, account });
+  } else {
+    return res.json({ isAuth: false });
+  }
 });
 
-router.post("/me/location", async (req, res) => {
+router.post("/me/location", authMiddleware, async (req, res) => {
   const { location } = req.body;
 
   const username = req.session.username;
@@ -48,7 +50,7 @@ router.post("/me/location", async (req, res) => {
   }
 });
 
-router.delete("/me/location", async (req, res) => {
+router.delete("/me/location", authMiddleware, async (req, res) => {
   const { location } = req.query;
   const username = req.session.username;
   const account = await accountStore.getAccount(username);
@@ -81,7 +83,7 @@ router.delete("/me/location", async (req, res) => {
   }
 });
 
-router.get("/me/interest", async (req, res) => {
+router.get("/me/interest", authMiddleware, async (req, res) => {
   const username = req.session.username;
   const products = await productStore.getInterestProducts(username);
   return res.status(SUCCESS_STATUS).json({
@@ -90,7 +92,7 @@ router.get("/me/interest", async (req, res) => {
   });
 });
 
-router.post("/me/interest", async (req, res) => {
+router.post("/me/interest", authMiddleware, async (req, res) => {
   const username = req.session.username;
   const { productId } = req.query;
   if (!productId) {
@@ -119,7 +121,7 @@ router.post("/me/interest", async (req, res) => {
   }
 });
 
-router.delete("/me/interest", async (req, res) => {
+router.delete("/me/interest", authMiddleware, async (req, res) => {
   const username = req.session.username;
   const { productId } = req.query;
 
@@ -141,7 +143,7 @@ router.delete("/me/interest", async (req, res) => {
   }
 });
 
-router.get("/me/product", async (req, res) => {
+router.get("/me/product", authMiddleware, async (req, res) => {
   const username = req.session.username;
   const products = await productStore.getOwnProducts(username);
   return res.status(SUCCESS_STATUS).json({
@@ -150,7 +152,7 @@ router.get("/me/product", async (req, res) => {
   });
 });
 
-router.get("/me/chatroom", async (req, res) => {
+router.get("/me/chatroom", authMiddleware, async (req, res) => {
   const username = req.session.username;
   try {
     const chatRoomListItems = await chatStore.getChatRooms(username);
