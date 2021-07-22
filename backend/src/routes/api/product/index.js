@@ -160,14 +160,10 @@ router.delete("/", async (req, res) => {
     if (oldProduct.author !== username) {
       return res.status(UNAUTHORIZED_STATUS).json({ success: false });
     }
+    const isSuccess = await productStore.deleteProductById(id);
+    return res.status(SUCCESS_STATUS).json({ success: isSuccess });
   } catch (err) {
-    return res.status(INTERNAL_SERVER_ERROR_STATUS).json({ success: false });
-  }
-
-  try {
-    const result = await productStore.deleteProductById(id);
-    return res.status(SUCCESS_STATUS).json({ success: result });
-  } catch (err) {
+    console.log(err);
     return res
       .status(INTERNAL_SERVER_ERROR_STATUS)
       .json({ error: "unexpect error occured" });
