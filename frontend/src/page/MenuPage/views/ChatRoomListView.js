@@ -2,7 +2,6 @@ import View from "@/page/View";
 
 import { qs } from "@/helper/selectHelpers";
 import { delegate } from "@/helper/eventHelpers";
-import exampleCooler from "@/public/image/example-cooler.svg";
 import { timeForToday } from "@/util/time";
 
 const tag = "[ChatRoomListView]";
