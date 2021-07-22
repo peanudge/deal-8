@@ -4,7 +4,7 @@ import Controller from "./Controller";
 import Store from "./Store";
 
 import ChatRoomListHeaderView from "./views/ChatRoomListHeaderView";
-import ChatroomListContentView from "./views/ChatRoomListContentView";
+import ChatRoomListContentView from "./views/ChatRoomListContentView";
 
 export default class ChatRoomListPage extends AbstractPage {
   constructor(params) {
@@ -24,7 +24,7 @@ export default class ChatRoomListPage extends AbstractPage {
   after_render() {
     const views = {
       chatRoomListHeaderView: new ChatRoomListHeaderView(),
-      chatRoomListContentView: new ChatroomListContentView(),
+      chatRoomListContentView: new ChatRoomListContentView(),
     };
     const store = new Store(this.productId);
     new Controller(store, views);
