@@ -103,7 +103,7 @@ const chatroom_query = `
 CREATE TABLE chatroom (
   roomId INT PRIMARY KEY AUTO_INCREMENT,
   productId INT,
-  FOREIGN KEY(productId) REFERENCES product(id)
+  FOREIGN KEY(productId) REFERENCES product(id) ON DELETE CASCADE
 )
 `;
 const chatroom_query_result = await mysqlConnection
@@ -116,7 +116,7 @@ CREATE TABLE chatroom_attend (
   roomId INT,
   username VARCHAR(255),
   isAttend BOOLEAN NOT NULL DEFAULT TRUE,
-  FOREIGN KEY(roomId) REFERENCES chatroom(roomId)
+  FOREIGN KEY(roomId) REFERENCES chatroom(roomId) ON DELETE CASCADE
 )
 `;
 const chatroom_attend_query_result = await mysqlConnection
@@ -132,7 +132,7 @@ CREATE TABLE chat (
   content VARCHAR(255),
   writer VARCHAR(255),
   createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY(roomId) REFERENCES chatroom(roomId),
+  FOREIGN KEY(roomId) REFERENCES chatroom(roomId) ON DELETE CASCADE,
   FOREIGN KEY(writer) REFERENCES account(username)
 )
 `;
