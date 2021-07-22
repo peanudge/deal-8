@@ -9,16 +9,16 @@ import chevronRightSVG from "@/public/svg/chevron-right.svg";
 import ImageUploadView from "./views/ImageUploadView";
 import Controller from "./Controller";
 import Store from "./Store";
-import CreatePostFormView from "./views/CreatePostFormView";
-import CreatePostHeaderView from "./views/CreatePostHeaderView";
+import ModifyPostFormView from "./views/ModifyPostFormView";
+import ModifyPostHeaderView from "./views/CategorySelectView";
 
 import "@/public/css/writePost.css";
 import CategorySelectView from "./views/CategorySelectView";
 
-export default class CreatePostPage extends AbstractPage {
+export default class ModifiyPostPage extends AbstractPage {
   constructor(params) {
     super(params);
-    this.setTitle("Create Post");
+    this.setTitle("Modify Post");
   }
 
   async render() {
@@ -31,7 +31,7 @@ export default class CreatePostPage extends AbstractPage {
         <span class="header--center--title"> 글쓰기 </span>
       </h1>
       <div class="header--right">
-        <div id="create-btn" class="check-icon">
+        <div id="Modify-btn" class="check-icon">
            ${checkSVG}
         </div>  
       </div>
@@ -92,9 +92,9 @@ export default class CreatePostPage extends AbstractPage {
   async after_render() {
     const store = new Store();
     const views = {
-      createPostHeaderView: new CreatePostHeaderView(),
+      modifyPostHeaderView: new ModifyPostHeaderView(),
       imageUploadView: new ImageUploadView(),
-      createPostFormView: new CreatePostFormView(),
+      modifyPostFormView: new ModifyPostFormView(),
       categorySelectView: new CategorySelectView(),
     };
 
