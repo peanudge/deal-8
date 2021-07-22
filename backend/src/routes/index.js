@@ -5,11 +5,6 @@ import { upload } from "../app.js";
 
 const router = express.Router();
 
-/* GET home page. */
-router.get("/", function (req, res, next) {
-  res.render("index", { title: "INDEX" });
-});
-
 router.get("/file", function (req, res, next) {
   res.render("file");
 });
@@ -31,5 +26,9 @@ router.post("/upload", function (req, res, next) {
 });
 
 router.use("/api", apiRouter);
+
+router.get("/", function (req, res, next) {
+  res.sendFile("index.html");
+});
 
 export default router;
