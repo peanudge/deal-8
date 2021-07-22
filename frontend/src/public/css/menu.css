@@ -64,3 +64,10 @@ a {
   width: calc(100% / 3);
   height: 100%;
 }
+
+.splitter {
+  width: calc(100% - 30px);
+  height: 1px;
+  margin: 0 auto;
+  border-bottom: 1px solid var(--input-border-color);
+}
