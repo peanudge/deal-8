@@ -24,14 +24,17 @@ export default class ModifiyPostPage extends AbstractPage {
   async render() {
     return /* html */ `
     <header id="posting-header" class="header">
-      <a class="header--left" href="/main" data-link>
-       ${chevronLeftSVG}
-      </a>
+      <span class="header--left" data-link>
+        <div id="Back-btn" class="back-icon">
+          ${chevronLeftSVG}
+        </div>
+      
+      </span>
       <h1 class="header--center">
         <span class="header--center--title"> 수정하기 </span>
       </h1>
       <div class="header--right">
-        <div id="Modify-btn" class="check-icon">
+        <div id="Back-btn" class="check-icon">
            ${checkSVG}
         </div>  
       </div>

@@ -160,3 +160,7 @@
 .category-name.error {
   border-bottom: 1px solid red;
 }
+
+.back-icon {
+  width: 25px;
+}

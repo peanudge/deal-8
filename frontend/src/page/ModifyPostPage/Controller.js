@@ -96,6 +96,10 @@ export default class Controller {
     });
 
     this.modifyPostHeaderView.on("@modify-post", (e) => this.modifyPost());
+
+    this.modifyPostHeaderView.on("@go-to-back", () => {
+      navigateTo(history.state.previous);
+    });
   }
 
   modifyPost() {
