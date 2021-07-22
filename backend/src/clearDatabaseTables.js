@@ -6,7 +6,7 @@ mysqlConnection.connect(function (err) {
 
 // drop chat table
 const chat_drop_query = `
-DROP TABLE chat;
+DROP TABLE IF EXISTS chat;
 `;
 const chat_drop_query_result = await mysqlConnection
   .promise()
@@ -14,7 +14,7 @@ const chat_drop_query_result = await mysqlConnection
 
 // drop chatroom_attend table
 const chatroom_attend_drop_query = `
-DROP TABLE chatroom_attend;
+DROP TABLE IF EXISTS chatroom_attend;
 `;
 const chatroom_attend_drop_query_result = await mysqlConnection
   .promise()
@@ -22,7 +22,7 @@ const chatroom_attend_drop_query_result = await mysqlConnection
 
 // drop chatroom table
 const chatroom_drop_query = `
-DROP TABLE chatroom;
+DROP TABLE IF EXISTS chatroom;
 `;
 
 const chatroom_drop_query_result = await mysqlConnection
@@ -31,7 +31,7 @@ const chatroom_drop_query_result = await mysqlConnection
 
 // drop product_image table;
 const product_image_table_drop_query = `
-  DROP TABLE product_image;
+  DROP TABLE IF EXISTS product_image;
 `;
 
 const product_image_table_drop_query_result = await mysqlConnection
@@ -40,7 +40,7 @@ const product_image_table_drop_query_result = await mysqlConnection
 
 // drop interest product table;
 const interest_prodcut_table_drop_query = `
-    DROP TABLE interest_product;
+    DROP TABLE IF EXISTS interest_product;
 `;
 
 const interestProductTableDropResult = await mysqlConnection
@@ -49,7 +49,7 @@ const interestProductTableDropResult = await mysqlConnection
 
 // drop  product table;
 const product_table_drop_query = `
-    DROP TABLE product;
+    DROP TABLE IF EXISTS product;
 `;
 
 const productTableDropResult = await mysqlConnection
@@ -58,7 +58,7 @@ const productTableDropResult = await mysqlConnection
 
 //drop location table
 const location_table_drop_qeury = `
-    DROP TABLE location;
+    DROP TABLE IF EXISTS location;
 `;
 const location_table_drop_qeury_result = await mysqlConnection
   .promise()
@@ -66,7 +66,7 @@ const location_table_drop_qeury_result = await mysqlConnection
 
 // drop account table;
 const account_table_drop_query = `
-    DROP TABLE account;
+    DROP TABLE IF EXISTS account;
 `;
 const account_table_drop_query_result = await mysqlConnection
   .promise()
@@ -74,7 +74,7 @@ const account_table_drop_query_result = await mysqlConnection
 
 // drop category table;
 const category_table_drop_query = `
-    DROP TABLE category;
+    DROP TABLE IF EXISTS category;
 `;
 const category_table_drop_query_result = await mysqlConnection
   .promise()

@@ -133,10 +133,12 @@ export default class MySQLProductStore extends AbstractProductStore {
     p.content AS content, p.cost AS cost, p.status AS status, p.location AS location,
     p.thumbnail AS thumbnail, p.createdAt AS createdAt, p.updatedAt AS updatedAt, p.countOfView AS countOfView,
     CASE WHEN my_ip.username IS NULL THEN FALSE ELSE TRUE END as isInterested,
-    COUNT(ip.username) as countOfInterest
+    COUNT(ip.username) as countOfInterest, COUNT(cr.roomId) as countOfChat
     FROM product AS p 
     LEFT JOIN (SELECT username, id FROM interest_product WHERE username = ?) AS my_ip ON my_ip.id = p.id
-    LEFT JOIN interest_product AS ip ON ip.id = p.id WHERE p.id = ?
+    LEFT JOIN interest_product AS ip ON ip.id = p.id
+    LEFT JOIN chatroom AS cr ON cr.productId = p.id
+    WHERE p.id = ?
     `;
     try {
       const retrieveQueryResult = await mysqlConnection
@@ -161,6 +163,7 @@ export default class MySQLProductStore extends AbstractProductStore {
           thumbnail: row.thumbnail,
           createdAt: row.createdAt,
           updatedAt: row.updatedAt,
+          countOfChat: row.countOfChat,
           countOfView: row.countOfView,
           isInterested: !!row.isInterested,
           countOfInterest: row.countOfInterest,

@@ -12,8 +12,10 @@ export default class Controller {
 
   init() {
     getChatRoomsByProductAsync(this.store.productId).then(
-      ({ result, chatRoomListItems }) => {
-        this.store.chatRoomListItems = chatRoomListItems;
+      ({ success, chatRoomListItems }) => {
+        if (success) {
+          this.store.chatRoomListItems = chatRoomListItems;
+        }
         this.render();
       }
     );
@@ -25,6 +27,10 @@ export default class Controller {
       navigateTo("/chat/" + roomId, {
         previous: "/chatList/" + this.store.productId,
       });
+    });
+
+    this.chatRoomListHeaderView.on("@back", () => {
+      navigateTo("/product/" + this.store.productId);
     });
   }
 
