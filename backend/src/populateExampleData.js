@@ -72,7 +72,7 @@ console.log("Complete Insert Example Products!");
 // INSERT example chatroom;
 
 const example_chatroom_insert_qeury = `
-INSERT INTO chatroom(roomId,productId) VALUES(1,1),(2,1);
+INSERT INTO chatroom(productId) VALUES(1),(1);
 `;
 const example_chatroom_insert_qeury_result = await mysqlConnection
   .promise()
