@@ -38,9 +38,13 @@ export default class ImageUploadView extends View {
 
   renderImagesAsync(files) {
     const imageFiles = Object.keys(files).map((i) => {
-      const file = files[i];
-      const url = URL.createObjectURL(file);
-      return { key: i, url };
+      try {
+        const file = files[i];
+        const url = URL.createObjectURL(file);
+        return { key: i, url };
+      } catch (err) {
+        return {};
+      }
     });
 
     this.imgContainerElement.innerHTML = this.template.getImageList(imageFiles);
