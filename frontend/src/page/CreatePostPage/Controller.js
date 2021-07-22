@@ -117,6 +117,7 @@ export default class Controller {
     const { images, category, cost, title, content, location } = this.store;
     uploadProductImagesAsync(images)
       .then(({ success, images }) => {
+        console.log(images);
         if (success) {
           return createProductAsync({
             title,
