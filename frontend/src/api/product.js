@@ -63,7 +63,7 @@ export const createProductAsync = ({
   category,
   images = [],
 }) => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve, _) => {
     const request = fetch("/api/product/", {
       method: "POST",
       headers: {
@@ -78,6 +78,36 @@ export const createProductAsync = ({
         category,
       }),
     }).then((response) => response.json());
+    resolve(request);
+  });
+};
+
+export const modifyProductAsync = ({
+  id,
+  title,
+  cost,
+  content,
+  location,
+  images = [],
+  category,
+}) => {
+  return new Promise((resolve, _) => {
+    const request = fetch("/api/product/", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id,
+        title,
+        cost,
+        content,
+        images,
+        location,
+        category,
+      }),
+    }).then((response) => response.json());
+
     resolve(request);
   });
 };

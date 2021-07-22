@@ -1,7 +1,7 @@
 import { categoryItems } from "@/util/category";
 
 import {
-  createProductAsync,
+  modifyProductAsync,
   getCategoriesAsync,
   uploadProductImagesAsync,
   getProductDetailAsync,
@@ -57,13 +57,21 @@ export default class Controller {
   fetchProductDetailData() {
     getProductDetailAsync(this.productId).then(({ success, product }) => {
       if (success) {
-        this.store.productDetail = product;
+        const { images, category, cost, title, content, location } = product;
+
+        this.store.images = images;
+        this.store.category = category;
+        this.store.cost = cost;
+        this.store.title = title;
+        this.store.content = content;
+        this.store.location = location;
+
         const categoryNumber = Number(product.category);
         const categoryItem = this.store.categories.find(
           (categoryItem) => categoryNumber === categoryItem.id
         );
 
-        this.store.productDetail.category = categoryItem;
+        this.store.category = categoryItem;
       }
       this.render();
     });
@@ -81,7 +89,7 @@ export default class Controller {
       const categoryItem = this.store.categories.find(
         (categoryItem) => categoryNumber === categoryItem.id
       );
-      this.store.productDetail.category = categoryItem;
+      this.store.category = categoryItem;
       this.isShowCategorySelectView = false;
       this.render();
     });
@@ -110,6 +118,14 @@ export default class Controller {
       this.uploadImagesFromFileSystem(e.detail.value);
     });
 
+    this.imageUploadView.on("@image-delete", (e) => {
+      const fileKey = Number(e.detail.value);
+      this.store.images = [...this.store.images].filter(
+        (_, idx) => idx !== fileKey
+      );
+      this.render();
+    });
+
     this.modifyPostHeaderView.on("@modify-post", (e) => this.modifyPost());
 
     this.modifyPostHeaderView.on("@go-to-back", () => {
@@ -128,6 +144,7 @@ export default class Controller {
       .then(({ success, images }) => {
         if (success) {
           return modifyProductAsync({
+            id: this.productId,
             title,
             cost,
             content,
@@ -141,7 +158,7 @@ export default class Controller {
       })
       .then((result) => {
         if (result.success) {
-          navigateTo("/product/" + result.product.id);
+          navigateTo("/product/" + this.productId);
         } else {
           //TODO: Update Fail fallback
         }
@@ -166,14 +183,13 @@ export default class Controller {
     if (countOfImage > 10) {
       alert("상품 Image는 10개까지만 올릴 수 있습니다.");
     } else {
-      this.store.productDetail.images = files;
+      this.store.images = files;
     }
     this.render();
   }
 
   render() {
-    const { images, category, content, title, location, cost } =
-      this.store.productDetail;
+    const { images, category, content, title, location, cost } = this.store;
     const { categories } = this.store;
 
     if (this.isShowCategorySelectView) {
@@ -182,7 +198,6 @@ export default class Controller {
       this.modifyPostHeaderView.hide();
     } else {
       this.categorySelectView.hide();
-      console.log(images);
       this.imageUploadView.show(images);
       this.modifyPostFormView.show(
         {

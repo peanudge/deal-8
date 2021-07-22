@@ -124,7 +124,6 @@ router.post("/", authMiddleware, async (req, res) => {
 router.put("/", async (req, res) => {
   const { id, category, title, content, cost, location, images } = req.body;
   const username = req.session["username"];
-
   try {
     const targetProduct = await productStore.getProductById(id, username);
     if (targetProduct.author !== username) {
@@ -145,8 +144,8 @@ router.put("/", async (req, res) => {
   });
 
   try {
-    const updatedProduct = await productStore.updateProduct(product);
-    return res.status(SUCCESS_STATUS).json(updatedProduct);
+    const isUpdated = await productStore.updateProduct(product);
+    return res.status(SUCCESS_STATUS).json({ success: isUpdated });
   } catch (err) {
     return res.status(INTERNAL_SERVER_ERROR_STATUS).json({ success: false });
   }
