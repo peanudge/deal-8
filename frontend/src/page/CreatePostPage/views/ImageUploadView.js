@@ -1,6 +1,8 @@
 import View from "@/page/View";
 import { qs } from "@/helper/selectHelpers";
-import { on } from "@/helper/eventHelpers";
+import { delegate, on } from "@/helper/eventHelpers";
+
+import closeSVG from "@/public/svg/close-white.svg";
 
 export default class ImageUploadView extends View {
   constructor(
@@ -17,6 +19,14 @@ export default class ImageUploadView extends View {
 
   bindingEvent() {
     on(this.imgInputElement, "change", (e) => this.handleImageUploadEvent(e));
+    delegate(this.element, "click", ".img-box--delete-btn", (e) => {
+      const { key } = e.target.dataset;
+      this.handleTempImageDeleteClickEvent(key);
+    });
+  }
+
+  handleTempImageDeleteClickEvent(imageKey) {
+    this.emit("@image-delete", { value: imageKey });
   }
 
   handleImageUploadEvent(e) {
@@ -27,33 +37,36 @@ export default class ImageUploadView extends View {
   }
 
   renderImagesAsync(files) {
-    const imagePaths = Object.keys(files).map((i) => {
+    const imageFiles = Object.keys(files).map((i) => {
       const file = files[i];
       const url = URL.createObjectURL(file);
-      return url;
+      return { key: i, url };
     });
 
-    this.imgContainerElement.innerHTML = this.template.getImageList(imagePaths);
+    this.imgContainerElement.innerHTML = this.template.getImageList(imageFiles);
   }
 
   show(images) {
     const countOfImage = Object.keys(images).length;
-    if (countOfImage > 0) {
-      this.renderImagesAsync(images);
-    }
+    this.renderImagesAsync(images);
+
     this.imgCountLabelElement.innerText = countOfImage;
     super.show();
   }
 }
 
 class Template {
-  getImageList(images) {
-    return images.map((image) => this._getImage(image)).join("");
+  getImageList(imageFiles = []) {
+    return imageFiles.map((imageFile) => this._getImage(imageFile)).join("");
   }
-  _getImage(image) {
+  _getImage(imageFile) {
+    const { key, url } = imageFile;
     return /* html */ `
-    <div class="img-box" >
-      <img src="${image}"/>
+    <div class="img-box">
+      <img class="img-box--img" src="${url}"/>
+      <div class="img-box--delete-btn" data-key=${key}>
+        ${closeSVG}
+      </div>
     </div>`;
   }
 }

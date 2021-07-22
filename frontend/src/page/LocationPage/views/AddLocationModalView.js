@@ -36,12 +36,12 @@ export default class AddLocationModalView extends View {
   }
 
   show() {
-    this.blurBgElement.style.display = "block";
+    this.blurBgElement.style.visibility = "visible";
     super.show();
   }
 
   hide() {
-    this.blurBgElement.style.display = "none";
+    this.blurBgElement.style.visibility = "hidden";
     super.hide();
   }
 }

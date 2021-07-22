@@ -39,6 +39,11 @@ export default class MenuPage extends AbstractPage {
             <section id="interest-list-window"></section>
         </div>
     </div>
+    <div id="modal-blur-bg" class="blur-bg"></div>
+    <div id="setting-menu-modal" class="modal">
+      <div id="setting-edit-btn">수정</div>
+      <div id="setting-delete-btn">삭제</div>  
+    </div>
     `;
   }
 

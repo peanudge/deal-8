@@ -41,6 +41,7 @@ export default class Controller {
         this.render();
       }
     });
+
     getProfileAsync().then(({ isAuth, account }) => {
       if (isAuth) {
         const { locations } = account;
@@ -92,7 +93,16 @@ export default class Controller {
     });
 
     this.imageUploadView.on("@image-upload", (e) => {
-      this.uploadImagesFromFileSystem(e.detail.value);
+      const files = e.detail.value;
+      this.uploadImagesFromFileSystem(files);
+    });
+
+    this.imageUploadView.on("@image-delete", (e) => {
+      const fileKey = Number(e.detail.value);
+      this.store.images = [...this.store.images].filter(
+        (_, idx) => idx !== fileKey
+      );
+      this.render();
     });
 
     this.createPostHeaderView.on("@create-post", (e) => this.createPost());
