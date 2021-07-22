@@ -45,7 +45,6 @@ export default class ProductListView extends View {
   }
 
   show(data = []) {
-    console.log(data);
     if (data.length > 0) {
       this.element.innerHTML = this.template.getProductItems(data, this.option);
     } else {

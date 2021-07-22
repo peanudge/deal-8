@@ -89,7 +89,6 @@ router.get("/", async (req, res) => {
       category: categoryId,
       username,
     });
-    console.log(products);
     return res.status(SUCCESS_STATUS).json(products);
   } catch (err) {
     return res
