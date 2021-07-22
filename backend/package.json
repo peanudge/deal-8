@@ -5,7 +5,6 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www.js",
-    "mockTest": "cross-env NODE_ENV=mockTest node ./bin/www.js",
     "pm2": "pm2 restart process.json --no-daemon"
   },
   "dependencies": {
