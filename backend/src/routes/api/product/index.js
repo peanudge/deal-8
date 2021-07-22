@@ -158,7 +158,7 @@ router.delete("/", async (req, res) => {
   try {
     const oldProduct = await productStore.getProductById(id, username);
     if (oldProduct.author !== username) {
-      return res.status(402).json({ success: false });
+      return res.status(UNAUTHORIZED_STATUS).json({ success: false });
     }
   } catch (err) {
     return res.status(INTERNAL_SERVER_ERROR_STATUS).json({ success: false });

@@ -341,6 +341,20 @@ export default class MySQLProductStore extends AbstractProductStore {
   }
 
   async deleteProductById(id) {
-    // TODO: Implement
+    const query = `
+      DELETE FROM product WHERE id=?
+    `;
+    const params = [id];
+    try {
+      const result = await mysqlConnection.promise().query(query, params);
+      const isDeleted = result[0]?.affectedRows >= 1;
+
+      if (isDeleted) {
+        return true;
+      }
+      return false;
+    } catch (err) {
+      throw err;
+    }
   }
 }
