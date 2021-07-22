@@ -1,4 +1,5 @@
 .blur-bg {
+  display: none;
   position: absolute;
   left: 0;
   top: 0;
@@ -9,7 +10,7 @@
 }
 
 .modal {
-  display: block;
+  display: none;
   padding: 16px 20px;
   display: flex;
   flex-direction: column;
