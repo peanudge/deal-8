@@ -163,7 +163,6 @@ router.delete("/", async (req, res) => {
     const isSuccess = await productStore.deleteProductById(id);
     return res.status(SUCCESS_STATUS).json({ success: isSuccess });
   } catch (err) {
-    console.log(err);
     return res
       .status(INTERNAL_SERVER_ERROR_STATUS)
       .json({ error: "unexpect error occured" });
