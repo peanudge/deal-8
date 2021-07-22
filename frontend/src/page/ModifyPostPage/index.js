@@ -28,7 +28,7 @@ export default class ModifiyPostPage extends AbstractPage {
        ${chevronLeftSVG}
       </a>
       <h1 class="header--center">
-        <span class="header--center--title"> 글쓰기 </span>
+        <span class="header--center--title"> 수정하기 </span>
       </h1>
       <div class="header--right">
         <div id="Modify-btn" class="check-icon">
