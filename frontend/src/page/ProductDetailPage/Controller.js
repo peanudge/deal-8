@@ -64,11 +64,15 @@ export default class Controller {
       const { productId } = this.store;
       attendChatRoomAsync(productId).then(({ success, roomId }) => {
         if (success) {
-          navigateTo("/chat/" + roomId);
+          navigateTo("/chat/" + roomId, { previous: "/product/" + productId });
         } else {
           console.error("채팅방 정보가져오는데 실패");
         }
       });
+    });
+
+    this.productDetailFooterView.on("@move-to-chatlist", (e) => {
+      navigateTo("/chatList/" + this.store.productId);
     });
   }
 

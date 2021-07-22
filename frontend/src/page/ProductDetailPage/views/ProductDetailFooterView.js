@@ -20,6 +20,13 @@ export default class ProductDetailFooterView extends View {
     delegate(this.element, "click", "#attend-chat-btn", (e) => {
       this.handleClickGetChatRoom(e);
     });
+
+    delegate(this.element, "click", "#move-to-chat-list-btn", (e) => {
+      this.handleClickChatListButton(e);
+    });
+  }
+  handleClickChatListButton() {
+    this.emit("@move-to-chatlist");
   }
 
   handleClickInterestEvent(event) {
@@ -54,9 +61,9 @@ class Template {
         ${
           user?.username === author
             ? `
-                <a href="/chatList/${id}" data-link>
-                    <div class="move-btn">채팅 목록 보기</div> 
-                </a>`
+                <div>
+                    <div id="move-to-chat-list-btn" class="move-btn">채팅 목록 보기</div> 
+                </div>`
             : `
                 <div>
                     <div class="move-btn" id="attend-chat-btn">문의하기</div> 
