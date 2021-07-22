@@ -119,6 +119,7 @@ export default class Controller {
   clearError() {
     this.error = {};
   }
+
   showDeleteLocationModal(location) {
     this.isShowDeleteLocationModal = true;
     this.store.targetLocation = location;

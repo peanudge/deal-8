@@ -9,6 +9,8 @@ export default class DeleteLocationModalView extends View {
     this.locationNameElement = qs("#location-name", this.element);
     this.cancelBtnElement = qs("#cancel-btn", this.element);
     this.acceptBtnElement = qs("#accept-btn", this.element);
+    this.blurBgElement = qs("#modal-blur-bg");
+
     this.eventsBinding();
   }
 
@@ -30,7 +32,13 @@ export default class DeleteLocationModalView extends View {
   }
 
   show(location) {
+    this.blurBgElement.style.display = "block";
     this.locationNameElement.innerText = '"' + location + '"';
     super.show();
+  }
+
+  hide() {
+    this.blurBgElement.style.display = "none";
+    super.hide();
   }
 }

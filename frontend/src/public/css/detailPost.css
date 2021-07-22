@@ -1,5 +1,6 @@
 @import url("./common/basic_header.css");
 @import url("./common/global_color.css");
+@import url("./common/modal.css");
 
 body {
   border: 1px solid #c0c0c0;
@@ -246,4 +247,8 @@ footer .interest-btn.on > svg {
   content: "∙";
   font-size: 12px;
   font-weight: 500;
+}
+
+.product-delete-btn {
+  color: red;
 }
