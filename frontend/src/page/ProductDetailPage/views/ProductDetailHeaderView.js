@@ -47,11 +47,11 @@ export default class ProductDetailHeaderView extends View {
     );
   }
   handleEditButtonClickEvent() {
-    this.emit("@edit-post");
+    this.emit("@click-edit-post");
   }
 
   handleDeleteButtonClickEvent() {
-    this.emit("@delete-post");
+    this.emit("@click-delete-post");
   }
 
   toggleDropDownMenu(expand = null) {

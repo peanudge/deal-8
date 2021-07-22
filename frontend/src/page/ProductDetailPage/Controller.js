@@ -1,6 +1,6 @@
 import { navigateTo } from "@/router";
 
-import { getChatRoomAsync, attendChatRoomAsync } from "@/api/chat";
+import { attendChatRoomAsync } from "@/api/chat";
 import {
   getCategoryAsync,
   getProductDetailAsync,
@@ -20,6 +20,7 @@ export default class Controller {
       productImageListView,
       productDetailView,
       productDetailFooterView,
+      productDetailModalView,
     }
   ) {
     this.store = store;
@@ -28,6 +29,9 @@ export default class Controller {
     this.productImageListView = productImageListView;
     this.productDetailView = productDetailView;
     this.productDetailFooterView = productDetailFooterView;
+    this.productDetailModalView = productDetailModalView;
+
+    this.isShowModal = false;
 
     this.subscribeViewEvents();
     this.init();
@@ -39,13 +43,25 @@ export default class Controller {
       this.changeInterest(id, isInterested);
     });
 
-    this.productDetailHeaderView.on("@edit-post", () => {
+    this.productDetailHeaderView.on("@click-edit-post", () => {
       // TODO: Implement
     });
 
-    this.productDetailHeaderView.on("@delete-post", () => {
-      // TODO: Implement
-      // TODO: Show Modal
+    this.productDetailHeaderView.on("@click-delete-post", () => {
+      this.isShowModal = true;
+      this.render();
+    });
+
+    this.productDetailModalView.on("@close-modal", () => {
+      this.isShowModal = false;
+      this.render();
+    });
+
+    this.productDetailModalView.on("@delete-post", () => {
+      this.isShowModal = false;
+      this.render();
+
+      // TODO: navigation main.
     });
 
     this.productDetailView.on("@change-status", (e) => {
@@ -124,6 +140,13 @@ export default class Controller {
 
   render() {
     const { productDetail, user, categoryName } = this.store;
+
+    if (this.isShowModal) {
+      this.productDetailModalView.show();
+    } else {
+      this.productDetailModalView.hide();
+    }
+
     this.productDetailHeaderView.show(user, productDetail);
     this.productImageListView.show(productDetail.images);
     this.productDetailView.show(user, productDetail, categoryName);

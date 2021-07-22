@@ -41,6 +41,7 @@ export default class LocationPage extends AbstractPage {
     </main>
 
     <div id="modal-blur-bg" class="blur-bg"></div>
+    
     <div id="location-edit-modal" class="modal">
       <p>우리 동네를 입력하세요</p>
       <input
