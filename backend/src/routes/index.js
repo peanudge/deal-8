@@ -26,9 +26,8 @@ router.post("/upload", function (req, res, next) {
 });
 
 router.use("/api", apiRouter);
-
 router.get("/", function (req, res, next) {
-  res.sendFile("index.html");
+  res.sendFile("./public/index.html");
 });
 
 export default router;
