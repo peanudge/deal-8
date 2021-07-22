@@ -32,13 +32,13 @@ export default class DeleteLocationModalView extends View {
   }
 
   show(location) {
-    this.blurBgElement.style.display = "block";
+    this.blurBgElement.style.visibility = "visible";
     this.locationNameElement.innerText = '"' + location + '"';
     super.show();
   }
 
   hide() {
-    this.blurBgElement.style.display = "none";
+    this.blurBgElement.style.visibility = "hidden";
     super.hide();
   }
 }
