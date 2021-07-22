@@ -35,10 +35,17 @@ export default class Controller {
     this.chatRoomListView.on("@move-to-chat", (e) =>
       this.moveToChatRoom(e.detail.value)
     );
+
     this.tabView.on("@change-tab", (e) => this.changeTab(e.detail.value));
+
     this.interestProductListView.on("@interest", (e) => {
       const { id, isInterested } = e.detail.value;
       this.changeInterest(id, isInterested);
+    });
+
+    this.salingProductListView.on("@setting", (e) => {
+      const { id } = e.detail.value;
+      console.log(id);
     });
   }
 

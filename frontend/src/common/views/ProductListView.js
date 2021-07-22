@@ -33,14 +33,25 @@ export default class ProductListView extends View {
     delegate(this.element, "click", "#interest-btn", (e) =>
       this.handleClickInterestEvent(e)
     );
+
+    delegate(this.element, "click", "#setting-btn", (e) =>
+      this.handleClickSettingEvent(e)
+    );
   }
 
   handleClickInterestEvent(event) {
     const target = event.target;
-    const id = target.dataset.id;
+    const { id } = target.dataset;
     const currentInterestStatus = Array.from(target.classList).includes("on");
     this.emit("@interest", {
       value: { id, isInterested: !currentInterestStatus },
+    });
+  }
+
+  handleClickSettingEvent(event) {
+    const { id } = event.target.dataset;
+    this.emit("@setting", {
+      value: { id },
     });
   }
 
@@ -100,7 +111,7 @@ class Template {
                     ? this._getInterestBtn(isInterested, id)
                     : ""
                 }
-                ${option.showSettingBtn ? this._getSettingBtn() : ""}
+                ${option.showSettingBtn ? this._getSettingBtn(id) : ""}
               </div>
               <div>
                 <span class="location">${location}</span>
@@ -145,8 +156,8 @@ class Template {
     `;
   }
 
-  _getSettingBtn() {
-    return `<div id="setting-btn" class="content--product--info--top--menu">
+  _getSettingBtn(id) {
+    return `<div id="setting-btn" class="content--product--info--top--menu" data-id=${id}>
       ${moreVerticalSVG}
     </div>`;
   }
