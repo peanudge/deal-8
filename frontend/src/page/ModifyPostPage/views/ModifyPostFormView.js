@@ -10,7 +10,6 @@ export default class ModifyPostFormView extends View {
     this.costInputElement = qs("#cost-input", this.element);
     this.contentAreaElement = qs("#content-textarea", this.element);
     this.locationElement = qs("#location-name", this.element);
-
     this.bindingEvents();
   }
 

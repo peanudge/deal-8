@@ -1,9 +1,10 @@
 import { categoryItems } from "@/util/category";
 
 import {
-  // modifyProductAsync,
+  createProductAsync,
   getCategoriesAsync,
   uploadProductImagesAsync,
+  getProductDetailAsync,
 } from "@/api/product";
 import { navigateTo } from "@/router";
 import { getProfileAsync } from "@/api/user";
@@ -22,6 +23,7 @@ export default class Controller {
     }
   ) {
     this.store = store;
+    this.productId = store.productId;
     this.modifyPostHeaderView = modifyPostHeaderView;
     this.modifyPostFormView = modifyPostFormView;
     this.imageUploadView = imageUploadView;
@@ -29,26 +31,41 @@ export default class Controller {
 
     this.isShowCategorySelectView = false;
     this.error = {};
-    this.fetchData();
     this.subscribeViewEvents();
-    this.render();
+
+    this.init();
   }
 
-  fetchData() {
-    getCategoriesAsync().then(({ success, categories }) => {
+  init() {
+    const requestGetCategories = getCategoriesAsync();
+    const requestGetProfile = getProfileAsync();
+
+    Promise.all([requestGetCategories, requestGetProfile]).then(
+      ([categoryResponse, profileResponse]) => {
+        const categorySuccess = categoryResponse.success;
+        const isAuth = profileResponse.isAuth;
+        if (!isAuth) {
+          navigateTo("/login");
+        }
+        if (categorySuccess) {
+          this.store.categories = categoryResponse.categories;
+        }
+        this.fetchProductDetailData();
+      }
+    );
+  }
+  fetchProductDetailData() {
+    getProductDetailAsync(this.productId).then(({ success, product }) => {
       if (success) {
-        this.store.categories = categories;
-        this.render();
+        this.store.productDetail = product;
+        const categoryNumber = Number(product.category);
+        const categoryItem = this.store.categories.find(
+          (categoryItem) => categoryNumber === categoryItem.id
+        );
+
+        this.store.productDetail.category = categoryItem;
       }
-    });
-    getProfileAsync().then(({ isAuth, account }) => {
-      if (isAuth) {
-        const { locations } = account;
-        this.store.location = locations[0];
-        this.render();
-      } else {
-        navigateTo("/login");
-      }
+      this.render();
     });
   }
 
@@ -60,13 +77,11 @@ export default class Controller {
 
     this.categorySelectView.on("@select-category", (e) => {
       const categoryId = e.detail.value;
-
-      this.store.categories.forEach((categoryItem) => {
-        if (categoryItem.id === Number(categoryId)) {
-          this.store.category = categoryItem;
-        }
-      });
-
+      const categoryNumber = Number(categoryId);
+      const categoryItem = this.store.categories.find(
+        (categoryItem) => categoryNumber === categoryItem.id
+      );
+      this.store.productDetail.category = categoryItem;
       this.isShowCategorySelectView = false;
       this.render();
     });
@@ -151,15 +166,15 @@ export default class Controller {
     if (countOfImage > 10) {
       alert("상품 Image는 10개까지만 올릴 수 있습니다.");
     } else {
-      this.store.images = files;
+      this.store.productDetail.images = files;
     }
-
     this.render();
   }
 
   render() {
-    const { images, category, content, title, location, cost, categories } =
-      this.store;
+    const { images, category, content, title, location, cost } =
+      this.store.productDetail;
+    const { categories } = this.store;
 
     if (this.isShowCategorySelectView) {
       this.categorySelectView.show(categories);
@@ -167,6 +182,7 @@ export default class Controller {
       this.modifyPostHeaderView.hide();
     } else {
       this.categorySelectView.hide();
+      console.log(images);
       this.imageUploadView.show(images);
       this.modifyPostFormView.show(
         {

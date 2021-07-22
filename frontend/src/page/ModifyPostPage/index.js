@@ -10,31 +10,29 @@ import ImageUploadView from "./views/ImageUploadView";
 import Controller from "./Controller";
 import Store from "./Store";
 import ModifyPostFormView from "./views/ModifyPostFormView";
-import ModifyPostHeaderView from "./views/CategorySelectView";
+import ModifyPostHeaderView from "./views/ModifyPostHeaderView";
 
 import "@/public/css/writePost.css";
 import CategorySelectView from "./views/CategorySelectView";
 
-export default class ModifiyPostPage extends AbstractPage {
+export default class CreatePostPage extends AbstractPage {
   constructor(params) {
     super(params);
-    this.setTitle("Modify Post");
+    this.setTitle("Create Post");
+    this.productId = this.params.productId;
   }
 
   async render() {
     return /* html */ `
     <header id="posting-header" class="header">
-      <span class="header--left" data-link>
-        <div id="Back-btn" class="back-icon">
-          ${chevronLeftSVG}
-        </div>
-      
-      </span>
+      <div class="header--left" id="back-btn">
+       ${chevronLeftSVG}
+      </div>
       <h1 class="header--center">
         <span class="header--center--title"> 수정하기 </span>
       </h1>
       <div class="header--right">
-        <div id="Back-btn" class="check-icon">
+        <div id="modify-btn" class="check-icon">
            ${checkSVG}
         </div>  
       </div>
@@ -94,6 +92,7 @@ export default class ModifiyPostPage extends AbstractPage {
   }
   async after_render() {
     const store = new Store();
+    store.productId = this.productId;
     const views = {
       modifyPostHeaderView: new ModifyPostHeaderView(),
       imageUploadView: new ImageUploadView(),
