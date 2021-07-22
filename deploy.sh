@@ -1,7 +1,7 @@
 #! /bin/bash
 
 cd ./frontend
-webpack
+npm run build
 cp ./dist/* ../backend/public/
 cd ../backend
 npm run pm2
