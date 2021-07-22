@@ -20,7 +20,7 @@ export default class ChatRoomListContentView extends View {
 
   handleChatRoomClick = (event) => {
     const roomId = event.target.dataset.roomId;
-    navigateTo(`/chat/${roomId}`);
+    this.emit("@move-to-chat", { value: roomId });
   };
 
   show(chatRoomListItems = []) {

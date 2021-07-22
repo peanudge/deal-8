@@ -1,7 +1,7 @@
 import { getChatRoomAsync, getChatsAsync } from "@/api/chat.js";
 import { getProductDetailAsync } from "@/api/product";
 import { getProfileAsync } from "@/api/user";
-import { navigateTo } from "@/router";
+import { navigateTo, router } from "@/router";
 import { io } from "socket.io-client";
 
 export default class Controller {
@@ -57,8 +57,7 @@ export default class Controller {
     });
 
     this.chatRoomHeaderView.on("@back", () => {
-      const { id } = this.store.product;
-      navigateTo("/product/" + id);
+      navigateTo(history.state.previous);
     });
 
     this.chatRoomInputContainerView.on("@send-message", (event) => {
