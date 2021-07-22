@@ -240,11 +240,10 @@ export default class MySQLProductStore extends AbstractProductStore {
   async getOwnProducts(username) {
     const interestProductQuery = `
     SELECT 
-    p.id AS id,p.category AS category, p.author AS author, p.title AS title, 
-    p.content AS content, p.cost AS cost, p.status AS status, p.location AS location,
-    p.thumbnail AS thumbnail, p.createdAt AS createdAt, p.updatedAt AS updatedAt, p.countOfView AS countOfView,
-    CASE WHEN ip.username IS NULL THEN FALSE ELSE TRUE END as isInterested
-    FROM product AS p LEFT JOIN interest_product AS ip ON ip.id = p.id WHERE p.author = ?
+    id, category, author, title, 
+    content,cost, status,location,
+    thumbnail, createdAt, updatedAt,countOfView
+    FROM product WHERE author = ?
     `;
     const params = [username];
     try {
@@ -268,7 +267,6 @@ export default class MySQLProductStore extends AbstractProductStore {
             createdAt: row.createdAt,
             updatedAt: row.updatedAt,
             countOfView: row.countOfView,
-            isInterested: !!row.isInterested,
           })
       );
     } catch (err) {
