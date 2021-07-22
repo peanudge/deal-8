@@ -2,7 +2,6 @@ import View from "@/page/View";
 import { qs } from "@/helper/selectHelpers.js";
 
 import chevronLeftSvg from "@/public/svg/chevron-left.svg";
-import { delegate } from "@/helper/eventHelpers";
 
 export default class ChatRoomListHeaderView extends View {
   constructor(element = qs(".header"), template = new Template()) {

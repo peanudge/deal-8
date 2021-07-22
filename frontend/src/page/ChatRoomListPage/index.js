@@ -4,7 +4,7 @@ import Controller from "./Controller";
 import Store from "./Store";
 
 import ChatRoomListHeaderView from "./views/ChatRoomListHeaderView";
-import ChatroomListContentView from "./views/ChatroomListContentView";
+import ChatroomListContentView from "./views/ChatRoomListContentView";
 
 export default class ChatRoomListPage extends AbstractPage {
   constructor(params) {
