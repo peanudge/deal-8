@@ -10,6 +10,7 @@ import AddLocationModalView from "./views/AddLocationModalView";
 import DeleteLocationModalView from "./views/DeleteLocationModalView";
 import Store from "./Store";
 import LocationCommentView from "./views/LocationCommentView";
+import ModalBlurBGView from "./views/ModelBlurBGView";
 
 const tag = "[LocationPage]";
 
@@ -79,6 +80,7 @@ export default class LocationPage extends AbstractPage {
     const views = {
       deleteLocationModalView: new DeleteLocationModalView(),
       addLocationModalView: new AddLocationModalView(),
+      modalBlurBGView: new ModalBlurBGView(),
       locationListView: new LocationListView(),
       locationCommentView: new LocationCommentView(),
     };

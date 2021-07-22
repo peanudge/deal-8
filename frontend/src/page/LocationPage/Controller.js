@@ -13,12 +13,15 @@ export default class Controller {
       deleteLocationModalView,
       addLocationModalView,
       locationCommentView,
+      modalBlurBGView,
     }
   ) {
     this.store = store;
 
     this.deleteLocationModalView = deleteLocationModalView;
     this.addLocationModalView = addLocationModalView;
+    this.modalBlurBGView = modalBlurBGView;
+
     this.locationListView = locationListView;
     this.locationCommentView = locationCommentView;
 
@@ -158,6 +161,12 @@ export default class Controller {
       this.deleteLocationModalView.show(targetLocation);
     } else {
       this.deleteLocationModalView.hide();
+    }
+
+    if (this.isShowAddLocationModal || this.isShowDeleteLocationModal) {
+      this.modalBlurBGView.show();
+    } else {
+      this.modalBlurBGView.hide();
     }
   }
 }

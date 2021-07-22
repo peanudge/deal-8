@@ -6,5 +6,6 @@ export default class Store {
     this.chatRoomListItems = [];
     this.interestProducts = [];
     this.salingProducts = [];
+    this.settingProductId = null;
   }
 }

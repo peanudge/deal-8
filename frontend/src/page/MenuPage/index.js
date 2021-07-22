@@ -11,8 +11,8 @@ import { qs } from "@/helper/selectHelpers";
 
 import "@/public/css/menu.css";
 import Store from "./Store";
-
-const tag = "[MenuPage]";
+import SettingMenuModalView from "./views/SettingMenuModalView";
+import ModalBlurBGView from "./views/ModelBlurBGView";
 
 export default class MenuPage extends AbstractPage {
   constructor(params) {
@@ -40,9 +40,14 @@ export default class MenuPage extends AbstractPage {
         </div>
     </div>
     <div id="modal-blur-bg" class="blur-bg"></div>
-    <div id="setting-menu-modal" class="modal">
-      <div id="setting-edit-btn">수정</div>
-      <div id="setting-delete-btn">삭제</div>  
+    <div id="setting-menu-modal" class="action-modal">
+      <div class="action-modal--menu">
+        <div id="setting-edit-btn" class="action-modal--menu--item">수정</div>
+        <div id="setting-delete-btn" class="action-modal--menu--item">삭제</div>  
+      </div>
+      <div class="action-modal--cancel">
+        취소
+      </div>
     </div>
     `;
   }
@@ -50,29 +55,35 @@ export default class MenuPage extends AbstractPage {
   async after_render() {
     const store = new Store();
 
-    const views = {
-      tabView: new TabView(),
-
-      salingProductListView: new ProductListView(qs("#product-list-window"), {
+    const salingProductListView = new ProductListView(
+      qs("#product-list-window"),
+      {
         showInterestBtn: false,
         showSettingBtn: true,
         showChatMark: true,
         showInterestMark: false,
         emptyMessage: "등록한 상품이 없습니다.",
-      }),
+      }
+    );
 
-      interestProductListView: new ProductListView(
-        qs("#interest-list-window"),
-        {
-          showInterestBtn: true,
-          showSettingBtn: false,
-          showChatMark: true,
-          showInterestMark: false,
-          emptyMessage: "관심을 표시한 상품이 없습니다.",
-        }
-      ),
+    const interestProductListView = new ProductListView(
+      qs("#interest-list-window"),
+      {
+        showInterestBtn: true,
+        showSettingBtn: false,
+        showChatMark: true,
+        showInterestMark: false,
+        emptyMessage: "관심을 표시한 상품이 없습니다.",
+      }
+    );
+
+    const views = {
+      tabView: new TabView(),
+      salingProductListView,
+      interestProductListView,
       chatRoomListView: new ChatRoomListView(),
-      //TODO: Chat View
+      settingMenuModalView: new SettingMenuModalView(),
+      modalBlurBGView: new ModalBlurBGView(),
     };
 
     new Controller(store, views);
