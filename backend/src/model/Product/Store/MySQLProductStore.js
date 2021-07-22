@@ -341,9 +341,6 @@ export default class MySQLProductStore extends AbstractProductStore {
   }
 
   async deleteProductById(id) {
-    // TODO: Implement
-    // TODO: Product 테이블에서 해당 ID 삭제
-    // TODO: interest_product 테이블 cascade
     const query = `
       DELETE FROM product WHERE id=?
     `;
