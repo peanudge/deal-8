@@ -1,10 +1,12 @@
 import { getChatRoomsByProductAsync } from "@/api/chat";
+import { navigateTo } from "@/router";
 
 export default class Controller {
   constructor(store, { chatRoomListHeaderView, chatRoomListContentView }) {
     this.chatRoomListHeaderView = chatRoomListHeaderView;
     this.chatRoomListContentView = chatRoomListContentView;
     this.store = store;
+    this.subscribeViewEvents();
     this.init();
   }
 
@@ -15,6 +17,15 @@ export default class Controller {
         this.render();
       }
     );
+  }
+
+  subscribeViewEvents() {
+    this.chatRoomListContentView.on("@move-to-chat", (e) => {
+      const roomId = e.detail.value;
+      navigateTo("/chat/" + roomId, {
+        previous: "/chatList/" + this.store.productId,
+      });
+    });
   }
 
   render() {

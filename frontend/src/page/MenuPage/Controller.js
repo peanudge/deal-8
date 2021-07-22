@@ -43,8 +43,7 @@ export default class Controller {
   }
 
   moveToChatRoom(roomId) {
-    console.log(roomId);
-    navigateTo("/chat/" + roomId);
+    navigateTo("/chat/" + roomId, { previous: "/menu" });
   }
 
   changeInterest(productId, isInterested) {

@@ -25,8 +25,8 @@ const getParams = (match) => {
   );
 };
 
-export const navigateTo = (url) => {
-  history.pushState(null, null, url);
+export const navigateTo = (url, data = null) => {
+  history.pushState(data, null, url);
   router();
 };
 
