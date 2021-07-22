@@ -5,10 +5,12 @@ import {
   getOwnProductsAsync,
   getMyChatRoomsAsync,
 } from "@/api/user";
+
+import { deleteProductById } from "@/api/product";
+
 import { navigateTo } from "@/router";
 import { TabType } from "./views/TabView";
 
-const tag = "[Controller]";
 export default class Controller {
   constructor(
     store,
@@ -17,6 +19,8 @@ export default class Controller {
       salingProductListView,
       interestProductListView,
       chatRoomListView,
+      modalBlurBGView,
+      settingMenuModalView,
     }
   ) {
     this.store = store;
@@ -25,6 +29,10 @@ export default class Controller {
     this.salingProductListView = salingProductListView;
     this.interestProductListView = interestProductListView;
     this.chatRoomListView = chatRoomListView;
+
+    this.isShowSettingModal = false;
+    this.settingMenuModalView = settingMenuModalView;
+    this.modalBlurBGView = modalBlurBGView;
 
     this.subscribeViewEvents();
     this.render();
@@ -45,8 +53,43 @@ export default class Controller {
 
     this.salingProductListView.on("@setting", (e) => {
       const { id } = e.detail.value;
-      console.log(id);
+      this.store.settingProductId = Number(id);
+      this.showSettingMenuModal();
     });
+
+    this.modalBlurBGView.on("@outfocus-modal", (e) => {
+      this.hideSettingMenuModal();
+    });
+
+    this.settingMenuModalView.on("@cancel", () => {
+      this.hideSettingMenuModal();
+    });
+
+    this.settingMenuModalView.on("@delete", () => {
+      const productId = this.store.settingProductId;
+      deleteProductById(productId).then(({ success }) => {
+        if (success) {
+          this.fetchOwnProductData();
+          this.hideSettingMenuModal();
+        } else {
+          throw "상품 삭제 실패";
+        }
+      });
+    });
+
+    this.settingMenuModalView.on("@edit", () => {
+      this.hideSettingMenuModal();
+    });
+  }
+
+  showSettingMenuModal() {
+    this.isShowSettingModal = true;
+    this.render();
+  }
+
+  hideSettingMenuModal() {
+    this.isShowSettingModal = false;
+    this.render();
   }
 
   moveToChatRoom(roomId) {
@@ -112,6 +155,14 @@ export default class Controller {
       this.interestProductListView.show(interestProducts);
     } else {
       throw "사용할 수 없는 탭입니다.";
+    }
+
+    if (this.isShowSettingModal) {
+      this.settingMenuModalView.show();
+      this.modalBlurBGView.show();
+    } else {
+      this.settingMenuModalView.hide();
+      this.modalBlurBGView.hide();
     }
   }
 }

@@ -1,8 +1,8 @@
 import { qs } from "@/helper/selectHelpers";
 import { on } from "@/helper/eventHelpers";
-import View from "@/page/View";
+import ModalView from "@/common/views/ModalView";
 
-export default class DeleteLocationModalView extends View {
+export default class DeleteLocationModalView extends ModalView {
   constructor(element = qs("#location-delete-modal")) {
     super(element);
 
@@ -31,11 +31,7 @@ export default class DeleteLocationModalView extends View {
   }
 
   show(location) {
-    this.locationNameElement.innerText = '"' + location + '"';
     super.show();
-  }
-
-  hide() {
-    super.hide();
+    this.locationNameElement.innerText = '"' + location + '"';
   }
 }

@@ -1,8 +1,8 @@
-import View from "@/page/View";
+import ModalView from "@/common/views/ModalView";
 import { qs } from "@/helper/selectHelpers";
 import { on } from "@/helper/eventHelpers";
 
-export default class AddLocationModalView extends View {
+export default class AddLocationModalView extends ModalView {
   constructor(element = qs("#location-edit-modal")) {
     super(element);
     this.cancelBtnElement = qs("#cancel-btn", this.element);
