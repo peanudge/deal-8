@@ -5,6 +5,7 @@ import {
   getCategoryAsync,
   getProductDetailAsync,
   updateProductStatusAsync,
+  deleteProductById,
 } from "@/api/product";
 import {
   getProfileAsync,
@@ -58,9 +59,15 @@ export default class Controller {
     });
 
     this.productDetailModalView.on("@delete-post", () => {
-      this.isShowModal = false;
-      this.render();
-
+      // this.isShowModal = false;
+      // this.render();
+      deleteProductById().then(({ success }) => {
+        if (success) {
+          navigateTo("/");
+        } else {
+          throw "상품 삭제 실패";
+        }
+      });
       // TODO: navigation main.
     });
 

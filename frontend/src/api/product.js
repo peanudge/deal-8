@@ -117,3 +117,11 @@ export const updateProductStatusAsync = (productId, status) => {
     resolve(request);
   });
 };
+
+export const deleteProductById = (productId) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({ success: true });
+    }, 100);
+  });
+};
