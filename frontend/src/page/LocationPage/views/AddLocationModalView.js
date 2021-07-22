@@ -8,7 +8,6 @@ export default class AddLocationModalView extends View {
     this.cancelBtnElement = qs("#cancel-btn", this.element);
     this.acceptBtnElement = qs("#accept-btn", this.element);
     this.locationInputElement = qs("#edit-location-input", this.element);
-    this.blurBgElement = qs("#modal-blur-bg");
     this.eventsBinding();
   }
 
@@ -33,15 +32,5 @@ export default class AddLocationModalView extends View {
   handleAcceptButtonClickEvent() {
     const location = this.locationInputElement.value;
     this.emit("@add-location", { value: location });
-  }
-
-  show() {
-    this.blurBgElement.style.visibility = "visible";
-    super.show();
-  }
-
-  hide() {
-    this.blurBgElement.style.visibility = "hidden";
-    super.hide();
   }
 }
