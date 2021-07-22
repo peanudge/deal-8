@@ -77,8 +77,9 @@ export default class Controller {
       });
     });
 
-    this.settingMenuModalView.on("@edit", () => {
-      this.hideSettingMenuModal();
+    this.settingMenuModalView.on("@edit", (e) => {
+      const productId = this.store.settingProductId;
+      navigateTo("/modifyPost/" + productId, { previous: "/menu" });
     });
   }
 

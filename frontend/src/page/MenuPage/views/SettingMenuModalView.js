@@ -12,7 +12,7 @@ export default class SettingMenuModalView extends ModalView {
   }
 
   bindingEvents() {
-    on(this.editButtonElement, "click", () => {
+    on(this.editButtonElement, "click", (e) => {
       this.emit("@edit");
     });
 
