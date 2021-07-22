@@ -4,8 +4,8 @@ import { qs } from "@/helper/selectHelpers";
 import { delegate } from "@/helper/eventHelpers";
 import { timeForToday } from "@/util/time";
 
-import exampleCooler from "@/public/image/example-cooler.svg";
 import interestSVG from "@/public/svg/interest.svg";
+import imageSVG from "@/public/svg/image.svg";
 import moreVerticalSVG from "@/public/svg/more-vertical.svg";
 import chatSVG from "@/public/svg/chat.svg";
 import interestSmallSVG from "@/public/svg/interest-small.svg";
@@ -101,7 +101,14 @@ class Template {
 
     return /*html*/ `
     <article class="content--product" data-id=${id}>
-          <img class="content--product--thumbnail" src="${thumbnail}" />
+          ${
+            thumbnail
+              ? `<img class="content--product--thumbnail" src="${thumbnail}" />`
+              : `<div class="content--product--thumbnail__empty">
+                    <div class="empty-image-icon">${imageSVG}</div>
+                  </div>`
+          }
+          
           <div class="content--product--info">
             <div class="content--product--info--top">
               <div>

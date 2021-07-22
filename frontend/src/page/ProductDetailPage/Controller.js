@@ -151,7 +151,11 @@ export default class Controller {
     }
 
     this.productDetailHeaderView.show(user, productDetail);
-    this.productImageListView.show(productDetail.images);
+    if (productDetail.images.length > 0) {
+      this.productImageListView.show(productDetail.images);
+    } else {
+      this.productImageListView.hide();
+    }
     this.productDetailView.show(user, productDetail, categoryName);
     this.productDetailFooterView.show(user, productDetail);
   }
