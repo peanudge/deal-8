@@ -24,14 +24,18 @@ export default class ChatRoomListContentView extends View {
   };
 
   show(chatRoomListItems = []) {
-    chatRoomListItems.forEach((chatRoomListItem) => {
+    chatRoomListItems.forEach((chatRoomListItem, chatRoomListItemIndex) => {
       const $newChatArticle = document.createElement("article");
-      $newChatArticle.className = `content--chat-item ${
-        chatRoomListItem.unReadCount <= 0 ? "" : "unread"
-      }`;
+      $newChatArticle.className = `content--chat-item`;
       $newChatArticle.dataset.roomId = chatRoomListItem.roomId;
-      this.element.appendChild($newChatArticle);
       $newChatArticle.innerHTML = this.getChatArticle(chatRoomListItem);
+
+      this.element.appendChild($newChatArticle);
+      if (chatRoomListItemIndex !== chatRoomListItems.length - 1) {
+        const splitter = document.createElement("div");
+        splitter.className = "splitter";
+        this.element.appendChild(splitter);
+      }
     });
   }
 

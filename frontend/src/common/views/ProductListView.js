@@ -61,7 +61,15 @@ class Template {
     return `
       <div class="content">
         ${products
-          .map((product) => this.getProductItem(product, option))
+          .map((product, productIndex) => {
+            const result = [this.getProductItem(product, option)];
+            if (productIndex !== products.length - 1) {
+              result.push(`
+              <div class="splitter"></div>
+            `);
+            }
+            return result.join("");
+          })
           .join("")}
       </div> 
     `;

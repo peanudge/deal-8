@@ -2,7 +2,6 @@ import View from "@/page/View";
 
 import { qs } from "@/helper/selectHelpers";
 import { delegate } from "@/helper/eventHelpers";
-import exampleCooler from "@/public/image/example-cooler.svg";
 import { timeForToday } from "@/util/time";
 
 const tag = "[ChatRoomListView]";
@@ -40,7 +39,16 @@ class Template {
   getChatRooms(chatRoomListItems = []) {
     return `<div class="content">
       ${chatRoomListItems
-        .map((chatRoomListItem) => this._getChatRoom(chatRoomListItem))
+        .map((chatRoomListItem, chatRoomListItemIndex) => {
+          const result = [this._getChatRoom(chatRoomListItem)];
+          if (chatRoomListItemIndex !== chatRoomListItems.length - 1) {
+            result.push(`
+            <div class="splitter"></div>
+          `);
+          }
+
+          return result.join("");
+        })
         .join("")}
     </div>`;
   }
@@ -49,7 +57,8 @@ class Template {
     const { roomId, username, thumbnail, content, createdAt } =
       chatRoomListItem;
 
-    return /*html*/ `<article class="content--chat-item" data-id = ${roomId}>
+    return /*html*/ `
+    <article class="content--chat-item" data-id = ${roomId}>
       <div class="content--chat-item--left">
         <strong class="username">${username}</strong>
         <span class="current-message">${content}</span>
