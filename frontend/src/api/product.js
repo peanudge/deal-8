@@ -120,8 +120,13 @@ export const updateProductStatusAsync = (productId, status) => {
 
 export const deleteProductById = (productId) => {
   return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({ success: true });
-    }, 100);
+    const request = fetch(`/api/product/?id=${productId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => response.json());
+
+    resolve(request);
   });
 };
