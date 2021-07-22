@@ -124,14 +124,22 @@ router.post("/", authMiddleware, async (req, res) => {
 router.put("/", async (req, res) => {
   const { id, category, title, content, cost, location, images } = req.body;
   const username = req.session["username"];
+  let oldImages = [];
   try {
     const targetProduct = await productStore.getProductById(id, username);
     if (targetProduct.author !== username) {
       return res.status(FORBIDDEN_STATUS).json({ success: false });
     }
+    oldImages = targetProduct.images;
   } catch (err) {
     return res.status(INTERNAL_SERVER_ERROR_STATUS).json({ success: false });
   }
+
+  const filteredImages = oldImages.filter((oldImage) =>
+    images.includes(oldImage)
+  );
+
+  // filteredImages를 가진 product_image 테이블에서 row 삭제 및 파일 삭제
 
   const product = new Product({
     id,
