@@ -1,18 +1,14 @@
-# 스크린샷
+# 8팀 우아한 마켓 프로젝트
+  - 우아한 테크캠프 4기의 우아마켓 프로젝트를 진행한 <strong>손지호</strong>, <strong>지승보</strong> 입니다.
+<img width="342" alt="스크린샷 2021-07-23 오전 11 44 01" src="https://user-images.githubusercontent.com/47034129/126731902-0a93febf-889b-48fe-995e-4a6797f13608.png">
 
-<img width="342" alt="스크린샷 2021-07-23 오전 11 44 01" src="https://user-images.githubusercontent.com/47034129/126731902-0a93febf-889b-48fe-995e-4a6797f13608.png"> <img width="329" alt="스크린샷 2021-07-23 오전 11 44 06" src="https://user-images.githubusercontent.com/47034129/126731911-dcc0d4c7-1535-4d24-bbc3-32676e1c9f53.png"> <img width="336" alt="스크린샷 2021-07-23 오전 11 44 12" src="https://user-images.githubusercontent.com/47034129/126731915-0d65bf9c-0a41-4a7d-805a-c67ab165ab67.png"> <img width="358" alt="스크린샷 2021-07-23 오전 11 44 18" src="https://user-images.githubusercontent.com/47034129/126731921-2926049e-86ff-4923-b34d-e918d6f35a95.png"> <img width="352" alt="스크린샷 2021-07-23 오전 11 44 28" src="https://user-images.githubusercontent.com/47034129/126731936-188dde5f-27ca-4ac2-8207-e9a027983b27.png"> <img width="334" alt="스크린샷 2021-07-23 오전 11 44 35" src="https://user-images.githubusercontent.com/47034129/126731948-14a3fe1d-d662-491f-8788-41f8f1713d54.png">
+- 우아한 테크캠프 4기의 2주차 프로젝트인 우아마켓입니다
+  - ~~당근마켓~~을 모티브로 우아마켓을 구현하였습니다.
+  - <a href="https://www.figma.com/proto/p8xNIB3Od4x3ylaIaOLtjl/%EC%9A%B0%EC%95%84%EB%A7%88%EC%BC%93?page-id=617%3A1286&node-id=617%3A1298&viewport=203%2C397%2C0.25&scaling=contain">기획서</a>
 
-# 배포 방법
-```bash
-  # nodejs, npm, pm2, mysql 등이 설치되어있다는 가정
-  cd ./frontend/
-  npm install
-  cd ../backend/
-  npm install
-  cd ..
-  chmod +x deploy.sh
-  ./deploy.sh
-```
+# 프로젝트 구조
+  frontend에서 구현한 내용을 webpack을 이용하여 bundle로 만든 뒤 backend의 public에서 호스팅 합니다.
+  위의 frontend, backend에서 각각의 내용을 확인 할 수 있습니다.
 
 # 개발 방식
 
@@ -30,4 +26,19 @@
   - mysql2 (mysql)을 이용해서 데이터베이스 CRUD 구현
   - 개발단계에서 docker를 이용해 쉽게 DB환경 구현
   - express-session으로 사용자 관리
+
+# 개발 순서
+  1. frontend/public에서 퍼블리싱 진행
+  2. frontend/src 에서 SPA 프레임워크 구현 및 퍼블리싱한 페이지 적용
+  3. 프론트엔드에서 mock API 구현
+  4. 백엔드에서 InMemmoryStore를 이용해 디비 구현전 간단하게 디비기능 구현
+  5. 프론트엔드에서 백엔드로 REST 요청
+  6. 백엔드 디비구현 및 InMemmoryStore를 MySQLStore로 변경
+  7. 리팩토링 및 배포
+
+
+
+
+
+
 
