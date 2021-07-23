@@ -1,8 +1,8 @@
 import { qs } from "@/helper/selectHelpers";
 import { on } from "@/helper/eventHelpers";
-import View from "@/page/View";
+import ModalView from "@/common/views/ModalView";
 
-export default class ProductDetailModalView extends View {
+export default class ProductDetailModalView extends ModalView {
   constructor(element = qs("#post-delete-modal")) {
     super(element);
     this.blurBgElement = qs("#modal-blur-bg");
