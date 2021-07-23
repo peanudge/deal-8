@@ -109,7 +109,7 @@ export default class MySQLProductStore extends AbstractProductStore {
       params.push(location);
     }
 
-    retrieveProductsQuery += "GROUP BY p.id";
+    retrieveProductsQuery += "GROUP BY p.id ORDER BY p.createdAt DESC";
 
     try {
       const result = await mysqlConnection
@@ -221,7 +221,7 @@ export default class MySQLProductStore extends AbstractProductStore {
     p.content AS content, p.cost AS cost, p.status AS status, p.location AS location,
     p.thumbnail AS thumbnail, p.createdAt AS createdAt, p.updatedAt AS updatedAt, p.countOfView AS countOfView,
     CASE WHEN ip.username IS NULL THEN FALSE ELSE TRUE END as isInterested
-    FROM product AS p LEFT JOIN interest_product AS ip ON ip.id = p.id WHERE ip.username = ?
+    FROM product AS p LEFT JOIN interest_product AS ip ON ip.id = p.id WHERE ip.username = ? ORDER BY p.createdAt DESC
     `;
     const params = [username];
     try {
@@ -259,7 +259,7 @@ export default class MySQLProductStore extends AbstractProductStore {
     id, category, author, title, 
     content,cost, status,location,
     thumbnail, createdAt, updatedAt,countOfView
-    FROM product WHERE author = ?
+    FROM product WHERE author = ? ORDER BY createdAt DESC
     `;
     const params = [username];
     try {
