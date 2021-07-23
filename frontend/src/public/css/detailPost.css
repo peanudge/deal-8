@@ -1,5 +1,6 @@
 @import url("./common/basic_header.css");
 @import url("./common/global_color.css");
+@import url("./common/modal.css");
 
 body {
   border: 1px solid #c0c0c0;
@@ -18,18 +19,13 @@ body {
   height: 20px;
 }
 
-main {
-  height: calc(100% - 56px);
-  overflow: scroll;
-}
-
 .post-main {
-  display: flex;
   position: absolute;
   flex-direction: column;
   background-color: white;
   overflow: scroll;
-  height: calc(100% - 68px);
+  height: calc(100% - 126px);
+  width: 100%;
 }
 
 .post-main--img-container {
@@ -69,7 +65,7 @@ main {
 #sale-info {
   margin-left: 16px;
   margin-right: 16px;
-  margin-top: 24px;
+  margin-top: 12px;
   display: flex;
   flex-direction: column;
 }
@@ -78,15 +74,15 @@ main {
   position: relative;
   display: flex;
   justify-content: center;
-  width: 100px;
+  width: 120px;
   align-items: center;
-  padding: 10px 16px;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   cursor: pointer;
 }
 
 .post-main--sale-status--content {
+  height: 40px;
   flex-grow: 1;
   display: flex;
   justify-content: space-around;
@@ -117,8 +113,22 @@ main {
   font-weight: 400;
   color: #888888;
 }
-.post-main--sub-title p {
+
+.post-main--sub-title .category-name-label {
   margin-right: 2px;
+  font-size: 12px;
+  font-weight: 500;
+}
+.post-main--sub-title .category-name-label::after {
+  content: "∙";
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.post-main--sub-title .create-time-label {
+  margin-right: 2px;
+  font-size: 12px;
+  font-weight: 500;
 }
 
 .post-main--content {
@@ -141,7 +151,6 @@ main {
 
 .post-main--seller-info {
   margin-top: 24px;
-  margin-bottom: calc(68px + 32px);
   display: flex;
   justify-content: space-between;
   padding: 16px;
@@ -186,11 +195,20 @@ footer .move-btn {
   font-weight: 500;
   padding: 8px 16px;
   border-radius: 8px;
+  cursor: pointer;
+}
+footer .interest-btn {
+  border: none;
+  background-color: transparent;
 }
 
-.interest-btn {
+footer .interest-btn > svg {
   width: 20px;
   height: 20px;
+}
+
+footer .interest-btn.on > svg {
+  fill: var(--primary1-color);
 }
 
 #author-menu {
@@ -217,4 +235,20 @@ footer .move-btn {
   z-index: 999;
   top: 100%;
   transform: translateX(-30%);
+}
+
+.detail-product-image {
+  object-fit: contain;
+  width: 100%;
+}
+
+.post-main--info--chat-count::after,
+.post-main--info--interest-count::after {
+  content: "∙";
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.product-delete-btn {
+  color: red;
 }

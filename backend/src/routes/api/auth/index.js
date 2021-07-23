@@ -1,4 +1,4 @@
-import MysqlAccountStore from "../../../model/Account/Store/MysqlAccountStore.js";
+import MysqlAccountStore from "../../../model/Account/Store/MySQLAccountStore.js";
 import express from "express";
 const accountStore = new MysqlAccountStore();
 

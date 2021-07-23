@@ -9,7 +9,6 @@ const tag = "[LoginPage]";
 
 export default class LoginPage extends AbstractPage {
   constructor(params) {
-    console.log(tag, "contructor");
     super(params);
   }
 

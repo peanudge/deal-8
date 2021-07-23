@@ -2,9 +2,10 @@ import View from "@/page/View";
 
 import { qs } from "@/helper/selectHelpers";
 import { delegate } from "@/helper/eventHelpers";
+import { timeForToday } from "@/util/time";
 
-import exampleCooler from "@/public/image/example-cooler.svg";
 import interestSVG from "@/public/svg/interest.svg";
+import imageSVG from "@/public/svg/image.svg";
 import moreVerticalSVG from "@/public/svg/more-vertical.svg";
 import chatSVG from "@/public/svg/chat.svg";
 import interestSmallSVG from "@/public/svg/interest-small.svg";
@@ -22,7 +23,6 @@ export default class ProductListView extends View {
       emptyMessage: "상품이 존재하지 않습니다.",
     }
   ) {
-    console.log(tag, "constructor");
     super(element);
     this.option = option;
     this.template = new Template();
@@ -33,14 +33,25 @@ export default class ProductListView extends View {
     delegate(this.element, "click", "#interest-btn", (e) =>
       this.handleClickInterestEvent(e)
     );
+
+    delegate(this.element, "click", "#setting-btn", (e) =>
+      this.handleClickSettingEvent(e)
+    );
   }
 
   handleClickInterestEvent(event) {
     const target = event.target;
-    const id = target.dataset.id;
+    const { id } = target.dataset;
     const currentInterestStatus = Array.from(target.classList).includes("on");
     this.emit("@interest", {
       value: { id, isInterested: !currentInterestStatus },
+    });
+  }
+
+  handleClickSettingEvent(event) {
+    const { id } = event.target.dataset;
+    this.emit("@setting", {
+      value: { id },
     });
   }
 
@@ -61,7 +72,15 @@ class Template {
     return `
       <div class="content">
         ${products
-          .map((product) => this.getProductItem(product, option))
+          .map((product, productIndex) => {
+            const result = [this.getProductItem(product, option)];
+            if (productIndex !== products.length - 1) {
+              result.push(`
+              <div class="splitter"></div>
+            `);
+            }
+            return result.join("");
+          })
           .join("")}
       </div> 
     `;
@@ -73,7 +92,7 @@ class Template {
       title,
       cost,
       location,
-      updatedAt,
+      createdAt,
       thumbnail,
       countOfChat,
       countOfInterest,
@@ -82,24 +101,31 @@ class Template {
 
     return /*html*/ `
     <article class="content--product" data-id=${id}>
-          <img class="content--product--thumbnail" src="${thumbnail}" />
+          ${
+            thumbnail
+              ? `<img class="content--product--thumbnail" src="${thumbnail}" />`
+              : `<div class="content--product--thumbnail__empty">
+                    <div class="empty-image-icon">${imageSVG}</div>
+                  </div>`
+          }
+          
           <div class="content--product--info">
             <div class="content--product--info--top">
               <div>
-              <a href="/product/${id}" data-link><h1>${title}</h1></a>
+              <a class="content--product--info--top--title" href="/product/${id}" data-link><h1>${title}</h1></a>
                 ${
                   option.showInterestBtn
                     ? this._getInterestBtn(isInterested, id)
                     : ""
                 }
-                ${option.showSettingBtn ? this._getSettingBtn() : ""}
+                ${option.showSettingBtn ? this._getSettingBtn(id) : ""}
               </div>
               <div>
                 <span class="location">${location}</span>
-                <span class="time">2시간 전</span>
+                <span class="time">${timeForToday(createdAt)}</span>
               </div>
               <div>
-                <strong> ${cost} 원 </strong>
+                <strong> ${cost ? cost : "-"} 원 </strong>
               </div>
             </div>
             <div class="content--product--info--bottom">
@@ -137,8 +163,8 @@ class Template {
     `;
   }
 
-  _getSettingBtn() {
-    return `<div id="setting-btn" class="content--product--info--top--menu">
+  _getSettingBtn(id) {
+    return `<div id="setting-btn" class="content--product--info--top--menu" data-id=${id}>
       ${moreVerticalSVG}
     </div>`;
   }

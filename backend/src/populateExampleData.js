@@ -4,30 +4,6 @@ mysqlConnection.connect(function (err) {
   if (err) throw err;
 });
 
-// Insert init category;
-const init_category_insert_query = `
-INSERT INTO category(id, name) 
-VALUES
-(0,"디지털 기기"),
-(1,"게임/취미"),
-(2,"여성패션/잡화"),
-(3,"뷰티/미용"),
-(4,"생활 가전"),
-(5,"생활/가공식품"),
-(6,"남성패션/잡화"),
-(7,"반려동물"),
-(8,"가구 인테리어"),
-(9,"스포츠/레저"),
-(10,"유아동"),
-(11,"도서/티켓");
-`;
-
-const init_category_insert_query_result = await mysqlConnection
-  .promise()
-  .query(init_category_insert_query);
-
-console.log("Complete Insert init Categories!");
-
 // Insert example accounts;
 const example_account_insert_qeury = `
     INSERT INTO account(username) VALUES("testuser"), ("woowahan"), ("UserA"), ("UserB");
@@ -67,6 +43,21 @@ const example_product_insert_query_result = await mysqlConnection
   .promise()
   .query(example_product_insert_query);
 
+// Insert example product_image
+const example_product_image_insert_query = `
+INSERT INTO product_image(id, image) VALUES 
+(1, "${testImageURL}"),
+(2, "${testImageURL}"),
+(3, "${testImageURL}"),
+(4, "${testImageURL}"),
+(5, "${testImageURL}"),
+(6, "${testImageURL}"),
+(7, "${testImageURL}");
+`;
+const example_product_image_insert_query_result = await mysqlConnection
+  .promise()
+  .query(example_product_image_insert_query);
+
 // Insert example interest_product;
 const example_interest_product_insert_query = `
 INSERT INTO interest_product(username, id)
@@ -77,4 +68,34 @@ const example_interest_product_insert_query_result = await mysqlConnection
   .promise()
   .query(example_interest_product_insert_query);
 console.log("Complete Insert Example Products!");
+
+// INSERT example chatroom;
+
+const example_chatroom_insert_qeury = `
+INSERT INTO chatroom(productId) VALUES(1),(1);
+`;
+const example_chatroom_insert_qeury_result = await mysqlConnection
+  .promise()
+  .query(example_chatroom_insert_qeury);
+
+const example_chatroom_attend_insert_qeury = `
+INSERT INTO chatroom_attend(roomId, username) VALUES 
+(1, "UserA"),(1, "woowahan"),
+(2, "testuser"),(2, "UserA")
+`;
+const example_chatroom_attend_insert_qeury_result = await mysqlConnection
+  .promise()
+  .query(example_chatroom_attend_insert_qeury);
+
+const example_chat_insert_query = `
+INSERT INTO chat(roomId, content, writer) VALUES
+(1, "THIS IS TEST1", "woowahan"),
+(1, "THIS IS TEST2", "UserA")
+`;
+const example_chat_insert_query_result = await mysqlConnection
+  .promise()
+  .query(example_chat_insert_query);
+
+console.log("Complete Insert Example ChatRoom!");
+
 process.exit(1);

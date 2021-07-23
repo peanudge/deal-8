@@ -3,15 +3,15 @@ import express from "express";
 import path from "path";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
-import session from "express-session";
 import multer from "multer";
 import mysqlConnection from "./config/mysql.js";
 import indexRouter from "./routes/index.js";
+import session from "express-session";
+
 const __dirname = path.resolve();
 
 // Mysql Setting
 mysqlConnection.connect(function (err) {
-  // TODO : connection 정보를 남겨야 한다.
   if (err) throw err;
 });
 
@@ -33,24 +33,23 @@ export const upload = multer({
 
 const app = express();
 
+export const appSession = session({
+  secret: process.env.SESSION_SECRET || "adnifneaoifdnaoisunfg",
+  resave: false,
+  saveUninitialized: true,
+});
+// express-session
+app.use(appSession);
+
 // view engine setup
 app.set("views", path.join(__dirname, "/src/views"));
 app.set("view engine", "ejs");
 
 app.use(logger("dev"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ extended: false, limit: "50mb" }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "./public")));
-
-// express-session
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET || "adnifneaoifdnaoisunfg",
-    resave: false,
-    saveUninitialized: true,
-  })
-);
 
 app.use("/", indexRouter);
 

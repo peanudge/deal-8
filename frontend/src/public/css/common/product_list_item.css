@@ -34,6 +34,13 @@
   margin: 2px 0;
   align-items: center;
 }
+.content--product--info--top--title {
+  display: inline-block;
+  width: 120px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
 
 .content--product--info--top > div:first-child {
   margin-top: 0;
@@ -45,6 +52,7 @@
 }
 
 .content--product--info--top--interest {
+  align-self: flex-start;
   border: none;
   background-color: transparent;
   cursor: pointer;
@@ -63,6 +71,7 @@
 }
 
 .content--product--info--top--menu {
+  align-self: flex-start;
   border: none;
   background-color: transparent;
   cursor: pointer;
@@ -125,6 +134,21 @@
 .content--product--thumbnail {
   width: 106px;
   height: 106px;
+  object-fit: contain;
+}
+
+.content--product--thumbnail__empty {
+  width: 106px;
+  height: 106px;
+  background-color: #c0c0c0;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.empty-image-icon > svg {
+  width: 20px;
+  height: 20px;
 }
 
 .chat-icon > svg {
@@ -151,4 +175,14 @@
 .empty-content--label {
   text-align: center;
   color: var(--gray-text-color);
+}
+
+.content--chat-item--right--right > img {
+  width: 100%;
+}
+.splitter {
+  width: calc(100% - 30px);
+  height: 1px;
+  margin: 0 auto;
+  border-bottom: 1px solid var(--input-border-color);
 }

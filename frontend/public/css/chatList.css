@@ -1,5 +1,5 @@
-@import url('./common/basic_header.css');
-@import url('./common/chat_list_item.css');
+@import url("./common/basic_header.css");
+@import url("./common/chat_list_item.css");
 body {
   background-color: #fff;
 }

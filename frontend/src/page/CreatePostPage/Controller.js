@@ -1,10 +1,10 @@
-import { categoryItems } from "@/util/category";
-
-import { createProductAsync } from "@/api/product";
+import {
+  createProductAsync,
+  getCategoriesAsync,
+  uploadProductImagesAsync,
+} from "@/api/product";
 import { navigateTo } from "@/router";
 import { getProfileAsync } from "@/api/user";
-
-const tag = "[Controller]";
 
 const ERROR_EMPTY_CATEGORY = "(필수) 카테고리는 선택해주세요.";
 const ERROR_EMPTY_TITLE = "글 제목을 입력해주세요.";
@@ -33,6 +33,13 @@ export default class Controller {
   }
 
   fetchData() {
+    getCategoriesAsync().then(({ success, categories }) => {
+      if (success) {
+        this.store.categories = categories;
+        this.render();
+      }
+    });
+
     getProfileAsync().then(({ isAuth, account }) => {
       if (isAuth) {
         const { locations } = account;
@@ -53,7 +60,7 @@ export default class Controller {
     this.categorySelectView.on("@select-category", (e) => {
       const categoryId = e.detail.value;
 
-      categoryItems.forEach((categoryItem) => {
+      this.store.categories.forEach((categoryItem) => {
         if (categoryItem.id === Number(categoryId)) {
           this.store.category = categoryItem;
         }
@@ -78,35 +85,57 @@ export default class Controller {
       this.store.cost = cost;
     });
 
-    this.createPostFormView.on("@change-comment", (e) => {
-      const comment = e.detail.value;
-      this.store.comment = comment;
+    this.createPostFormView.on("@change-content", (e) => {
+      const content = e.detail.value;
+      this.store.content = content;
     });
 
     this.imageUploadView.on("@image-upload", (e) => {
-      this.uploadImagesFromFileSystem(e.detail.value);
+      const files = e.detail.value;
+      this.uploadImagesFromFileSystem(files);
     });
 
-    this.createPostHeaderView.on("@create-post", (e) => {
-      if (!this.validateStoreForSubmit(this.store)) {
-        this.render();
-        return;
-      }
+    this.imageUploadView.on("@image-delete", (e) => {
+      const fileKey = Number(e.detail.value);
+      this.store.images = [...this.store.images].filter(
+        (_, idx) => idx !== fileKey
+      );
+      this.render();
+    });
 
-      const { images, category, cost, title, comment, location } = this.store;
+    this.createPostHeaderView.on("@create-post", (e) => this.createPost());
+  }
 
-      createProductAsync({
-        title,
-        cost,
-        comment,
-        location,
-        category: category.id,
-      }).then((id) => {
-        navigateTo("/product/" + id);
+  createPost() {
+    if (!this.validateStoreForSubmit(this.store)) {
+      this.render();
+      return;
+    }
+
+    const { images, category, cost, title, content, location } = this.store;
+
+    uploadProductImagesAsync(images)
+      .then(({ success, images }) => {
+        if (success) {
+          return createProductAsync({
+            title,
+            cost,
+            content,
+            location,
+            images,
+            category: category?.id,
+          });
+        } else {
+          console.err("Image Upload Fail.");
+        }
+      })
+      .then((result) => {
+        if (result.success) {
+          navigateTo("/product/" + result.product.id);
+        } else {
+          //TODO: Update Fail fallback
+        }
       });
-
-      // TODO: add image upload api
-    });
   }
 
   validateStoreForSubmit() {
@@ -134,10 +163,11 @@ export default class Controller {
   }
 
   render() {
-    const { images, category, comment, title, location, cost } = this.store;
+    const { images, category, content, title, location, cost, categories } =
+      this.store;
 
     if (this.isShowCategorySelectView) {
-      this.categorySelectView.show();
+      this.categorySelectView.show(categories);
       this.createPostFormView.hide();
       this.createPostHeaderView.hide();
     } else {
@@ -146,7 +176,7 @@ export default class Controller {
       this.createPostFormView.show(
         {
           title,
-          comment,
+          content,
           cost,
           location,
           category: category?.name,

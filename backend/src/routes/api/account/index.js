@@ -2,30 +2,34 @@ import express from "express";
 import {
   BAD_REQUEST,
   SUCCESS_STATUS,
-  UNAUTHORIZED_STATUS,
+  INTERNAL_SERVER_ERROR_STATUS,
 } from "../../../util/HttpStatus.js";
 
 import authMiddleware from "../../../middlewares/auth.js";
 
-import AccountStore from "../../../model/Account/Store/MysqlAccountStore.js";
+import AccountStore from "../../../model/Account/Store/MySQLAccountStore.js";
 import ProductStore from "../../../model/Product/Store/MySQLProductStore.js";
+import ChatStore from "../../../model/Chat/Store/MySQLChatStore.js";
 
 const accountStore = new AccountStore();
 const productStore = new ProductStore();
+const chatStore = new ChatStore();
 
 const router = express.Router();
 
-router.use("", authMiddleware);
-
 router.get("/me", async (req, res) => {
-  const account = await accountStore.getAccount(req.session.username);
-  res.json({ isAuth: true, account });
+  if (req.session.username) {
+    const account = await accountStore.getAccount(req.session.username);
+    return res.json({ isAuth: true, account });
+  } else {
+    return res.json({ isAuth: false });
+  }
 });
 
-router.post("/me/location", async (req, res) => {
+router.post("/me/location", authMiddleware, async (req, res) => {
   const { location } = req.body;
 
-  const username = req.session["username"];
+  const username = req.session.username;
   const account = await accountStore.getAccount(username);
 
   const originLocation = account.locations.find((l) => location === l);
@@ -39,16 +43,16 @@ router.post("/me/location", async (req, res) => {
     const updatedAccount = await accountStore.getAccount(username);
     res.status(SUCCESS_STATUS).json({ success: true, account: updatedAccount });
   } else {
-    res.status(BAD_REQUEST).json({
+    return res.status(BAD_REQUEST).json({
       success: false,
       error: "지역 정보는 최대 2개까지만 등록할 수 있습니다.",
     });
   }
 });
 
-router.delete("/me/location", async (req, res) => {
+router.delete("/me/location", authMiddleware, async (req, res) => {
   const { location } = req.query;
-  const username = req.session["username"];
+  const username = req.session.username;
   const account = await accountStore.getAccount(username);
   if (account.locations.length >= 1) {
     const isLocationExist = account.locations.includes(location);
@@ -68,38 +72,31 @@ router.delete("/me/location", async (req, res) => {
         .json({ success: false, error: "알 수 없는 오류입니다." });
     }
     const affectedAccount = await accountStore.getAccount(username);
-    res
+    return res
       .status(SUCCESS_STATUS)
       .json({ success: true, account: affectedAccount });
   } else {
-    res.status(BAD_REQUEST).json({
+    return res.status(BAD_REQUEST).json({
       success: false,
       error: "지역 정보는 최소한 하나는 있어야합니다.",
     });
   }
 });
 
-router.get("/me/interest", async (req, res) => {
-  if (!req.session["username"]) {
-    res
-      .status(UNAUTHORIZED_STATUS)
-      .json({ success: false, error: "로그인이 필요합니다." });
-    return;
-  }
-
-  const username = req.session["username"];
+router.get("/me/interest", authMiddleware, async (req, res) => {
+  const username = req.session.username;
   const products = await productStore.getInterestProducts(username);
-  res.status(SUCCESS_STATUS).json({
+  return res.status(SUCCESS_STATUS).json({
     success: true,
     products,
   });
 });
 
-router.post("/me/interest", async (req, res) => {
-  const username = req.session["username"];
+router.post("/me/interest", authMiddleware, async (req, res) => {
+  const username = req.session.username;
   const { productId } = req.query;
   if (!productId) {
-    res.status(BAD_REQUEST).json({
+    return res.status(BAD_REQUEST).json({
       success: false,
       error: "productId 값이 필요합니다.",
     });
@@ -107,10 +104,9 @@ router.post("/me/interest", async (req, res) => {
 
   const isDuplicate = await productStore.isInterestProduct(username, productId);
   if (isDuplicate) {
-    res
+    return res
       .status(BAD_REQUEST)
       .json({ success: false, error: "이미 관심 목록에 추가되어있습니다." });
-    return;
   }
 
   const productIdAsNumber = Number(productId);
@@ -119,14 +115,14 @@ router.post("/me/interest", async (req, res) => {
     productIdAsNumber
   );
   if (result) {
-    res.status(SUCCESS_STATUS).json({ success: true });
+    return res.status(SUCCESS_STATUS).json({ success: true });
   } else {
-    res.status(BAD_REQUEST).json({ success: false });
+    return res.status(BAD_REQUEST).json({ success: false });
   }
 });
 
-router.delete("/me/interest", async (req, res) => {
-  const username = req.session["username"];
+router.delete("/me/interest", authMiddleware, async (req, res) => {
+  const username = req.session.username;
   const { productId } = req.query;
 
   if (!productId) {
@@ -141,25 +137,31 @@ router.delete("/me/interest", async (req, res) => {
     productIdAsNumber
   );
   if (result) {
-    res.status(SUCCESS_STATUS).json({ success: true });
+    return res.status(SUCCESS_STATUS).json({ success: true });
   } else {
-    res.status(BAD_REQUEST).json({ success: false });
+    return res.status(BAD_REQUEST).json({ success: false });
   }
 });
 
-router.get("/me/product", async (req, res) => {
-  if (!req.session["username"]) {
-    res
-      .status(UNAUTHORIZED_STATUS)
-      .json({ success: false, error: "로그인이 필요합니다." });
-    return;
-  }
-
-  const username = req.session["username"];
+router.get("/me/product", authMiddleware, async (req, res) => {
+  const username = req.session.username;
   const products = await productStore.getOwnProducts(username);
-  res.status(SUCCESS_STATUS).json({
+  return res.status(SUCCESS_STATUS).json({
     success: true,
     products,
   });
 });
+
+router.get("/me/chatroom", authMiddleware, async (req, res) => {
+  const username = req.session.username;
+  try {
+    const chatRoomListItems = await chatStore.getChatRooms(username);
+    return res
+      .status(SUCCESS_STATUS)
+      .json({ success: true, chatRoomListItems });
+  } catch (err) {
+    return res.status(INTERNAL_SERVER_ERROR_STATUS).json({ success: false });
+  }
+});
+
 export default router;

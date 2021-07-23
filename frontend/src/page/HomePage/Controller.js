@@ -99,8 +99,8 @@ export default class Controller {
 
   showCategory() {
     this.isShowCategoryView = true;
-    getCategoriesAsync().then(({ category }) => {
-      this.store.categoryList = category;
+    getCategoriesAsync().then(({ categories }) => {
+      this.store.categoryList = categories;
       this.render();
     });
   }
@@ -115,11 +115,11 @@ export default class Controller {
   changeInterest(productId, isInterested) {
     if (this.store.isAuth) {
       if (isInterested) {
-        addInterestProductAsync(productId).then((result) => {
+        addInterestProductAsync(productId).then(() => {
           this.fetchProductData();
         });
       } else {
-        removeInterestProductAsync(productId).then((result) => {
+        removeInterestProductAsync(productId).then(() => {
           this.fetchProductData();
         });
       }
@@ -149,7 +149,9 @@ export default class Controller {
         categoryName: currentCategoryName,
       });
       this.productListView.show(products);
-      this.locationDropDownView.show(currentLocation, user.locations);
+
+      const locationText = currentLocation ? currentLocation : "All";
+      this.locationDropDownView.show(locationText, user.locations);
     }
 
     if (isAuth) {

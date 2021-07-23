@@ -5,13 +5,12 @@ import { upload } from "../app.js";
 
 const router = express.Router();
 
-/* GET home page. */
-router.get("/", function (req, res, next) {
-  res.render("index", { title: "INDEX" });
+router.get("/file", function (req, res, next) {
+  res.render("file");
 });
 
-router.get("/file", function (req, res, next) {
-  res.render("file", { images: pathList });
+router.get("/socket", (req, res) => {
+  res.render("socket");
 });
 
 router.post("/upload", function (req, res, next) {
@@ -20,11 +19,15 @@ router.post("/upload", function (req, res, next) {
       res.render("file");
     } else {
       const pathList = req.files.map((file) => file.path);
-      res.render("file", { images: pathList });
+
+      res.json(pathList);
     }
   });
 });
 
 router.use("/api", apiRouter);
+router.get("/", function (req, res, next) {
+  res.sendFile("./public/index.html");
+});
 
 export default router;

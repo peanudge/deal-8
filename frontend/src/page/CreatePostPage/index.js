@@ -12,7 +12,7 @@ import Store from "./Store";
 import CreatePostFormView from "./views/CreatePostFormView";
 import CreatePostHeaderView from "./views/CreatePostHeaderView";
 
-import "@/public/css/createPost.css";
+import "@/public/css/writePost.css";
 import CategorySelectView from "./views/CategorySelectView";
 
 export default class CreatePostPage extends AbstractPage {
@@ -80,7 +80,7 @@ export default class CreatePostPage extends AbstractPage {
         </div>
         <span class="split-line"></span>
         <span
-            id="comment-textarea"
+            id="content-textarea"
             class="posting-main--textarea expand-textarea"
             role="textbox"
             contenteditable

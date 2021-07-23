@@ -12,3 +12,13 @@ INSERT INTO category(id, name) VALUES(10,"유아동");
 INSERT INTO category(id, name) VALUES(11,"도서/티켓");
 
 
+
+SELECT cr.roomId AS roomId,cra.username AS username, p.thumbnail AS thumbnail, mcr.content FROM chatroom AS cr
+INNER JOIN (
+    SELECT cra.roomId AS roomId, c.content AS content 
+    FROM chatroom_attend AS cra LEFT JOIN chat AS c ON c.roomId = cra.roomId 
+    WHERE username = "woowahan" ORDER BY c.createdAt LIMIT 1
+) AS mcr ON mcr.roomId = cr.roomId
+LEFT JOIN chatroom_attend AS cra ON cr.roomId = cra.roomId
+LEFT JOIN product AS p ON p.id = cr.productId
+WHERE cra.username != "woowahan";

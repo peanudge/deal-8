@@ -12,6 +12,7 @@ export default class MySQLProductStore extends AbstractProductStore {
       cost,
       status,
       location,
+      thumbnail,
       images,
       createdAt,
       updatedAt,
@@ -31,7 +32,7 @@ export default class MySQLProductStore extends AbstractProductStore {
       cost,
       status,
       location,
-      images[0],
+      thumbnail,
       createdAt,
       updatedAt,
     ];
@@ -43,6 +44,7 @@ export default class MySQLProductStore extends AbstractProductStore {
       const isSuccess = result[0]?.affectedRows === 1;
       if (isSuccess) {
         product.id = result[0].insertId;
+        await this.createProductImages(product.id, images);
         return product;
       } else {
         return null;
@@ -50,6 +52,32 @@ export default class MySQLProductStore extends AbstractProductStore {
     } catch (err) {
       throw err;
     }
+  }
+
+  async createProductImages(id, images = []) {
+    const createImageQuery = `
+      INSERT INTO product_image(id, image) VALUES (?, ?)
+    `;
+    for (const image of images) {
+      await mysqlConnection.promise().query(createImageQuery, [id, image]);
+    }
+  }
+
+  async deleteAllProductImages(id) {
+    const deleteImageQuery = `
+      DELETE FROM product_image WHERE id=?
+    `;
+    const params = [id];
+
+    try {
+      const result = await mysqlConnection
+        .promise()
+        .query(deleteImageQuery, params);
+      const isDeleted = result[0].affectedRows >= 1;
+
+      return isDeleted;
+    } catch (err) {}
+    return true;
   }
 
   async getProducts({ location = null, category = null, username = null }) {
@@ -63,7 +91,7 @@ export default class MySQLProductStore extends AbstractProductStore {
     p.content AS content, p.cost AS cost, p.status AS status, p.location AS location,
     p.thumbnail AS thumbnail, p.createdAt AS createdAt, p.updatedAt AS updatedAt, p.countOfView AS countOfView,
     CASE WHEN my_ip.username IS NULL THEN FALSE ELSE TRUE END as isInterested,
-    COUNT(p.id) as countOfInterest
+    COUNT(ip.username) as countOfInterest
     FROM product AS p 
     LEFT JOIN (SELECT username, id FROM interest_product WHERE username = ?) AS my_ip ON my_ip.id = p.id
     LEFT JOIN interest_product AS ip ON ip.id = p.id 
@@ -104,6 +132,7 @@ export default class MySQLProductStore extends AbstractProductStore {
             updatedAt: row.updatedAt,
             countOfView: row.countOfView,
             countOfInterest: row.countOfInterest,
+            countOfChat: row.countOfChat,
             isInterested: !!row.isInterested,
           })
       );
@@ -112,51 +141,77 @@ export default class MySQLProductStore extends AbstractProductStore {
     }
   }
 
-  async getProductById(id) {
-    const params = [id];
+  async getProductById(id, username = "") {
+    const params = [username, id];
     const retrieveProductQuery = `
-    SELECT id, author, category, title, content, cost, status, location, thumbnail, createdAt, updatedAt, countOfView 
-    FROM product WHERE id = ?;
+    SELECT 
+    p.id AS id,p.category AS category, p.author AS author, p.title AS title, 
+    p.content AS content, p.cost AS cost, p.status AS status, p.location AS location,
+    p.thumbnail AS thumbnail, p.createdAt AS createdAt, p.updatedAt AS updatedAt, p.countOfView AS countOfView,
+    CASE WHEN my_ip.username IS NULL THEN FALSE ELSE TRUE END as isInterested,
+    COUNT(ip.username) as countOfInterest, COUNT(cr.roomId) as countOfChat
+    FROM product AS p 
+    LEFT JOIN (SELECT username, id FROM interest_product WHERE username = ?) AS my_ip ON my_ip.id = p.id
+    LEFT JOIN interest_product AS ip ON ip.id = p.id
+    LEFT JOIN chatroom AS cr ON cr.productId = p.id
+    WHERE p.id = ?
     `;
-
-    const retrieveQueryResult = await mysqlConnection
-      .promise()
-      .query(retrieveProductQuery, params);
-
-    const rows = retrieveQueryResult[0];
-    if (rows.length >= 1) {
-      const row = rows[0];
-      const updateCountOfViewQuery = `
-      UPDATE product SET countOfView=? WHERE id=?;
-      `;
-
-      await mysqlConnection
+    try {
+      const retrieveQueryResult = await mysqlConnection
         .promise()
-        .query(updateCountOfViewQuery, [row.countOfView + 1, row.id]);
+        .query(retrieveProductQuery, params);
 
-      return new Product({
-        id: row.id,
-        category: row.category,
-        title: row.title,
-        content: row.content,
-        cost: row.cost,
-        status: row.status,
-        location: row.location,
-        thumbnail: row.thumbnail,
-        createdAt: row.createdAt,
-        updatedAt: row.updatedAt,
-        countOfView: row.countOfView,
-      });
-    } else {
-      return null;
+      const rows = retrieveQueryResult[0];
+      if (rows.length >= 1) {
+        const row = rows[0];
+        await this._addCountOfViewProduct(row.id, row.countOfView);
+
+        const images = await this._getProductImages(row.id);
+        return new Product({
+          id: row.id,
+          author: row.author,
+          category: row.category,
+          title: row.title,
+          content: row.content,
+          cost: row.cost,
+          status: row.status,
+          location: row.location,
+          thumbnail: row.thumbnail,
+          createdAt: row.createdAt,
+          updatedAt: row.updatedAt,
+          countOfChat: row.countOfChat,
+          countOfView: row.countOfView,
+          isInterested: !!row.isInterested,
+          countOfInterest: row.countOfInterest,
+          images: images,
+        });
+      } else {
+        return null;
+      }
+    } catch (err) {
+      throw err;
     }
   }
-
-  async updateProduct(product) {
-    // TODO: Implement
+  async _addCountOfViewProduct(id, previsousCount) {
+    const updateCountOfViewQuery = `
+    UPDATE product SET countOfView=? WHERE id=?;
+    `;
+    const params = [previsousCount + 1, id];
+    const result = await mysqlConnection
+      .promise()
+      .query(updateCountOfViewQuery, params);
+    return result[0].affectedRows.length > 0;
   }
-  async deleteProductById(id) {
-    // TODO: Implement
+
+  async _getProductImages(id) {
+    const retrieveProductImage = `
+      SELECT id, image FROM product_image WHERE id = ?
+    `;
+    const result = await mysqlConnection
+      .promise()
+      .query(retrieveProductImage, [id]);
+    const rows = result[0];
+    return rows.map((row) => row.image);
   }
 
   async getInterestProducts(username) {
@@ -201,11 +256,10 @@ export default class MySQLProductStore extends AbstractProductStore {
   async getOwnProducts(username) {
     const interestProductQuery = `
     SELECT 
-    p.id AS id,p.category AS category, p.author AS author, p.title AS title, 
-    p.content AS content, p.cost AS cost, p.status AS status, p.location AS location,
-    p.thumbnail AS thumbnail, p.createdAt AS createdAt, p.updatedAt AS updatedAt, p.countOfView AS countOfView,
-    CASE WHEN ip.username IS NULL THEN FALSE ELSE TRUE END as isInterested
-    FROM product AS p LEFT JOIN interest_product AS ip ON ip.id = p.id WHERE p.author = ?
+    id, category, author, title, 
+    content,cost, status,location,
+    thumbnail, createdAt, updatedAt,countOfView
+    FROM product WHERE author = ?
     `;
     const params = [username];
     try {
@@ -229,7 +283,6 @@ export default class MySQLProductStore extends AbstractProductStore {
             createdAt: row.createdAt,
             updatedAt: row.updatedAt,
             countOfView: row.countOfView,
-            isInterested: !!row.isInterested,
           })
       );
     } catch (err) {
@@ -277,6 +330,68 @@ export default class MySQLProductStore extends AbstractProductStore {
       const result = await mysqlConnection.promise().query(query, params);
       const isSuccess = result[0]?.affectedRows === 1;
       return isSuccess;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async updateProductStatus(id, status) {
+    const params = [status, id];
+    const query = `
+    UPDATE product SET status=? WHERE id = ?;
+    `;
+
+    try {
+      const result = await mysqlConnection.promise().query(query, params);
+      const isSuccess = result[0]?.affectedRows === 1;
+      return isSuccess;
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async updateProduct(product) {
+    const updateProductQuery = `
+      UPDATE product
+        SET
+          category=?,
+          title=?,
+          content=?,
+          cost=?,
+          location=?,
+          thumbnail=?,
+          updatedAt=CURRENT_TIME()
+        WHERE
+          id=?
+    `;
+    const { category, title, content, cost, location, thumbnail, id, images } =
+      product;
+    const params = [category, title, content, cost, location, thumbnail, id];
+    try {
+      const result = await mysqlConnection
+        .promise()
+        .query(updateProductQuery, params);
+      const isSuccess = result[0]?.affectedRows === 1;
+      if (isSuccess) {
+        await this.createProductImages(id, images);
+        return true;
+      } else {
+        return null;
+      }
+    } catch (err) {
+      throw err;
+    }
+  }
+
+  async deleteProductById(id) {
+    const query = `
+      DELETE FROM product WHERE id=?
+    `;
+    const params = [id];
+    try {
+      const result = await mysqlConnection.promise().query(query, params);
+      const isDeleted = result[0]?.affectedRows >= 1;
+      return isDeleted;
     } catch (err) {
       throw err;
     }

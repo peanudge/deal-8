@@ -1,9 +1,17 @@
 import { navigateTo } from "@/router";
 
-import { getProductDetail } from "@/api/product";
-import { getProfileAsync } from "@/api/user";
-
-const tag = "[ProductDetail Controller]";
+import { attendChatRoomAsync } from "@/api/chat";
+import {
+  getCategoryAsync,
+  getProductDetailAsync,
+  updateProductStatusAsync,
+  deleteProductById,
+} from "@/api/product";
+import {
+  getProfileAsync,
+  removeInterestProductAsync,
+  addInterestProductAsync,
+} from "@/api/user";
 
 export default class Controller {
   constructor(
@@ -13,7 +21,8 @@ export default class Controller {
       productImageListView,
       productDetailView,
       productDetailFooterView,
-    },
+      productDetailModalView,
+    }
   ) {
     this.store = store;
     this.productId = store.productId;
@@ -21,6 +30,9 @@ export default class Controller {
     this.productImageListView = productImageListView;
     this.productDetailView = productDetailView;
     this.productDetailFooterView = productDetailFooterView;
+    this.productDetailModalView = productDetailModalView;
+
+    this.isShowModal = false;
 
     this.subscribeViewEvents();
     this.init();
@@ -32,19 +44,70 @@ export default class Controller {
       this.changeInterest(id, isInterested);
     });
 
-    this.productDetailHeaderView.on("@modifyPost", () => {
-      navigateTo(`/product-edit/${this.store.productId}`);
+    this.productDetailHeaderView.on("@click-edit-post", () => {
+      navigateTo(`/modifyPost/${this.productId}`, {
+        previous: `/product/${this.productId}`,
+      });
     });
-    this.productDetailHeaderView.on("@deletePost", () => {
-      navigateTo(`/product-edit/${this.store.productId}`);
+
+    this.productDetailHeaderView.on("@click-delete-post", () => {
+      this.isShowModal = true;
+      this.render();
+    });
+
+    this.productDetailModalView.on("@close-modal", () => {
+      this.isShowModal = false;
+      this.render();
+    });
+
+    this.productDetailModalView.on("@delete-post", () => {
+      deleteProductById(this.productId).then(({ success }) => {
+        if (success) {
+          navigateTo("/");
+        } else {
+          throw "상품 삭제 실패";
+        }
+      });
+    });
+
+    this.productDetailView.on("@change-status", (e) => {
+      const status = e.detail.value;
+      updateProductStatusAsync(this.store.productId, status).then(
+        ({ success }) => {
+          if (success) {
+            this.fetchProductDetailData();
+          }
+        }
+      );
+    });
+
+    this.productDetailFooterView.on("@attend-chat-room", (e) => {
+      // TODO: get Room Key API
+      // TODO: with Room Key, Navigate To ChatRoom Page.
+      const { productId } = this.store;
+      attendChatRoomAsync(productId).then(({ success, roomId }) => {
+        if (success) {
+          navigateTo("/chat/" + roomId, { previous: "/product/" + productId });
+        } else {
+          console.error("채팅방 정보가져오는데 실패");
+        }
+      });
+    });
+
+    this.productDetailFooterView.on("@move-to-chatlist", (e) => {
+      navigateTo("/chatList/" + this.store.productId);
     });
   }
 
   changeInterest(productId, isInterested) {
     if (isInterested) {
-      console.log("Interest ON " + productId);
+      addInterestProductAsync(productId).then((result) => {
+        this.fetchProductDetailData();
+      });
     } else {
-      console.log("Interest OFF " + productId);
+      removeInterestProductAsync(productId).then((result) => {
+        this.fetchProductDetailData();
+      });
     }
   }
 
@@ -53,24 +116,53 @@ export default class Controller {
       navigateTo("/");
     }
 
-    const getUserRequest = getProfileAsync();
-    const getProductRequest = getProductDetail({ id: this.productId });
+    getProfileAsync().then(({ isAuth, account }) => {
+      if (isAuth) {
+        this.store.user = account;
+        this.fetchProductDetailData();
+      } else {
+        navigateTo("/login");
+      }
+    });
+  }
 
-    Promise.all([getUserRequest, getProductRequest]).then(
-      ([user, productDetail]) => {
-        this.store.user = user;
-        this.store.productDetail = productDetail;
-        this.render();
-      },
-    );
+  fetchProductDetailData() {
+    getProductDetailAsync(this.productId)
+      .then(({ success, product }) => {
+        if (success) {
+          this.store.productDetail = product;
+
+          return product.category;
+        }
+      })
+      .then((cateogryId) => {
+        getCategoryAsync(cateogryId).then(({ success, category }) => {
+          if (success) {
+            this.store.categoryName = category.name;
+          } else {
+            this.store.categoryName = "unknown";
+          }
+          this.render();
+        });
+      });
   }
 
   render() {
-    const productDetail = this.store.productDetail;
-    const user = this.store.user;
+    const { productDetail, user, categoryName } = this.store;
+    if (this.isShowModal) {
+      this.productDetailModalView.show();
+    } else {
+      this.productDetailModalView.hide();
+    }
+
     this.productDetailHeaderView.show(user, productDetail);
-    this.productImageListView.show(productDetail.images);
-    this.productDetailView.show(user, productDetail);
+
+    if (productDetail.images && productDetail.images.length > 0) {
+      this.productImageListView.show(productDetail.images);
+    } else {
+      this.productImageListView.hide();
+    }
+    this.productDetailView.show(user, productDetail, categoryName);
     this.productDetailFooterView.show(user, productDetail);
   }
 }

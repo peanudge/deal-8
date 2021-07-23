@@ -7,16 +7,15 @@ const ERROR_USERNAME_INVALID = "존재하지않는 사용자입니다.";
 const tag = "[Login Controller]";
 export default class Controller {
   constructor({ loginFormView }) {
-    console.log(tag);
     this.loginFormView = loginFormView;
 
     this.init();
     this.error = {};
     this.subscribeViewEvents();
-    this.render();
   }
+
   init() {
-    getProfileAsync().then(({ account, isAuth }) => {
+    getProfileAsync().then(({ isAuth }) => {
       if (isAuth) {
         navigateTo("/profile");
       }

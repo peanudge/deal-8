@@ -1,0 +1,153 @@
+.modal {
+  visibility: hidden;
+  display: flex;
+  padding: 16px 20px;
+  position: absolute;
+  flex-direction: column;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 288px;
+  border-radius: 8px;
+  background-color: #f6f6f6;
+  box-shadow: 0px 0px 4px rgba(204, 204, 204, 0.5),
+    0px 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+.modal p {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+}
+
+.modal--text-input {
+  margin-top: 8px;
+  padding: 8px;
+  border: 1px solid #d7d7d7;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.modal--text-input:focus {
+  outline: none;
+  border: 1px solid var(--primary1-color);
+}
+
+.modal--btn-container {
+  margin-top: 16px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal--btn-container--cancel-btn {
+  padding: 5px;
+  color: black;
+  opacity: 0.5;
+}
+
+.modal--btn-container--cancel-btn:hover {
+  opacity: 1;
+}
+
+.modal--btn-container--accept-btn {
+  padding: 5px;
+  color: red;
+  opacity: 0.5;
+}
+
+.modal--btn-container--accept-btn:hover {
+  opacity: 1;
+}
+
+.delete-modal {
+  display: block;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 288px;
+  border-radius: 8px;
+  background-color: #f6f6f6;
+  box-shadow: 0px 0px 4px rgba(204, 204, 204, 0.5),
+    0px 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+@keyframes spring-show-effect {
+  from {
+    bottom: 0%;
+  }
+  to {
+    bottom: 5%;
+  }
+}
+
+.action-modal {
+  left: 50%;
+  bottom: 5%;
+  transform: translate(-50%);
+  position: absolute;
+  width: 288px;
+  animation-name: spring-show-effect;
+  animation-duration: 0.5s;
+}
+
+.action-modal--menu {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-radius: 8px;
+  background-color: #f6f6f6;
+  box-shadow: 0px 0px 4px rgba(204, 204, 204, 0.5),
+    0px 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+.action-modal--menu--item {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.action-modal--menu--item:not(:last-child) {
+  border-bottom: 1px solid #c0c0c0;
+}
+
+.action-modal--cancel {
+  margin-top: 20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  text-align: center;
+  border-radius: 8px;
+  background-color: #f6f6f6;
+  box-shadow: 0px 0px 4px rgba(204, 204, 204, 0.5),
+    0px 2px 4px rgba(0, 0, 0, 0.25);
+  font-size: 14px;
+  font-weight: 500;
+  color: red;
+}
+
+@keyframes blur-show-effect {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.5;
+  }
+}
+
+.blur-bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  opacity: 0.5;
+  animation-name: blur-show-effect;
+  animation-duration: 0.5s;
+}

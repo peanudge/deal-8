@@ -2,8 +2,10 @@ import View from "@/page/View";
 import { qs } from "@/helper/selectHelpers";
 import { delegate } from "@/helper/eventHelpers";
 
-import chevronLeftSvg from "@/public/svg/chevron-left.svg";
+import chevronLeftSVG from "@/public/svg/chevron-left.svg";
+
 import logOutSvg from "@/public/svg/log-out.svg";
+import { navigateTo } from "@/router";
 
 export default class ChatRoomHeaderView extends View {
   constructor(element = qs("#header"), template = new Template()) {
@@ -20,24 +22,29 @@ export default class ChatRoomHeaderView extends View {
       this.handleExitRoomClick();
     });
   }
-  handleBackClick() {} // TODO: 이전 페이지로 이동하는 로직
+
+  handleBackClick() {
+    // TODO: back
+    this.emit("@back");
+  }
+
   handleExitRoomClick() {
     const $alertModal = qs("#alert-modal");
     $alertModal.style.visibility = "visible";
   }
-  show() {
-    this.element.innerHTML = this.template.getContent();
+  show(username) {
+    this.element.innerHTML = this.template.getContent(username);
   }
 }
 
 class Template {
-  getContent() {
-    return `
-        <div class="header--left" >
-            ${chevronLeftSvg}
+  getContent(username) {
+    return /* html */ `
+        <div class="header--left back-icon">
+        ${chevronLeftSVG}
         </div>
         <h1 class="header--center">
-            <span class="header--center--title"> UserE </span>
+            <span class="header--center--title"> ${username} </span>
         </h1>
         <div id="out-btn" class="header--right" href="#">
             ${logOutSvg}

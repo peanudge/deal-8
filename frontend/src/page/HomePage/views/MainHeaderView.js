@@ -7,7 +7,6 @@ const tag = "[MainHeaderView]";
 
 export default class MainHeaderView extends View {
   constructor(element = qs("#main-header")) {
-    console.log(tag, "constructor");
     super(element);
     this.categoryBtn = qs("#category-btn", this.element);
     this.currentCategoryNameElement = qs("#current-category", this.element);

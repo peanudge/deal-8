@@ -6,7 +6,6 @@ const tag = "[BasicHeaderView]";
 
 export default class SignupFormView extends View {
   constructor(element = qs("#signup-form")) {
-    console.log(tag, "constructor");
     super(element);
 
     this.idInputElement = qs("#id-input", this.element);

@@ -1,4 +1,5 @@
 import View from "@/page/View";
+import { ProductStatusMap } from "@/util/productStatus";
 import { qs } from "@/helper/selectHelpers";
 import { delegate } from "@/helper/eventHelpers";
 
@@ -8,24 +9,26 @@ export default class ChatRoomMainHeaderView extends View {
     this.template = template;
   }
 
-  show({ productThumbnail, productCost, productTitle }) {
+  show(product = {}) {
+    const { thumbnail, title, cost, status } = product;
     this.element.innerHTML = this.template.getHeader({
-      productThumbnail,
-      productTitle,
-      productCost,
+      thumbnail,
+      title,
+      cost,
+      status,
     });
   }
 }
 
 class Template {
-  getHeader({ productThumbnail, productTitle, productCost }) {
+  getHeader({ thumbnail, title, cost, status }) {
     return `
-        <img class="chat-main--header--img" src="${productThumbnail}" />
-            <div class="chat-main--header--content">
-                <p>${productTitle}</p>
-                <p>${productCost}원</p>
-            </div>
-        <div class="chat-main--header--status">판매중</div>
+        <img class="chat-main--header--img" src="${thumbnail}" />
+        <div class="chat-main--header--content">
+            <p>${title}</p>
+            <p>${cost}원</p>
+        </div>
+        <div class="chat-main--header--status">${ProductStatusMap[status]}</div>
     `;
   }
 }

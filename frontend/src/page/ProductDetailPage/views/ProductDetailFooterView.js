@@ -8,7 +8,6 @@ const tag = "[ProductDetailFooterView]";
 
 export default class ProductDetailFooterView extends View {
   constructor(element = qs("footer"), template = new Template()) {
-    console.log(tag, "constructor");
     super(element);
     this.template = template;
     this.bindingEvents();
@@ -18,6 +17,16 @@ export default class ProductDetailFooterView extends View {
     delegate(this.element, "click", "#interest-btn", (e) => {
       this.handleClickInterestEvent(e);
     });
+    delegate(this.element, "click", "#attend-chat-btn", (e) => {
+      this.handleClickGetChatRoom(e);
+    });
+
+    delegate(this.element, "click", "#move-to-chat-list-btn", (e) => {
+      this.handleClickChatListButton(e);
+    });
+  }
+  handleClickChatListButton() {
+    this.emit("@move-to-chatlist");
   }
 
   handleClickInterestEvent(event) {
@@ -29,6 +38,10 @@ export default class ProductDetailFooterView extends View {
     });
   }
 
+  handleClickGetChatRoom(event) {
+    this.emit("@attend-chat-room");
+  }
+
   show(user, productDetail) {
     this.element.innerHTML = this.template.getFooter(user, productDetail);
     super.show();
@@ -38,7 +51,7 @@ export default class ProductDetailFooterView extends View {
 class Template {
   getFooter(user, { id, cost, isInterested, author }) {
     return `
-        <button id="interest-btn" class="content--product--info--top--interest ${
+        <button id="interest-btn" class="interest-btn ${
           isInterested ? "on" : "off"
         }" data-id=${id}>
         ${interestSvg}
@@ -48,13 +61,13 @@ class Template {
         ${
           user?.username === author
             ? `
-                <a href="/chatList/${id}" data-link>
-                    <div class="move-btn">채팅 목록 보기 (2)</div>
-                </a>`
+                <div>
+                    <div id="move-to-chat-list-btn" class="move-btn">채팅 목록 보기</div> 
+                </div>`
             : `
-                <a href="/chat/${id}" data-link>
-                    <div class="move-btn">문의하기</div>
-                </a>`
+                <div>
+                    <div class="move-btn" id="attend-chat-btn">문의하기</div> 
+                <div>`
         }
             
       `;

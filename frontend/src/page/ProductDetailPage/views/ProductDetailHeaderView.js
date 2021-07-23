@@ -10,7 +10,6 @@ const tag = "[BasicHeaderView]";
 
 export default class ProductDetailHeaderView extends View {
   constructor(element = qs("header.header"), template = new Template()) {
-    console.log(tag, "constructor");
     super(element);
     this.template = template;
     this.bindingEvents();
@@ -38,6 +37,21 @@ export default class ProductDetailHeaderView extends View {
         }
       }
     });
+
+    delegate(this.element, "click", "#delete-btn", () =>
+      this.handleDeleteButtonClickEvent()
+    );
+
+    delegate(this.element, "click", "#edit-btn", (e) =>
+      this.handleEditButtonClickEvent()
+    );
+  }
+  handleEditButtonClickEvent() {
+    this.emit("@click-edit-post");
+  }
+
+  handleDeleteButtonClickEvent() {
+    this.emit("@click-delete-post");
   }
 
   toggleDropDownMenu(expand = null) {
@@ -48,18 +62,18 @@ export default class ProductDetailHeaderView extends View {
   }
 
   show(user, product) {
-    this.element.innerHTML = this.template.getHeadaer({ user, product });
+    this.element.innerHTML = this.template.getHeadaer(user, product);
     super.show();
   }
 }
 
 class Template {
-  getHeadaer({ user, product }) {
+  getHeadaer(user, product) {
     return /*html*/ `
         <a class="header--left" href="/" data-link>
           ${chevronLeftSvg}
         </a>
-      ${user.username === product.author ? this._getSettingButton() : ""}`;
+      ${user?.username === product.author ? this._getSettingButton() : ""}`;
   }
 
   _getSettingButton() {
@@ -78,10 +92,10 @@ class Template {
             </div>
             <div class="dropdown-wrapper--menu right small" aria-expanded="false">
                 <div class="dropdown-wrapper--menu--item center">
-                    <a href="/" data-link>수정</a>
+                    <div id="edit-btn">수정</div>
                 </div>
                 <div class="dropdown-wrapper--menu--item center">
-                    <a href="/" data-link>삭제</a>
+                    <div class="product-delete-btn" id="delete-btn">삭제</a>
                 </div>
             </div>
         </div>`;

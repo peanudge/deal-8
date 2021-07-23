@@ -6,7 +6,6 @@ export const getProfileAsync = () =>
         "Content-Type": "application/json",
       },
     }).then((response) => response.json());
-
     resolve(request);
   });
 
@@ -20,8 +19,7 @@ export const addLocationAsync = (location) => {
       body: JSON.stringify({
         location: location,
       }),
-    }).then((response) => response.json());
-    resolve(request);
+    }).then((response) => resolve(response.json()));
   });
 };
 
@@ -32,8 +30,7 @@ export const removeLocationAsync = (location) => {
       headers: {
         "Content-Type": "application/json",
       },
-    }).then((response) => response.json());
-    resolve(request);
+    }).then((response) => resolve(response.json()));
   });
 };
 
@@ -76,6 +73,18 @@ export const getInterestProductsAsync = () => {
 export const getOwnProductsAsync = () => {
   return new Promise((resolve, _) => {
     const request = fetch(`/api/account/me/product`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((resposne) => resposne.json());
+    resolve(request);
+  });
+};
+
+export const getMyChatRoomsAsync = () => {
+  return new Promise((resolve, reject) => {
+    const request = fetch("/api/account/me/chatroom", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

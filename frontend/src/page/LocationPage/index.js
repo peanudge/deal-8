@@ -10,19 +10,19 @@ import AddLocationModalView from "./views/AddLocationModalView";
 import DeleteLocationModalView from "./views/DeleteLocationModalView";
 import Store from "./Store";
 import LocationCommentView from "./views/LocationCommentView";
+import ModalBlurBGView from "./views/ModelBlurBGView";
 
 const tag = "[LocationPage]";
 
 export default class LocationPage extends AbstractPage {
   constructor(params) {
-    console.log(tag, "contructor");
     super(params);
   }
 
   async render() {
     return /*html*/ `
     <header class="header">
-      <a class="header--left" href="./main" data-link>
+      <a class="header--left" href="/" data-link>
         ${chevronLeftSVG}
       </a>
       <h1 class="header--center">
@@ -40,30 +40,34 @@ export default class LocationPage extends AbstractPage {
       <div id="location-container" class="location--container">
       </div>
     </main>
-    <div id="location-edit-modal" class="edit-modal">
+
+    <div id="modal-blur-bg" class="blur-bg"></div>
+    
+    <div id="location-edit-modal" class="modal">
       <p>우리 동네를 입력하세요</p>
       <input
         id="edit-location-input"
-        class="edit-modal--text-input"
+        class="modal--text-input"
         type="text"
         placeholder="시 구 제외, 동만 입력"
       />
-      <div class="edit-modal--btn-container">
-        <div id="cancel-btn" class="edit-modal--btn-container--cancel-btn">
+      <div class="modal--btn-container">
+        <div id="cancel-btn" class="modal--btn-container--cancel-btn">
           취소
         </div>
-        <div id="accept-btn" class="edit-modal--btn-container--accept-btn">
+        <div id="accept-btn" class="modal--btn-container--accept-btn">
           확인
         </div>
       </div>
     </div>
-    <div id="location-delete-modal" class="delete-modal">
+
+    <div id="location-delete-modal" class="modal">
         <p>정말 <span id="location-name"></span> 동네를 삭제하시겠습니까?</p>
-        <div class="edit-modal--btn-container">
-            <div id="cancel-btn" class="edit-modal--btn-container--cancel-btn">
+        <div class="modal--btn-container">
+            <div id="cancel-btn" class="modal--btn-container--cancel-btn">
             취소
             </div>
-            <div id="accept-btn" class="edit-modal--btn-container--accept-btn">
+            <div id="accept-btn" class="modal--btn-container--accept-btn">
             삭제
             </div>
         </div>
@@ -76,6 +80,7 @@ export default class LocationPage extends AbstractPage {
     const views = {
       deleteLocationModalView: new DeleteLocationModalView(),
       addLocationModalView: new AddLocationModalView(),
+      modalBlurBGView: new ModalBlurBGView(),
       locationListView: new LocationListView(),
       locationCommentView: new LocationCommentView(),
     };
