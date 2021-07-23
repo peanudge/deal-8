@@ -9,8 +9,8 @@ import chevronRightSVG from "@/public/svg/chevron-right.svg";
 import ImageUploadView from "./views/ImageUploadView";
 import Controller from "./Controller";
 import Store from "./Store";
-import CreatePostFormView from "./views/CreatePostFormView";
-import CreatePostHeaderView from "./views/CreatePostHeaderView";
+import ModifyPostFormView from "./views/ModifyPostFormView";
+import ModifyPostHeaderView from "./views/ModifyPostHeaderView";
 
 import "@/public/css/writePost.css";
 import CategorySelectView from "./views/CategorySelectView";
@@ -19,19 +19,20 @@ export default class CreatePostPage extends AbstractPage {
   constructor(params) {
     super(params);
     this.setTitle("Create Post");
+    this.productId = this.params.productId;
   }
 
   async render() {
     return /* html */ `
     <header id="posting-header" class="header">
-      <a class="header--left" href="/main" data-link>
+      <div class="header--left" id="back-btn">
        ${chevronLeftSVG}
-      </a>
+      </div>
       <h1 class="header--center">
-        <span class="header--center--title"> 글쓰기 </span>
+        <span class="header--center--title"> 수정하기 </span>
       </h1>
       <div class="header--right">
-        <div id="create-btn" class="check-icon">
+        <div id="modify-btn" class="check-icon">
            ${checkSVG}
         </div>  
       </div>
@@ -91,10 +92,11 @@ export default class CreatePostPage extends AbstractPage {
   }
   async after_render() {
     const store = new Store();
+    store.productId = this.productId;
     const views = {
-      createPostHeaderView: new CreatePostHeaderView(),
+      modifyPostHeaderView: new ModifyPostHeaderView(),
       imageUploadView: new ImageUploadView(),
-      createPostFormView: new CreatePostFormView(),
+      modifyPostFormView: new ModifyPostFormView(),
       categorySelectView: new CategorySelectView(),
     };
 

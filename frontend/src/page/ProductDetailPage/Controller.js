@@ -45,7 +45,9 @@ export default class Controller {
     });
 
     this.productDetailHeaderView.on("@click-edit-post", () => {
-      // TODO: Implement
+      navigateTo(`/modifyPost/${this.productId}`, {
+        previous: `/product/${this.productId}`,
+      });
     });
 
     this.productDetailHeaderView.on("@click-delete-post", () => {

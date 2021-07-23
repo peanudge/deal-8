@@ -1,7 +1,8 @@
 import {
-  createProductAsync,
+  modifyProductAsync,
   getCategoriesAsync,
   uploadProductImagesAsync,
+  getProductDetailAsync,
 } from "@/api/product";
 import { navigateTo } from "@/router";
 import { getProfileAsync } from "@/api/user";
@@ -14,40 +15,62 @@ export default class Controller {
     store,
     {
       imageUploadView,
-      createPostFormView,
-      createPostHeaderView,
+      modifyPostFormView,
+      modifyPostHeaderView,
       categorySelectView,
     }
   ) {
     this.store = store;
-    this.createPostHeaderView = createPostHeaderView;
-    this.createPostFormView = createPostFormView;
+    this.productId = store.productId;
+    this.modifyPostHeaderView = modifyPostHeaderView;
+    this.modifyPostFormView = modifyPostFormView;
     this.imageUploadView = imageUploadView;
     this.categorySelectView = categorySelectView;
 
     this.isShowCategorySelectView = false;
     this.error = {};
-    this.fetchData();
     this.subscribeViewEvents();
-    this.render();
+
+    this.init();
   }
 
-  fetchData() {
-    getCategoriesAsync().then(({ success, categories }) => {
-      if (success) {
-        this.store.categories = categories;
-        this.render();
-      }
-    });
+  init() {
+    const requestGetCategories = getCategoriesAsync();
+    const requestGetProfile = getProfileAsync();
 
-    getProfileAsync().then(({ isAuth, account }) => {
-      if (isAuth) {
-        const { locations } = account;
-        this.store.location = locations[0];
-        this.render();
-      } else {
-        navigateTo("/login");
+    Promise.all([requestGetCategories, requestGetProfile]).then(
+      ([categoryResponse, profileResponse]) => {
+        const categorySuccess = categoryResponse.success;
+        const isAuth = profileResponse.isAuth;
+        if (!isAuth) {
+          navigateTo("/login");
+        }
+        if (categorySuccess) {
+          this.store.categories = categoryResponse.categories;
+        }
+        this.fetchProductDetailData();
       }
+    );
+  }
+  fetchProductDetailData() {
+    getProductDetailAsync(this.productId).then(({ success, product }) => {
+      if (success) {
+        const { images, category, cost, title, content, location } = product;
+        this.store.images = images;
+        this.store.category = category;
+        this.store.cost = cost;
+        this.store.title = title;
+        this.store.content = content;
+        this.store.location = location;
+
+        const categoryNumber = Number(product.category);
+        const categoryItem = this.store.categories.find(
+          (categoryItem) => categoryNumber === categoryItem.id
+        );
+
+        this.store.category = categoryItem;
+      }
+      this.render();
     });
   }
 
@@ -59,40 +82,37 @@ export default class Controller {
 
     this.categorySelectView.on("@select-category", (e) => {
       const categoryId = e.detail.value;
-
-      this.store.categories.forEach((categoryItem) => {
-        if (categoryItem.id === Number(categoryId)) {
-          this.store.category = categoryItem;
-        }
-      });
-
+      const categoryNumber = Number(categoryId);
+      const categoryItem = this.store.categories.find(
+        (categoryItem) => categoryNumber === categoryItem.id
+      );
+      this.store.category = categoryItem;
       this.isShowCategorySelectView = false;
       this.render();
     });
 
-    this.createPostFormView.on("@show-select-category", () => {
+    this.modifyPostFormView.on("@show-select-category", () => {
       this.isShowCategorySelectView = true;
       this.render();
     });
 
-    this.createPostFormView.on("@change-title", (e) => {
+    this.modifyPostFormView.on("@change-title", (e) => {
       const title = e.detail.value;
       this.store.title = title;
     });
 
-    this.createPostFormView.on("@change-cost", (e) => {
+    this.modifyPostFormView.on("@change-cost", (e) => {
       const cost = e.detail.value;
       this.store.cost = cost;
     });
 
-    this.createPostFormView.on("@change-content", (e) => {
+    this.modifyPostFormView.on("@change-content", (e) => {
       const content = e.detail.value;
       this.store.content = content;
     });
 
     this.imageUploadView.on("@image-upload", (e) => {
-      const files = e.detail.value;
-      this.uploadImagesFromFileSystem(files);
+      this.uploadImagesFromFileSystem(e.detail.value);
     });
 
     this.imageUploadView.on("@image-delete", (e) => {
@@ -103,10 +123,14 @@ export default class Controller {
       this.render();
     });
 
-    this.createPostHeaderView.on("@create-post", (e) => this.createPost());
+    this.modifyPostHeaderView.on("@modify-post", (e) => this.modifyPost());
+
+    this.modifyPostHeaderView.on("@go-to-back", () => {
+      navigateTo(history.state.previous);
+    });
   }
 
-  createPost() {
+  modifyPost() {
     if (!this.validateStoreForSubmit(this.store)) {
       this.render();
       return;
@@ -114,10 +138,13 @@ export default class Controller {
 
     const { images, category, cost, title, content, location } = this.store;
 
+    // images가 모두 string이거나 모두 file이거나 둘 중 하나.
+
     uploadProductImagesAsync(images)
       .then(({ success, images }) => {
         if (success) {
-          return createProductAsync({
+          return modifyProductAsync({
+            id: this.productId,
             title,
             cost,
             content,
@@ -131,7 +158,7 @@ export default class Controller {
       })
       .then((result) => {
         if (result.success) {
-          navigateTo("/product/" + result.product.id);
+          navigateTo("/product/" + this.productId);
         } else {
           //TODO: Update Fail fallback
         }
@@ -158,22 +185,21 @@ export default class Controller {
     } else {
       this.store.images = files;
     }
-
     this.render();
   }
 
   render() {
-    const { images, category, content, title, location, cost, categories } =
-      this.store;
+    const { images, category, content, title, location, cost } = this.store;
+    const { categories } = this.store;
 
     if (this.isShowCategorySelectView) {
       this.categorySelectView.show(categories);
-      this.createPostFormView.hide();
-      this.createPostHeaderView.hide();
+      this.modifyPostFormView.hide();
+      this.modifyPostHeaderView.hide();
     } else {
       this.categorySelectView.hide();
       this.imageUploadView.show(images);
-      this.createPostFormView.show(
+      this.modifyPostFormView.show(
         {
           title,
           content,
@@ -183,7 +209,7 @@ export default class Controller {
         },
         this.error
       );
-      this.createPostHeaderView.show();
+      this.modifyPostHeaderView.show();
     }
   }
 }

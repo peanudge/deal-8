@@ -16,6 +16,11 @@ import {
   BAD_REQUEST,
 } from "../../../util/HttpStatus.js";
 
+import path from "path";
+import fs from "fs";
+
+const __dirname = path.resolve();
+
 const router = express.Router();
 const productStore = new ProductStore();
 
@@ -124,12 +129,36 @@ router.post("/", authMiddleware, async (req, res) => {
 router.put("/", async (req, res) => {
   const { id, category, title, content, cost, location, images } = req.body;
   const username = req.session["username"];
+  let oldImages = [];
 
   try {
     const targetProduct = await productStore.getProductById(id, username);
     if (targetProduct.author !== username) {
       return res.status(FORBIDDEN_STATUS).json({ success: false });
     }
+    oldImages = targetProduct.images;
+  } catch (err) {
+    return res.status(INTERNAL_SERVER_ERROR_STATUS).json({ success: false });
+  }
+
+  const filteredImages = oldImages.filter(
+    (oldImage) => !images.includes(oldImage)
+  );
+
+  try {
+    const isImagesDeleted = await productStore.deleteAllProductImages(id);
+    if (!isImagesDeleted) {
+      throw "image delete error";
+    }
+
+    const uploadPath = path.join(__dirname, "/public");
+    filteredImages.forEach((targetImage) => {
+      fs.unlink(path.join(uploadPath, targetImage), (err) => {
+        if (err) {
+          return;
+        }
+      });
+    });
   } catch (err) {
     return res.status(INTERNAL_SERVER_ERROR_STATUS).json({ success: false });
   }
@@ -141,12 +170,13 @@ router.put("/", async (req, res) => {
     content,
     cost,
     location,
+    thumbnail: images && images.length > 0 ? images[0] : "",
     images,
   });
 
   try {
-    const updatedProduct = await productStore.updateProduct(product);
-    return res.status(SUCCESS_STATUS).json(updatedProduct);
+    const isUpdated = await productStore.updateProduct(product);
+    return res.status(SUCCESS_STATUS).json({ success: isUpdated });
   } catch (err) {
     return res.status(INTERNAL_SERVER_ERROR_STATUS).json({ success: false });
   }
