@@ -45,6 +45,9 @@ export const getProductDetailAsync = (id) => {
 
 export const uploadProductImagesAsync = (files) => {
   return new Promise((resolve, _) => {
+    if (typeof files[0] === "string") {
+      resolve({ success: true, images: files });
+    }
     const formData = new FormData();
     Array.from(files).forEach((file) => formData.append("product_image", file));
     const request = fetch("/api/product/media", {

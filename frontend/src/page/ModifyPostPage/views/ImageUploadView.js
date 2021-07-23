@@ -36,18 +36,23 @@ export default class ImageUploadView extends View {
     });
   }
 
-  renderImagesAsync(files) {
-    const imageFiles = Object.keys(files).map((i) => {
+  renderImagesAsync(images) {
+    const imageObjects = Object.keys(images).map((i) => {
       try {
-        const file = files[i];
-        const url = URL.createObjectURL(file);
+        if (typeof images[i] === "string") {
+          return { key: i, url: images[i] };
+        }
+
+        const image = images[i];
+        const url = URL.createObjectURL(image);
         return { key: i, url };
       } catch (err) {
         return {};
       }
     });
 
-    this.imgContainerElement.innerHTML = this.template.getImageList(imageFiles);
+    this.imgContainerElement.innerHTML =
+      this.template.getImageList(imageObjects);
   }
 
   show(images) {

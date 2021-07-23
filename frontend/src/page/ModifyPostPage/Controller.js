@@ -58,7 +58,6 @@ export default class Controller {
     getProductDetailAsync(this.productId).then(({ success, product }) => {
       if (success) {
         const { images, category, cost, title, content, location } = product;
-
         this.store.images = images;
         this.store.category = category;
         this.store.cost = cost;
@@ -140,6 +139,9 @@ export default class Controller {
     }
 
     const { images, category, cost, title, content, location } = this.store;
+
+    // images가 모두 string이거나 모두 file이거나 둘 중 하나.
+
     uploadProductImagesAsync(images)
       .then(({ success, images }) => {
         if (success) {
