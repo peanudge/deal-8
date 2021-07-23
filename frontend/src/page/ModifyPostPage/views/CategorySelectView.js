@@ -3,8 +3,6 @@ import { delegate } from "@/helper/eventHelpers";
 
 import View from "@/page/View";
 
-import { categoryItems } from "@/util/category";
-
 import chevronLeftSVG from "@/public/svg/chevron-left.svg";
 
 import "@/public/css/categorySelect.css";
