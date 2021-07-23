@@ -1,5 +1,3 @@
-import { categoryItems } from "@/util/category";
-
 import {
   createProductAsync,
   getCategoriesAsync,

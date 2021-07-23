@@ -114,15 +114,6 @@ export default class Controller {
       navigateTo("/");
     }
 
-    getCategoryAsync(this.store.productId).then(({ success, category }) => {
-      if (success) {
-        this.store.categoryName = category.name;
-      } else {
-        this.store.categoryName = category.id;
-      }
-      this.render();
-    });
-
     getProfileAsync().then(({ isAuth, account }) => {
       if (isAuth) {
         this.store.user = account;
@@ -134,12 +125,24 @@ export default class Controller {
   }
 
   fetchProductDetailData() {
-    getProductDetailAsync(this.productId).then(({ success, product }) => {
-      if (success) {
-        this.store.productDetail = product;
-        this.render();
-      }
-    });
+    getProductDetailAsync(this.productId)
+      .then(({ success, product }) => {
+        if (success) {
+          this.store.productDetail = product;
+
+          return product.category;
+        }
+      })
+      .then((cateogryId) => {
+        getCategoryAsync(cateogryId).then(({ success, category }) => {
+          if (success) {
+            this.store.categoryName = category.name;
+          } else {
+            this.store.categoryName = "unknown";
+          }
+          this.render();
+        });
+      });
   }
 
   render() {
@@ -151,7 +154,12 @@ export default class Controller {
     }
 
     this.productDetailHeaderView.show(user, productDetail);
-    this.productImageListView.show(productDetail.images);
+
+    if (productDetail.images && productDetail.images.length > 0) {
+      this.productImageListView.show(productDetail.images);
+    } else {
+      this.productImageListView.hide();
+    }
     this.productDetailView.show(user, productDetail, categoryName);
     this.productDetailFooterView.show(user, productDetail);
   }
