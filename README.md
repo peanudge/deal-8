@@ -5,6 +5,7 @@
 - 우아한 테크캠프 4기의 2주차 프로젝트인 우아마켓입니다
   - ~~당근마켓~~을 모티브로 우아마켓을 구현하였습니다.
   - <a href="https://www.figma.com/proto/p8xNIB3Od4x3ylaIaOLtjl/%EC%9A%B0%EC%95%84%EB%A7%88%EC%BC%93?page-id=617%3A1286&node-id=617%3A1298&viewport=203%2C397%2C0.25&scaling=contain">기획서</a>
+  - <a href="http://ec2-15-164-244-182.ap-northeast-2.compute.amazonaws.com">배포링크</a>
 
 # 프로젝트 구조
   frontend에서 구현한 내용을 webpack을 이용하여 bundle로 만든 뒤 backend의 public에서 호스팅 합니다.
