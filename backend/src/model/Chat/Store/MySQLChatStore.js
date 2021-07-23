@@ -18,6 +18,7 @@ export default class MySQLChatStore {
     LEFT JOIN chatroom_attend AS cra ON cr.roomId = cra.roomId
     LEFT JOIN product AS p ON p.id = cr.productId
     WHERE cra.username != ? AND p.id = ?
+    ORDER BY mcr.createdAt DESC
     `;
 
     const params = [author, author, productId];
@@ -165,7 +166,7 @@ export default class MySQLChatStore {
     ) AS mcr ON mcr.roomId = cr.roomId
     LEFT JOIN chatroom_attend AS cra ON cr.roomId = cra.roomId
     LEFT JOIN product AS p ON p.id = cr.productId
-    WHERE cra.username != ? 
+    WHERE cra.username != ? ORDER BY mcr.createdAt DESC;
     `;
 
     const params = [username, username];
