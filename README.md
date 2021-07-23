@@ -1,11 +1,23 @@
 # 8팀 우아한 마켓 프로젝트
-  - 우아한 테크캠프 4기의 우아마켓 프로젝트를 진행한 <strong>손지호</strong>, <strong>지승보</strong> 입니다.
-<img width="342" alt="스크린샷 2021-07-23 오전 11 44 01" src="https://user-images.githubusercontent.com/47034129/126731902-0a93febf-889b-48fe-995e-4a6797f13608.png">
 
-- 우아한 테크캠프 4기의 2주차 프로젝트인 우아마켓입니다
-  - ~~당근마켓~~을 모티브로 우아마켓을 구현하였습니다.
-  - <a href="https://www.figma.com/proto/p8xNIB3Od4x3ylaIaOLtjl/%EC%9A%B0%EC%95%84%EB%A7%88%EC%BC%93?page-id=617%3A1286&node-id=617%3A1298&viewport=203%2C397%2C0.25&scaling=contain">기획서</a>
-  - <a href="http://ec2-15-164-244-182.ap-northeast-2.compute.amazonaws.com">배포링크</a>
+
+### 2021년 7월 12일 ~ 2021년 7월 23일
+우아한 테크캠프 4기의 2주차 프로젝트 우아마켓입니다.
+
+<h3 align="center">
+  <a href="http://ec2-15-164-244-182.ap-northeast-2.compute.amazonaws.com">배포링크</a>
+</h3>
+<h3 align="center">
+  <a href="https://www.youtube.com/watch?v=Bld3EmW7i50">프로젝트 데모 영상</a>
+</h3>
+
+## TEAM Memers
+| 이름 | GitHub 아이디 |
+|:---:|:-----------:|
+| 손지호 | [@peanut-lover](https://github.com/peanut-lover) |
+| 지승보 | [@SecretJuJu](https://github.com/SecretJuJu) |
+
+---
 
 # 프로젝트 구조
   frontend에서 구현한 내용을 webpack을 이용하여 bundle로 만든 뒤 backend의 public에서 호스팅 합니다.
