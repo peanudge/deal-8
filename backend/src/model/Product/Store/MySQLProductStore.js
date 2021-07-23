@@ -75,10 +75,7 @@ export default class MySQLProductStore extends AbstractProductStore {
         .query(deleteImageQuery, params);
       const isDeleted = result[0].affectedRows >= 1;
 
-      if (isDeleted) {
-        return true;
-      }
-      return false;
+      return isDeleted;
     } catch (err) {}
     return true;
   }
@@ -395,11 +392,7 @@ export default class MySQLProductStore extends AbstractProductStore {
     try {
       const result = await mysqlConnection.promise().query(query, params);
       const isDeleted = result[0]?.affectedRows >= 1;
-
-      if (isDeleted) {
-        return true;
-      }
-      return false;
+      return isDeleted;
     } catch (err) {
       throw err;
     }

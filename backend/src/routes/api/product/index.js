@@ -145,8 +145,6 @@ router.put("/", async (req, res) => {
     (oldImage) => !images.includes(oldImage)
   );
 
-  // filteredImages를 가진 product_image 테이블에서 row 삭제 및 파일 삭제
-
   try {
     const isImagesDeleted = await productStore.deleteAllProductImages(id);
     if (!isImagesDeleted) {
