@@ -1,5 +1,4 @@
 import mysqlConnection from "./config/mysql.js";
-import { createMockData } from "./mock/mockMySQLData.js";
 
 mysqlConnection.connect(function (err) {
   if (err) throw err;
